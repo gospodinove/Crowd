@@ -1,33 +1,33 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
-import { SafeAreaView, StatusBar, useColorScheme } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Provider } from 'react-redux'
-import UsersScreen from './js/components/UserScreen'
+import AuthenticationNavigator from './js/components/AuthenticationNavigator'
+import UserNavigator from './js/components/UserNavigator'
 import store from './js/redux/store'
+import { TabNavigatorParamsT } from './js/types/TabNavigatorParams'
+
+const Tab = createBottomTabNavigator<TabNavigatorParamsT>()
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark'
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
-  }
-
   return (
     <Provider store={store}>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <UsersScreen />
-      </SafeAreaView>
+      <NavigationContainer>
+        <Tab.Navigator
+          initialRouteName="userStack"
+          screenOptions={{ headerShown: false }}>
+          <Tab.Screen
+            name="userStack"
+            component={UserNavigator}
+            options={{ title: 'User' }}
+          />
+          <Tab.Screen
+            name="authenticationStack"
+            component={AuthenticationNavigator}
+            options={{ title: 'Login' }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
     </Provider>
   )
 }

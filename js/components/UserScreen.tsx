@@ -1,9 +1,11 @@
+import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
-import { Button, TextInput, useColorScheme, View } from 'react-native'
+import { Button, Text, useColorScheme, View } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../redux/reducers/userSlice'
 import { RootState } from '../redux/store'
+import { UserNavigatorParamsT } from '../types/UserNavigatorParams'
 
 const connector = connect(
   (state: RootState) => ({
@@ -16,28 +18,13 @@ const connector = connect(
   }
 )
 
-type PropsT = ConnectedProps<typeof connector>
+type ReduxPropsT = ConnectedProps<typeof connector>
 
-const CustomTextInput = (props: {
-  value?: string
-  placeholder?: string
-  onChangeText?: (text: string) => void
-}) => {
-  return (
-    <TextInput
-      value={props.value}
-      placeholder={props.placeholder}
-      onChangeText={props.onChangeText}
-      editable
-      style={{
-        height: 40,
-        borderWidth: 1
-      }}
-    />
-  )
-}
+type NavigationPropsT = StackScreenProps<UserNavigatorParamsT, 'user'>
 
-const UsersScreen = (props: PropsT) => {
+type PropsT = ReduxPropsT & NavigationPropsT
+
+const UserScreen = (props: PropsT) => {
   const isDarkMode = useColorScheme() === 'dark'
 
   const [firstName, setFirstName] = useState(props.firstName)
@@ -55,24 +42,12 @@ const UsersScreen = (props: PropsT) => {
 
   return (
     <View style={containerStyle}>
-      <CustomTextInput
-        value={firstName}
-        placeholder="First name"
-        onChangeText={setFirstName}
-      />
-      <CustomTextInput
-        value={lastName}
-        placeholder="Last name"
-        onChangeText={setLastName}
-      />
-      <CustomTextInput
-        value={email}
-        placeholder="Email"
-        onChangeText={setEmail}
-      />
-      <Button title="Save" onPress={save} />
+      <Text>{'First name: ' + (props.firstName ?? '-')}</Text>
+      <Text>{'Last name: ' + (props.lastName ?? '-')}</Text>
+      <Text>{'Email: ' + (props.email ?? '-')}</Text>
+      <Button title="Edit" onPress={() => props.navigation.push('edit')} />
     </View>
   )
 }
 
-export default connector(UsersScreen)
+export default connector(UserScreen)
