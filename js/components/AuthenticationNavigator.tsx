@@ -1,23 +1,23 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { AuthenticationNavigatorPropsT } from '../types/AuthenticationNavigatorProps'
-import LoginScreen from './LoginScreen'
-import SignUpScreen from './SignUpScreen'
+import OneScreen from './OneScreen'
+import TwoScreen from './TwoScreen'
 
 const Stack = createStackNavigator<AuthenticationNavigatorPropsT>()
 
 const AuthenticationNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="login">
+    <Stack.Navigator initialRouteName="one">
       <Stack.Screen
-        name="login"
-        component={LoginScreen}
-        options={{ title: 'Login' }}
+        name="one"
+        component={OneScreen}
+        options={{ title: 'One' }}
       />
       <Stack.Screen
-        name="signUp"
-        component={SignUpScreen}
-        options={{ title: 'Sign Up' }}
+        name="two"
+        component={TwoScreen}
+        options={{ title: 'Two' }}
       />
     </Stack.Navigator>
   )

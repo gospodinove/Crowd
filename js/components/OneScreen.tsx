@@ -3,16 +3,16 @@ import React from 'react'
 import { Button, View } from 'react-native'
 import { AuthenticationNavigatorPropsT } from '../types/AuthenticationNavigatorProps'
 
-type NavigationPropsT = StackScreenProps<AuthenticationNavigatorPropsT, 'login'>
+type NavigationPropsT = StackScreenProps<AuthenticationNavigatorPropsT, 'one'>
 
 type PropsT = NavigationPropsT
 
-const LoginScreen = (props: PropsT) => {
+const OneScreen = (props: PropsT) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'red' }}>
-      <Button title="Sing Up" onPress={() => props.navigation.push('signUp')} />
+      <Button title="Go to Two" onPress={() => props.navigation.push('two')} />
     </View>
   )
 }
 
-export default LoginScreen
+export default OneScreen
