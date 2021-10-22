@@ -1,4 +1,4 @@
 export type AuthenticationNavigatorPropsT = {
-  login: undefined
-  signUp: undefined
+  one: undefined
+  two: undefined
 }
