@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth'
 import React, { useRef, useState } from 'react'
-import { Animated, Text } from 'react-native'
+import { Animated, Text, View } from 'react-native'
 import Button from './Button'
 import Card from './Card'
 import TextInput from './TextInput'
@@ -81,31 +81,44 @@ const AuthenticationScreen = () => {
     switch (mode) {
       case 'login':
         return (
-          <>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginVertical: 10
+            }}
+          >
             <Text style={{ textAlign: 'center' }}>
               You do not have an account?
             </Text>
             <Button
               text="Sign Up"
               size="small"
-              type="text"
+              type="rounded"
               onPress={switchMode}
             />
-          </>
+          </View>
         )
       case 'signUp':
         return (
-          <>
-            <Text style={{ textAlign: 'center' }}>
-              You already have an account?
-            </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 10
+            }}
+          >
             <Button
               text="Login"
               size="small"
-              type="text"
+              type="rounded"
               onPress={switchMode}
             />
-          </>
+            <Text style={{ textAlign: 'center', marginLeft: 10 }}>
+              You already have an account?
+            </Text>
+          </View>
         )
     }
   }
@@ -136,6 +149,37 @@ const AuthenticationScreen = () => {
           One step away from your Crowds
         </Text>
 
+        {mode === 'signUp' ? (
+          <View
+            style={{
+              flexDirection: 'row'
+            }}
+          >
+            <TextInput
+              autoCapitalize="none"
+              value={email}
+              placeholder="First name"
+              onChangeText={setEmail}
+              style={{
+                flex: 1,
+                marginRight: 5,
+                marginBottom: 10
+              }}
+            />
+            <TextInput
+              autoCapitalize="none"
+              value={email}
+              placeholder="Last name"
+              onChangeText={setEmail}
+              style={{
+                flex: 1,
+                marginLeft: 5,
+                marginBottom: 10
+              }}
+            />
+          </View>
+        ) : null}
+
         <TextInput
           autoCapitalize="none"
           value={email}
@@ -154,9 +198,9 @@ const AuthenticationScreen = () => {
         />
 
         {renderButton()}
-
-        {renderFooter()}
       </Card>
+
+      {renderFooter()}
     </Animated.View>
   )
 }

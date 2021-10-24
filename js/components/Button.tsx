@@ -9,7 +9,7 @@ import {
 type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   text: string
   size: 'large' | 'medium' | 'small'
-  type: 'primary' | 'secondary' | 'text' | 'custom'
+  type: 'primary' | 'secondary' | 'text' | 'rounded' | 'custom'
   style?: Omit<ViewStyle, 'backgroundColor'>
 }
 
@@ -17,6 +17,7 @@ const Button = (props: PropsT) => {
   const getBackgroundColor = (): string => {
     switch (props.type) {
       case 'primary':
+      case 'rounded':
         return '#000'
       case 'secondary':
         return 'grey'
@@ -30,6 +31,7 @@ const Button = (props: PropsT) => {
   const getTextColor = (): string => {
     switch (props.type) {
       case 'primary':
+      case 'rounded':
         return '#fff'
       case 'secondary':
         return '#000'
@@ -47,8 +49,9 @@ const Button = (props: PropsT) => {
         props.style,
         {
           backgroundColor: getBackgroundColor(),
-          padding: props.type !== 'text' ? 10 : 0,
-          borderRadius: 10
+          paddingVertical: props.type !== 'text' ? 10 : 0,
+          paddingHorizontal: props.type !== 'text' ? 20 : 0,
+          borderRadius: props.type === 'rounded' ? 100 : 10
         }
       ]}
       activeOpacity={0.6}

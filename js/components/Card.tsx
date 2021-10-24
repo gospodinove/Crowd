@@ -1,7 +1,9 @@
 import React from 'react'
 import { View, ViewProps } from 'react-native'
 
-type PropsT = ViewProps & { children: React.ReactChild | React.ReactChild[] }
+type PropsT = ViewProps & {
+  children: Element | null
+}
 
 const Card = (props: PropsT) => {
   return (
