@@ -28,7 +28,11 @@ const App = () => {
   if (initializing) return null
 
   if (!user) {
-    return <AuthenticationScreen />
+    return (
+      <Provider store={store}>
+        <AuthenticationScreen />
+      </Provider>
+    )
   }
 
   return (
