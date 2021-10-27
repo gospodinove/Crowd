@@ -1,5 +1,7 @@
+import createSagaMiddleware from '@redux-saga/core'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { userSlice } from './reducers/user'
+import { userSlice } from '../reducers/userSlice'
+import rootSaga from '../sagas/root'
 
 export const slices = {
   user: userSlice
@@ -13,9 +15,14 @@ const reducers: { [K in keyof typeof slices]: typeof slices[K]['reducer'] } =
 
 export const reducer = combineReducers(reducers)
 
+const sagaMiddleware = createSagaMiddleware()
+
 const store = configureStore({
-  reducer
+  reducer,
+  middleware: [sagaMiddleware]
 })
+
+sagaMiddleware.run(rootSaga)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
