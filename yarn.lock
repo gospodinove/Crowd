@@ -1234,10 +1234,10 @@
   "resolved" "https://registry.npmjs.org/@react-native/normalize-color/-/normalize-color-1.0.0.tgz"
   "version" "1.0.0"
 
-"@react-native/polyfills@1.0.0":
-  "integrity" "sha512-0jbp4RxjYopTsIdLl+/Fy2TiwVYHy4mgeu07DG4b/LyM0OS/+lPP5c9sbnt/AMlnF6qz2JRZpPpGw1eMNS6A4w=="
-  "resolved" "https://registry.npmjs.org/@react-native/polyfills/-/polyfills-1.0.0.tgz"
-  "version" "1.0.0"
+"@react-native/polyfills@2.0.0":
+  "integrity" "sha512-K0aGNn1TjalKj+65D7ycc1//H9roAQ51GJVk5ZJQFb2teECGmzd86bYDC0aYdbRf7gtovescq4Zt6FR0tgXiHQ=="
+  "resolved" "https://registry.npmjs.org/@react-native/polyfills/-/polyfills-2.0.0.tgz"
+  "version" "2.0.0"
 
 "@react-navigation/bottom-tabs@^6.0.7":
   "integrity" "sha512-NfSb4Y5wSEPg3T7gHN25O133enSscJ808xEWqhGkR96BtSjcHh/oNMO+dqk6Avgh56uZEyL92Qm/CKFvaGkWow=="
@@ -3512,10 +3512,10 @@
   dependencies:
     "function-bind" "^1.1.1"
 
-"hermes-engine@~0.8.1":
-  "integrity" "sha512-as9Iccj/qrqqtDmfYUHbOIjt5xsQbUB6pjNIW3i1+RVr+pCAdz5S8/Jry778mz3rJWplYzHWdR1u1xQSYfBRYw=="
-  "resolved" "https://registry.npmjs.org/hermes-engine/-/hermes-engine-0.8.1.tgz"
-  "version" "0.8.1"
+"hermes-engine@~0.9.0":
+  "integrity" "sha512-r7U+Y4P2Qg/igFVZN+DpT7JFfXUn1MM4dFne8aW+cCrF6RRymof+VqrUHs1kl07j8h8V2CNesU19RKgWbr3qPw=="
+  "resolved" "https://registry.npmjs.org/hermes-engine/-/hermes-engine-0.9.0.tgz"
+  "version" "0.9.0"
 
 "hermes-parser@0.4.7":
   "integrity" "sha512-jc+zCtXbtwTiXoMAoXOHepxAaGVFIp89wwE9qcdwnMd/uGVEtPoY8FaFSsx0ThPvyKirdR2EsIIDVrpbSXz1Ag=="
@@ -4808,7 +4808,7 @@
   dependencies:
     "uglify-es" "^3.1.9"
 
-"metro-react-native-babel-preset@^0.66.0", "metro-react-native-babel-preset@0.66.2":
+"metro-react-native-babel-preset@^0.66.2", "metro-react-native-babel-preset@0.66.2":
   "integrity" "sha512-H/nLBAz0MgfDloSe1FjyH4EnbokHFdncyERvLPXDACY3ROVRCeUyFNo70ywRGXW2NMbrV4H7KUyU4zkfWhC2HQ=="
   "resolved" "https://registry.npmjs.org/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.66.2.tgz"
   "version" "0.66.2"
@@ -5715,7 +5715,7 @@
   "resolved" "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz"
   "version" "1.2.1"
 
-"react-devtools-core@^4.6.0":
+"react-devtools-core@^4.13.0":
   "integrity" "sha512-Kg/LhDkdt9J0ned1D1RfeuSdX4cKW83/valJLYswGdsYc0g2msmD0kfYozsaRacjDoZwcKlxGOES1wrkET5O6Q=="
   "resolved" "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.18.0.tgz"
   "version" "4.18.0"
@@ -5780,10 +5780,10 @@
   dependencies:
     "warn-once" "^0.1.0"
 
-"react-native@*", "react-native@>=0.65.0-rc.0 || 0.0.0-*", "react-native@0.65.1":
-  "integrity" "sha512-0UOVSnlssweQZjuaUtzViCifE/4tXm8oRbxwakopc8GavPu9vLulde145GOw6QVYiOy4iL50f+2XXRdX9NmMeQ=="
-  "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.65.1.tgz"
-  "version" "0.65.1"
+"react-native@*", "react-native@>=0.65.0-rc.0 || 0.0.0-*", "react-native@0.66.1":
+  "integrity" "sha512-BBvytmqlOLL+bRcO0jBiYfg16lYRsYDOC8/5E+bpnhb3EGtU+YCQAYfszw6JL7Hfy0ftnQNP5yj8pt+vqMHXIA=="
+  "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.66.1.tgz"
+  "version" "0.66.1"
   dependencies:
     "@jest/create-cache-key-function" "^27.0.1"
     "@react-native-community/cli" "^6.0.0"
@@ -5791,12 +5791,12 @@
     "@react-native-community/cli-platform-ios" "^6.0.0"
     "@react-native/assets" "1.0.0"
     "@react-native/normalize-color" "1.0.0"
-    "@react-native/polyfills" "1.0.0"
+    "@react-native/polyfills" "2.0.0"
     "abort-controller" "^3.0.0"
     "anser" "^1.4.9"
     "base64-js" "^1.1.2"
     "event-target-shim" "^5.0.1"
-    "hermes-engine" "~0.8.1"
+    "hermes-engine" "~0.9.0"
     "invariant" "^2.2.4"
     "jsc-android" "^250230.2.1"
     "metro-babel-register" "0.66.2"
@@ -5807,7 +5807,8 @@
     "pretty-format" "^26.5.2"
     "promise" "^8.0.3"
     "prop-types" "^15.7.2"
-    "react-devtools-core" "^4.6.0"
+    "react-devtools-core" "^4.13.0"
+    "react-native-codegen" "^0.0.7"
     "react-refresh" "^0.4.0"
     "regenerator-runtime" "^0.13.2"
     "scheduler" "^0.20.2"
