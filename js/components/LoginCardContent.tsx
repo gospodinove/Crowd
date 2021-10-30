@@ -46,6 +46,7 @@ const LoginCardContent = (props: PropsT) => {
         autoCapitalize="none"
         value={password}
         placeholder="Password"
+        secureTextEntry
         onChangeText={setPassword}
         style={{ marginBottom: 10 }}
       />

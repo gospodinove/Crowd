@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, TextInput, useColorScheme, View } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { connect, ConnectedProps } from 'react-redux'
-import { userSlice } from '../reducers/userSlice'
+import { userSlice } from '../reducers/user'
 import { RootState } from '../redux/store'
 
 const connector = connect(

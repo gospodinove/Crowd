@@ -1,15 +1,15 @@
-import auth from '@react-native-firebase/auth'
 import React, { useRef, useState } from 'react'
 import { Animated, Text, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
-import { userSlice } from '../redux/reducers/user'
+import { userSlice } from '../reducers/user'
 import Button from './Button'
 import Card from './Card'
 import LoginCardContent from './LoginCardContent'
 import SignUpCardContent from './SignUpCardContent'
 
 const connector = connect(null, {
-  onSignUpPress: userSlice.actions.create
+  onSignUpPress: userSlice.actions.signUp,
+  onLoginPress: userSlice.actions.login
 })
 
 type ReduxPropsT = ConnectedProps<typeof connector>
@@ -30,7 +30,7 @@ const AuthenticationScreen = (props: PropsT) => {
       return
     }
 
-    auth().signInWithEmailAndPassword(email, password)
+    props.onLoginPress({ email, password })
   }
 
   const onSignUpPress = (
