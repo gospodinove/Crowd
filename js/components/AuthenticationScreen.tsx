@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react'
 import { Animated, Text, View } from 'react-native'
+import PagerView from 'react-native-pager-view'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../reducers/user'
 import Button from './Button'
-import Card from './Card'
-import LoginCardContent from './LoginCardContent'
-import SignUpCardContent from './SignUpCardContent'
+import LoginCard from './LoginCard'
+import SignUpCard from './SignUpCard'
 
 const connector = connect(null, {
   onSignUpPress: userSlice.actions.signUp,
@@ -25,6 +25,8 @@ const AuthenticationScreen = (props: PropsT) => {
 
   const animation = useRef(new Animated.Value(0)).current
 
+  const pagerViewRef = useRef(React.createRef<PagerView>()).current
+
   const onLoginPress = (email: string, password: string) => {
     if (!email || !password) {
       return
@@ -39,31 +41,50 @@ const AuthenticationScreen = (props: PropsT) => {
     email: string,
     password: string
   ) => {
+    if (!email || !password || !firstName || !lastName) {
+      return
+    }
+
     props.onSignUpPress({ firstName, lastName, email, password })
   }
 
   const switchMode = () => {
     if (mode === 'login') {
+      pagerViewRef.current?.setPage(1)
+
       Animated.timing(animation, {
         toValue: 1,
         duration: 300,
         useNativeDriver: false
       }).start()
+
       setMode('signUp')
     } else {
+      pagerViewRef.current?.setPage(0)
+
       Animated.timing(animation, {
         toValue: 0,
         duration: 300,
         useNativeDriver: false
       }).start()
+
       setMode('login')
     }
   }
 
-  const renderFooter = (): JSX.Element => {
-    switch (mode) {
-      case 'login':
-        return (
+  return (
+    <Animated.View
+      style={{
+        flex: 1,
+        backgroundColor: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#fee', '#ffe']
+        })
+      }}
+    >
+      <PagerView ref={pagerViewRef} style={{ flex: 1 }} scrollEnabled={false}>
+        <View key="login" style={{ paddingTop: 150, paddingHorizontal: 20 }}>
+          <LoginCard onButtonPress={onLoginPress} />
           <View
             style={{
               flexDirection: 'row',
@@ -79,12 +100,13 @@ const AuthenticationScreen = (props: PropsT) => {
               text="Sign Up"
               size="small"
               type="rounded"
+              rightIcon="chevron-right"
               onPress={switchMode}
             />
           </View>
-        )
-      case 'signUp':
-        return (
+        </View>
+        <View key="signUp" style={{ paddingTop: 150, paddingHorizontal: 20 }}>
+          <SignUpCard onButtonPress={onSignUpPress} />
           <View
             style={{
               flexDirection: 'row',
@@ -96,38 +118,15 @@ const AuthenticationScreen = (props: PropsT) => {
               text="Login"
               size="small"
               type="rounded"
+              leftIcon="chevron-left"
               onPress={switchMode}
             />
             <Text style={{ textAlign: 'center', marginLeft: 10 }}>
               You already have an account?
             </Text>
           </View>
-        )
-    }
-  }
-
-  return (
-    <Animated.View
-      style={{
-        flex: 1,
-        backgroundColor: animation.interpolate({
-          inputRange: [0, 1],
-          outputRange: ['#fee', '#ffe']
-        }),
-        paddingHorizontal: 20,
-        justifyContent: 'center',
-        alignItems: 'stretch'
-      }}
-    >
-      <Card>
-        {mode === 'login' ? (
-          <LoginCardContent onButtonPress={onLoginPress} />
-        ) : (
-          <SignUpCardContent onButtonPress={onSignUpPress} />
-        )}
-      </Card>
-
-      {renderFooter()}
+        </View>
+      </PagerView>
     </Animated.View>
   )
 }

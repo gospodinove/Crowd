@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Text, View } from 'react-native'
 import Button from './Button'
+import Card from './Card'
 import TextInput from './TextInput'
 
 type PropsT = {
@@ -19,7 +20,7 @@ type StateT = {
   password: string
 }
 
-const SignUpCardContent = (props: PropsT) => {
+const SignUpCard = (props: PropsT) => {
   const [firstName, setFirstName] = useState<StateT['firstName']>('')
   const [lastName, setLastName] = useState<StateT['firstName']>('')
   const [email, setEmail] = useState<StateT['email']>('')
@@ -30,7 +31,7 @@ const SignUpCardContent = (props: PropsT) => {
   }
 
   return (
-    <>
+    <Card>
       <Text
         style={{
           textAlign: 'center',
@@ -96,8 +97,8 @@ const SignUpCardContent = (props: PropsT) => {
         onPress={onButtonPress}
         style={{ marginBottom: 10 }}
       />
-    </>
+    </Card>
   )
 }
 
-export default SignUpCardContent
+export default SignUpCard

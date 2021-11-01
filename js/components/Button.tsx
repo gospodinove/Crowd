@@ -1,3 +1,5 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React from 'react'
 import {
   Text,
@@ -11,6 +13,8 @@ type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   size: 'large' | 'medium' | 'small'
   type: 'primary' | 'secondary' | 'text' | 'rounded' | 'custom'
   style?: Omit<ViewStyle, 'backgroundColor'>
+  leftIcon?: IconProp
+  rightIcon?: IconProp
 }
 
 const Button = (props: PropsT) => {
@@ -48,17 +52,35 @@ const Button = (props: PropsT) => {
       style={[
         props.style,
         {
+          flexDirection: 'row',
+          justifyContent: 'center',
           backgroundColor: getBackgroundColor(),
           paddingVertical: props.type !== 'text' ? 10 : 0,
-          paddingHorizontal: props.type !== 'text' ? 20 : 0,
+          paddingHorizontal: props.type !== 'text' ? 10 : 0,
           borderRadius: props.type === 'rounded' ? 100 : 10
         }
       ]}
       activeOpacity={0.6}
     >
+      {props.leftIcon ? (
+        <FontAwesomeIcon
+          icon={props.leftIcon}
+          color={getTextColor()}
+          style={{ marginRight: 5 }}
+        />
+      ) : null}
+
       <Text style={{ color: getTextColor(), textAlign: 'center' }}>
         {props.text}
       </Text>
+
+      {props.rightIcon ? (
+        <FontAwesomeIcon
+          icon={props.rightIcon}
+          color={getTextColor()}
+          style={{ marginLeft: 5 }}
+        />
+      ) : null}
     </TouchableOpacity>
   )
 }
