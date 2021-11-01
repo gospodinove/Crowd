@@ -5,6 +5,7 @@ import Card from './Card'
 import TextInput from './TextInput'
 
 type PropsT = {
+  isLoading: boolean
   onButtonPress: (
     firstName: string,
     lastName: string,

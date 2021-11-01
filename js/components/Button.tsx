@@ -2,6 +2,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React from 'react'
 import {
+  ActivityIndicator,
   Text,
   TouchableOpacity,
   TouchableOpacityProps,
@@ -12,6 +13,7 @@ type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   text: string
   size: 'large' | 'medium' | 'small'
   type: 'primary' | 'secondary' | 'text' | 'rounded' | 'custom'
+  isLoading?: boolean
   style?: Omit<ViewStyle, 'backgroundColor'>
   leftIcon?: IconProp
   rightIcon?: IconProp
@@ -46,6 +48,48 @@ const Button = (props: PropsT) => {
     }
   }
 
+  const getLoaderSize = () => {
+    switch (props.size) {
+      case 'small':
+      case 'medium':
+        return 'small'
+      case 'large':
+        return 'large'
+    }
+  }
+
+  const renderContent = (): JSX.Element => {
+    if (props.isLoading) {
+      return <ActivityIndicator size={getLoaderSize()} />
+    }
+
+    return (
+      <>
+        {props.leftIcon ? (
+          <FontAwesomeIcon
+            icon={props.leftIcon}
+            color={getTextColor()}
+            style={{ marginRight: 5 }}
+          />
+        ) : null}
+
+        <Text
+          style={{ lineHeight: 20, color: getTextColor(), textAlign: 'center' }}
+        >
+          {props.text}
+        </Text>
+
+        {props.rightIcon ? (
+          <FontAwesomeIcon
+            icon={props.rightIcon}
+            color={getTextColor()}
+            style={{ marginLeft: 5 }}
+          />
+        ) : null}
+      </>
+    )
+  }
+
   return (
     <TouchableOpacity
       {...props}
@@ -53,6 +97,7 @@ const Button = (props: PropsT) => {
         props.style,
         {
           flexDirection: 'row',
+          alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: getBackgroundColor(),
           paddingVertical: props.type !== 'text' ? 10 : 0,
@@ -62,25 +107,7 @@ const Button = (props: PropsT) => {
       ]}
       activeOpacity={0.6}
     >
-      {props.leftIcon ? (
-        <FontAwesomeIcon
-          icon={props.leftIcon}
-          color={getTextColor()}
-          style={{ marginRight: 5 }}
-        />
-      ) : null}
-
-      <Text style={{ color: getTextColor(), textAlign: 'center' }}>
-        {props.text}
-      </Text>
-
-      {props.rightIcon ? (
-        <FontAwesomeIcon
-          icon={props.rightIcon}
-          color={getTextColor()}
-          style={{ marginLeft: 5 }}
-        />
-      ) : null}
+      {renderContent()}
     </TouchableOpacity>
   )
 }
