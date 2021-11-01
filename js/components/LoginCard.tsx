@@ -5,6 +5,7 @@ import Card from './Card'
 import TextInput from './TextInput'
 
 type PropsT = {
+  isLoading: boolean
   onButtonPress: (email: string, password: string) => void
 }
 
@@ -55,6 +56,7 @@ const LoginCard = (props: PropsT) => {
         text="Login"
         size="medium"
         type="primary"
+        isLoading={props.isLoading}
         onPress={onButtonPress}
         style={{ marginBottom: 10 }}
       />

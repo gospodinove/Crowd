@@ -1,10 +1,12 @@
 import createSagaMiddleware from '@redux-saga/core'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { loadersSlice } from '../reducers/loaders'
 import { userSlice } from '../reducers/user'
 import rootSaga from '../sagas/root'
 
 export const slices = {
-  user: userSlice
+  user: userSlice,
+  loaders: loadersSlice
 }
 
 const reducers: { [K in keyof typeof slices]: typeof slices[K]['reducer'] } =

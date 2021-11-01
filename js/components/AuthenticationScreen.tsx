@@ -3,14 +3,22 @@ import { Animated, Text, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../reducers/user'
+import { RootState } from '../redux/store'
+import { loginLoader, signUpLoader } from '../utils/loaders'
 import Button from './Button'
 import LoginCard from './LoginCard'
 import SignUpCard from './SignUpCard'
 
-const connector = connect(null, {
-  onSignUpPress: userSlice.actions.signUp,
-  onLoginPress: userSlice.actions.login
-})
+const connector = connect(
+  (state: RootState) => ({
+    isLoginLoading: state.loaders.runningLoaders[loginLoader],
+    isSignUpLoading: state.loaders.runningLoaders[signUpLoader]
+  }),
+  {
+    onSignUpPress: userSlice.actions.signUp,
+    onLoginPress: userSlice.actions.login
+  }
+)
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
@@ -84,7 +92,10 @@ const AuthenticationScreen = (props: PropsT) => {
     >
       <PagerView ref={pagerViewRef} style={{ flex: 1 }} scrollEnabled={false}>
         <View key="login" style={{ paddingTop: 150, paddingHorizontal: 20 }}>
-          <LoginCard onButtonPress={onLoginPress} />
+          <LoginCard
+            isLoading={props.isLoginLoading}
+            onButtonPress={onLoginPress}
+          />
           <View
             style={{
               flexDirection: 'row',
@@ -106,7 +117,10 @@ const AuthenticationScreen = (props: PropsT) => {
           </View>
         </View>
         <View key="signUp" style={{ paddingTop: 150, paddingHorizontal: 20 }}>
-          <SignUpCard onButtonPress={onSignUpPress} />
+          <SignUpCard
+            isLoading={props.isSignUpLoading}
+            onButtonPress={onSignUpPress}
+          />
           <View
             style={{
               flexDirection: 'row',

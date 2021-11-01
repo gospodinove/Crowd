@@ -1,9 +1,13 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import { all, call, takeLatest } from '@redux-saga/core/effects'
+import { all, call, put, takeLatest } from '@redux-saga/core/effects'
+import { loadersSlice } from '../reducers/loaders'
 import { userSlice } from '../reducers/user'
 import api from '../utils/api'
+import { loginLoader, signUpLoader } from '../utils/loaders'
 
 function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
+  yield put(loadersSlice.actions.startLoader(loginLoader))
+
   try {
     yield call(
       api({
@@ -16,10 +20,14 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
     )
   } catch (err) {
     console.log(err)
+  } finally {
+    yield put(loadersSlice.actions.stopLoader(loginLoader))
   }
 }
 
 function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
+  yield put(loadersSlice.actions.startLoader(signUpLoader))
+
   try {
     // create the authentication credential
     const newUser: FirebaseAuthTypes.UserCredential = yield call(
@@ -45,6 +53,8 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
     )
   } catch (err) {
     console.log(err)
+  } finally {
+    yield put(loadersSlice.actions.stopLoader(signUpLoader))
   }
 }
 
