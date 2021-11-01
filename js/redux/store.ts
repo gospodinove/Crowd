@@ -1,6 +1,6 @@
 import createSagaMiddleware from '@redux-saga/core'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { userSlice } from '../reducers/userSlice'
+import { userSlice } from '../reducers/user'
 import rootSaga from '../sagas/root'
 
 export const slices = {
