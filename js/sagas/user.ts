@@ -1,15 +1,18 @@
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import firestore from '@react-native-firebase/firestore'
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { all, call, takeLatest } from '@redux-saga/core/effects'
 import { userSlice } from '../reducers/user'
+import api from '../utils/api'
 
 function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
   try {
-    yield call(() =>
-      auth().signInWithEmailAndPassword(
-        action.payload.email,
-        action.payload.password
-      )
+    yield call(
+      api({
+        type: 'signInWithEmailAndPassword',
+        params: {
+          email: action.payload.email,
+          password: action.payload.password
+        }
+      })
     )
   } catch (err) {
     console.log(err)
@@ -19,19 +22,25 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
 function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
   try {
     // create the authentication credential
-    const newUser: FirebaseAuthTypes.UserCredential = yield call(() =>
-      auth().createUserWithEmailAndPassword(
-        action.payload.email,
-        action.payload.password
-      )
+    const newUser: FirebaseAuthTypes.UserCredential = yield call(
+      api({
+        type: 'createUserWithEmailAndPassword',
+        params: {
+          email: action.payload.email,
+          password: action.payload.password
+        }
+      })
     )
 
     // create the user database object
-    yield call(() =>
-      firestore().collection('users').add({
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
-        uuid: newUser.user.uid
+    yield call(
+      api({
+        type: 'addUser',
+        params: {
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          uid: newUser.user.uid
+        }
       })
     )
   } catch (err) {
