@@ -1,0 +1,19 @@
+COMMIT_MESSAGE_FILE=".git/COMMIT_EDITMSG"
+
+COMMIT_MESSAGE=$(cat $COMMIT_MESSAGE_FILE)
+
+if [[ $COMMIT_MESSAGE =~ (#[0-9]) ]]; then
+  echo "Skipping commit message prefixing. Message already prefixed."
+  exit 0
+fi
+
+BRANCH_NAME=$(git branch --show-current)
+
+ISSUE_NUMBER=$(echo $BRANCH_NAME | cut -d '-' -f1 )
+
+if ! [[ $ISSUE_NUMBER =~ ^[0-9] ]]; then
+  echo "Skipping commit message prefixing. The current branch is not related to an issue."
+  exit 0
+fi
+
+echo "[#$ISSUE_NUMBER] - $COMMIT_MESSAGE" > $COMMIT_MESSAGE_FILE
