@@ -2,7 +2,7 @@ import React from 'react'
 import { View, ViewProps } from 'react-native'
 
 type PropsT = ViewProps & {
-  children: Element | null
+  children: JSX.Element[] | null
 }
 
 const Card = (props: PropsT) => {

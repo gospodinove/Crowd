@@ -5,7 +5,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../reducers/user'
 import { RootState } from '../redux/store'
-import { UserNavigatorParamsT } from '../types/UserNavigatorParams'
+import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
 
 const connector = connect(
   (state: RootState) => ({
@@ -20,7 +20,7 @@ const connector = connect(
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type NavigationPropsT = StackScreenProps<UserNavigatorParamsT, 'user'>
+type NavigationPropsT = StackScreenProps<DashboardTabNavigatorPropsT, 'user'>
 
 type PropsT = ReduxPropsT & NavigationPropsT
 
