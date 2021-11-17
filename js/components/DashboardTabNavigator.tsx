@@ -1,12 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
-import { UserNavigatorParamsT } from '../types/UserNavigatorParams'
+import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
+import UserScreen from './DashboardScreen'
 import EditUserScreen from './EditUserScreen'
-import UserScreen from './UserScreen'
 
-const Stack = createStackNavigator<UserNavigatorParamsT>()
+const Stack = createStackNavigator<DashboardTabNavigatorPropsT>()
 
-const UserNavigator = () => {
+const DashboardTabNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="user">
       <Stack.Screen
@@ -23,4 +23,4 @@ const UserNavigator = () => {
   )
 }
 
-export default UserNavigator
+export default DashboardTabNavigator

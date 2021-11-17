@@ -1,4 +1,6 @@
 export type TabNavigatorParamsT = {
-  userStack: undefined
-  sampleStack: undefined
+  dashboardStack: undefined
+  plansStack: undefined
+  notificationsStack: undefined
+  moreStack: undefined
 }
