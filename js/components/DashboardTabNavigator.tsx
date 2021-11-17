@@ -12,7 +12,7 @@ const DashboardTabNavigator = () => {
       <Stack.Screen
         name="user"
         component={UserScreen}
-        options={{ title: 'User' }}
+        options={{ title: 'Dashboard' }}
       />
       <Stack.Screen
         name="edit"
