@@ -21,7 +21,9 @@ const App = () => {
 
   const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
     setUser(user)
-    if (initializing) setInitializing(false)
+    if (initializing) {
+      setInitializing(false)
+    }
   }
 
   useEffect(() => {

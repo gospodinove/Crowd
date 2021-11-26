@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { UserT } from '../types/User'
 
 type StateT = {
   firstName: string | undefined
   lastName: string | undefined
   email: string | undefined
+  planIds: string[]
 }
 
 const initialState: StateT = {
   firstName: undefined,
   lastName: undefined,
-  email: undefined
+  email: undefined,
+  planIds: []
 }
 
 export const userSlice = createSlice({
@@ -26,12 +29,18 @@ export const userSlice = createSlice({
         password: string
       }>
     ) => {},
+    storeUser: (state, action: PayloadAction<UserT>) => {
+      state.email = action.payload.email
+      state.firstName = action.payload.firstName
+      state.lastName = action.payload.lastName
+      state.planIds = action.payload.planIds
+    },
     update: (
       state,
       action: PayloadAction<{
-        firstName?: string
-        lastName?: string
-        email?: string
+        firstName: string | undefined
+        lastName: string | undefined
+        email: string | undefined
       }>
     ) => {
       state.email = action.payload.email

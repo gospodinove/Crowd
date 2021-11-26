@@ -1,7 +1,9 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { all, call, put, takeLatest } from '@redux-saga/core/effects'
 import { loadersSlice } from '../reducers/loaders'
 import { userSlice } from '../reducers/user'
+import { UserDataT } from '../types/User'
 import api from '../utils/api'
 import { loginLoader, signUpLoader } from '../utils/loaders'
 
@@ -9,7 +11,7 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
   yield put(loadersSlice.actions.startLoader(loginLoader))
 
   try {
-    yield call(
+    const userCredential: FirebaseAuthTypes.UserCredential = yield call(
       api({
         type: 'signInWithEmailAndPassword',
         params: {
@@ -17,6 +19,21 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
           password: action.payload.password
         }
       })
+    )
+
+    const documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot<UserDataT> =
+      yield call(
+        api({ type: 'fetchUser', params: { uid: userCredential.user.uid } })
+      )
+
+    const userData = documentSnapshot.data()
+
+    if (!userData) {
+      throw new Error('[onLogin]: user data does not exist')
+    }
+
+    yield put(
+      userSlice.actions.storeUser({ ...userData, email: action.payload.email })
     )
   } catch (err) {
     console.log(err)
@@ -49,6 +66,15 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
           lastName: action.payload.lastName,
           uid: newUser.user.uid
         }
+      })
+    )
+
+    yield put(
+      userSlice.actions.storeUser({
+        email: action.payload.email,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        planIds: []
       })
     )
   } catch (err) {
