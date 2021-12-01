@@ -84,9 +84,7 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
   }
 }
 
-function* onUpdate() {
-  console.log('updated in saga')
-}
+function* onUpdate() {}
 
 export default function* userSaga() {
   yield all([

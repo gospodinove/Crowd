@@ -1,8 +1,9 @@
 import { all, call, spawn } from '@redux-saga/core/effects'
+import plansSaga from './plans'
 import userSaga from './user'
 
 export default function* rootSaga() {
-  const sagas = [userSaga]
+  const sagas = [userSaga, plansSaga]
 
   yield all(
     sagas.map(saga =>

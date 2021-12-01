@@ -1,14 +1,34 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React from 'react'
-import { View } from 'react-native'
+import React, { useEffect } from 'react'
+import { FlatList, Text } from 'react-native'
+import { connect, ConnectedProps } from 'react-redux'
+import { plansSlice } from '../reducers/plans'
+import { RootState } from '../redux/store'
+import { PlanT } from '../types/Plan'
 import { PlansTabNavigatorPropsT } from '../types/PlansTabNavigatorProps'
 
 type NavigationPropsT = StackScreenProps<PlansTabNavigatorPropsT, 'plans'>
 
-type PropsT = NavigationPropsT
+const connector = connect(
+  (state: RootState) => ({ plans: state.plans.plans }),
+  { fetchPlans: plansSlice.actions.fetch }
+)
+
+type ReduxPropsT = ConnectedProps<typeof connector>
+
+type PropsT = NavigationPropsT & ReduxPropsT
 
 const PlansScreen = (props: PropsT) => {
-  return <View style={{ flex: 1, backgroundColor: 'red' }}></View>
+  useEffect(() => {
+    props.fetchPlans()
+  }, [])
+
+  return (
+    <FlatList<PlanT>
+      data={props.plans}
+      renderItem={item => <Text>{item.item.name}</Text>}
+    />
+  )
 }
 
-export default PlansScreen
+export default connector(PlansScreen)
