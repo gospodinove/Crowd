@@ -9,21 +9,37 @@ import DashboardTabNavigator from './js/components/DashboardTabNavigator'
 import MoreTabNavigator from './js/components/MoreTabNavigator'
 import NotificationsTabNavigator from './js/components/NotificationsTabNavigator'
 import PlansTabNavigator from './js/components/PlansTabNavigator'
+import SplashScreen from './js/components/SplashScreen'
 import store from './js/redux/store'
 import { TabNavigatorParamsT } from './js/types/TabNavigatorParams'
 import { getIconForTab } from './js/utils/navigator'
 
 const Tab = createBottomTabNavigator<TabNavigatorParamsT>()
 
+const mockLoading = async () => {
+  return new Promise(resolve =>
+    setTimeout(() => {
+      resolve('result')
+    }, 2000)
+  )
+}
+
 const App = () => {
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null)
+  const [isUserDataLoaded, setIsUserDataLoaded] = useState(false)
 
   const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
     setUser(user)
     if (initializing) {
       setInitializing(false)
     }
+  }
+
+  const loadUserData = async () => {
+    await mockLoading()
+
+    setIsUserDataLoaded(true)
   }
 
   useEffect(() => {
@@ -39,6 +55,12 @@ const App = () => {
         <AuthenticationScreen />
       </Provider>
     )
+  }
+
+  if (!isUserDataLoaded) {
+    loadUserData()
+
+    return <SplashScreen />
   }
 
   return (
