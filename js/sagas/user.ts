@@ -6,6 +6,7 @@ import { userSlice } from '../reducers/user'
 import { UserDataT } from '../types/User'
 import api from '../utils/api'
 import { loginLoader, signUpLoader } from '../utils/loaders'
+import { storeUserData } from '../utils/localData'
 
 function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
   yield put(loadersSlice.actions.startLoader(loginLoader))
@@ -31,6 +32,8 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
     if (!userData) {
       throw new Error('[onLogin]: user data does not exist')
     }
+
+    yield call(storeUserData, action.payload.email)
 
     yield put(
       userSlice.actions.storeUser({ ...userData, email: action.payload.email })
@@ -68,6 +71,8 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
         }
       })
     )
+
+    yield call(storeUserData, action.payload.email)
 
     yield put(
       userSlice.actions.storeUser({

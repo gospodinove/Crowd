@@ -46,6 +46,9 @@ export const userSlice = createSlice({
       state.email = action.payload.email
       state.firstName = action.payload.firstName
       state.lastName = action.payload.lastName
+    },
+    setUserData: (state, action: PayloadAction<string>) => {
+      state.email = action.payload
     }
   }
 })
