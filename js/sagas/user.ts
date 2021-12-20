@@ -1,15 +1,18 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { all, call, put, takeLatest } from '@redux-saga/core/effects'
 import { loadersSlice } from '../reducers/loaders'
 import { userSlice } from '../reducers/user'
+import { UserDataT, UserT } from '../types/User'
 import api from '../utils/api'
 import { loginLoader, signUpLoader } from '../utils/loaders'
+import { storeUserData } from '../utils/localData'
 
 function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
   yield put(loadersSlice.actions.startLoader(loginLoader))
 
   try {
-    yield call(
+    const userCredential: FirebaseAuthTypes.UserCredential = yield call(
       api({
         type: 'signInWithEmailAndPassword',
         params: {
@@ -18,6 +21,28 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
         }
       })
     )
+
+    const documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot<UserDataT> =
+      yield call(
+        api({ type: 'fetchUser', params: { uid: userCredential.user.uid } })
+      )
+
+    const userData = documentSnapshot.data()
+
+    if (!userData) {
+      throw new Error('[onLogin]: user data does not exist')
+    }
+
+    const user: UserT = {
+      email: action.payload.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      planIds: userData.planIds
+    }
+
+    yield call(storeUserData, user)
+
+    yield put(userSlice.actions.storeUser(user))
   } catch (err) {
     console.log(err)
   } finally {
@@ -51,6 +76,17 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
         }
       })
     )
+
+    const user: UserT = {
+      email: action.payload.email,
+      firstName: action.payload.firstName,
+      lastName: action.payload.lastName,
+      planIds: []
+    }
+
+    yield call(storeUserData, user)
+
+    yield put(userSlice.actions.storeUser(user))
   } catch (err) {
     console.log(err)
   } finally {
@@ -58,9 +94,7 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
   }
 }
 
-function* onUpdate() {
-  console.log('updated in saga')
-}
+function* onUpdate() {}
 
 export default function* userSaga() {
   yield all([

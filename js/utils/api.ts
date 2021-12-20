@@ -18,10 +18,18 @@ export default function api(call: ApiCallT) {
         )
     case 'addUser':
       return () =>
-        firestore().collection('users').add({
+        firestore().collection('users').doc(call.params.uid).set({
           firstName: call.params.firstName,
           lastName: call.params.lastName,
-          uid: call.params.uid
+          planIds: []
         })
+    case 'fetchUser':
+      return () => firestore().collection('users').doc(call.params.uid).get()
+    case 'fetchPlans':
+      return () =>
+        firestore()
+          .collection('plans')
+          .where(firestore.FieldPath.documentId(), 'in', call.params.planIds)
+          .get()
   }
 }
