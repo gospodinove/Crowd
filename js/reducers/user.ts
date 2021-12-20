@@ -47,8 +47,11 @@ export const userSlice = createSlice({
       state.firstName = action.payload.firstName
       state.lastName = action.payload.lastName
     },
-    setUserData: (state, action: PayloadAction<string>) => {
-      state.email = action.payload
+    onLocalDataLoaded: (state, action: PayloadAction<UserT>) => {
+      state.email = action.payload.email
+      state.firstName = action.payload.firstName
+      state.lastName = action.payload.lastName
+      state.planIds = action.payload.planIds
     }
   }
 })

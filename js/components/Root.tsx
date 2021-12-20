@@ -18,7 +18,7 @@ import SplashScreen from './SplashScreen'
 const Tab = createBottomTabNavigator<TabNavigatorParamsT>()
 
 const connector = connect(null, {
-  setUserData: userSlice.actions.setUserData
+  onLocalUserDataLoaded: userSlice.actions.onLocalDataLoaded
 })
 
 type ReduxPropsT = ConnectedProps<typeof connector>
@@ -36,13 +36,14 @@ const Root = (props: ReduxPropsT) => {
   }
 
   const loadLocalData = async () => {
-    const email = await loadUserData()
+    const user = await loadUserData()
 
-    if (!email) {
+    if (!user) {
+      // TODO: retry state
       return
     }
 
-    props.setUserData(email)
+    props.onLocalUserDataLoaded(user)
 
     setIsLocalDataLoaded(true)
   }

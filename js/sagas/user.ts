@@ -3,7 +3,7 @@ import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { all, call, put, takeLatest } from '@redux-saga/core/effects'
 import { loadersSlice } from '../reducers/loaders'
 import { userSlice } from '../reducers/user'
-import { UserDataT } from '../types/User'
+import { UserDataT, UserT } from '../types/User'
 import api from '../utils/api'
 import { loginLoader, signUpLoader } from '../utils/loaders'
 import { storeUserData } from '../utils/localData'
@@ -33,11 +33,16 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
       throw new Error('[onLogin]: user data does not exist')
     }
 
-    yield call(storeUserData, action.payload.email)
+    const user: UserT = {
+      email: action.payload.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      planIds: userData.planIds
+    }
 
-    yield put(
-      userSlice.actions.storeUser({ ...userData, email: action.payload.email })
-    )
+    yield call(storeUserData, user)
+
+    yield put(userSlice.actions.storeUser(user))
   } catch (err) {
     console.log(err)
   } finally {
@@ -72,16 +77,16 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
       })
     )
 
-    yield call(storeUserData, action.payload.email)
+    const user: UserT = {
+      email: action.payload.email,
+      firstName: action.payload.firstName,
+      lastName: action.payload.lastName,
+      planIds: []
+    }
 
-    yield put(
-      userSlice.actions.storeUser({
-        email: action.payload.email,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
-        planIds: []
-      })
-    )
+    yield call(storeUserData, user)
+
+    yield put(userSlice.actions.storeUser(user))
   } catch (err) {
     console.log(err)
   } finally {

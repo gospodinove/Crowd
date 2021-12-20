@@ -1,23 +1,30 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import PropTypes from 'prop-types'
+import { UserT } from '../types/User'
 
-const localDataShema = {
-  email: PropTypes.string.isRequired
-}
-
-export const loadUserData = async (): Promise<string | undefined> => {
+export const loadUserData = async (): Promise<UserT | undefined> => {
   try {
     const rawData = await AsyncStorage.getItem('userData')
-    return rawData ?? undefined
+
+    if (!rawData) {
+      throw new Error('[loadUserData] - No user data stored')
+    }
+
+    const userData = JSON.parse(rawData)
+
+    return {
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      planIds: userData.planIds
+    }
   } catch (err) {
     console.log(err)
   }
 }
 
-export const storeUserData = async (email: string) => {
+export const storeUserData = async (user: UserT) => {
   try {
-    // await AsyncStorage.setItem('userData', JSON.stringify(email))
-    await AsyncStorage.setItem('userData', email)
+    await AsyncStorage.setItem('userData', JSON.stringify(user))
   } catch (err) {
     console.log(err)
   }
