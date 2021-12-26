@@ -7,8 +7,8 @@ import { formatDate } from '../utils/date'
 type PropsT = { data: PlanT }
 
 const PlanItem = (props: PropsT) => {
-  const starDate = new Date(props.data.startDate.seconds)
-  const endDate = new Date(props.data.endDate.seconds)
+  const starDate = new Date(props.data.startDate.seconds * 1000)
+  const endDate = new Date(props.data.endDate.seconds * 1000)
 
   const renderAvatar = () => (
     <View

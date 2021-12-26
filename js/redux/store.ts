@@ -1,11 +1,13 @@
 import createSagaMiddleware from '@redux-saga/core'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { loadersSlice } from '../reducers/loaders'
+import { nativeSlice } from '../reducers/native'
 import { plansSlice } from '../reducers/plans'
 import { userSlice } from '../reducers/user'
 import rootSaga from '../sagas/root'
 
 export const slices = {
+  native: nativeSlice,
   user: userSlice,
   loaders: loadersSlice,
   plans: plansSlice
