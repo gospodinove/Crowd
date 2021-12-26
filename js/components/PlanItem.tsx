@@ -10,6 +10,30 @@ const PlanItem = (props: PropsT) => {
   const starDate = new Date(props.data.startDate.seconds)
   const endDate = new Date(props.data.endDate.seconds)
 
+  const renderAvatar = () => (
+    <View
+      style={{
+        width: 50,
+        height: 50,
+        backgroundColor: 'black',
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <FontAwesomeIcon icon="plane-departure" size={20} color="white" />
+    </View>
+  )
+
+  const renderPeopleCount = () => (
+    <>
+      <FontAwesomeIcon icon="user" size={11} color="grey" />
+      <Text style={{ fontSize: 11, color: 'grey' }}>
+        {props.data.peopleCount}
+      </Text>
+    </>
+  )
+
   return (
     <View
       style={{
@@ -19,28 +43,15 @@ const PlanItem = (props: PropsT) => {
         alignItems: 'center'
       }}
     >
-      <View
-        style={{
-          width: 50,
-          height: 50,
-          backgroundColor: 'black',
-          borderRadius: 25,
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <FontAwesomeIcon icon="plane-departure" size={20} color="white" />
-      </View>
+      {renderAvatar()}
 
       <View style={{ marginHorizontal: 5 }}>
         <Text style={{ fontSize: 18, fontWeight: '600' }}>
           {props.data.name}
         </Text>
+
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <FontAwesomeIcon icon="user" size={11} color="grey" />
-          <Text style={{ fontSize: 11, color: 'grey' }}>
-            {props.data.peopleCount}
-          </Text>
+          {renderPeopleCount()}
 
           <View
             style={{
