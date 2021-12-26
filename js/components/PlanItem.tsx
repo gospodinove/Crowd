@@ -3,6 +3,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { PlanT } from '../types/Plan'
 import { formatDate } from '../utils/date'
+import VerticalSeparator from './VerticalSepartor'
 
 type PropsT = { data: PlanT }
 
@@ -21,7 +22,7 @@ const PlanItem = (props: PropsT) => {
         alignItems: 'center'
       }}
     >
-      <FontAwesomeIcon icon="plane-departure" size={20} color="white" />
+      <FontAwesomeIcon icon="users" size={20} color="white" />
     </View>
   )
 
@@ -53,15 +54,7 @@ const PlanItem = (props: PropsT) => {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {renderPeopleCount()}
 
-          <View
-            style={{
-              backgroundColor: 'grey',
-              width: 3,
-              height: 3,
-              borderRadius: 5,
-              marginHorizontal: 5
-            }}
-          />
+          <VerticalSeparator type="circle" size={3} spacing={5} color="grey" />
 
           <Text style={{ fontSize: 11, color: 'grey' }}>
             {formatDate(starDate) + ' - ' + formatDate(endDate)}
