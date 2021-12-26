@@ -16,13 +16,13 @@ const PlanItem = (props: PropsT) => {
       style={{
         width: 50,
         height: 50,
-        backgroundColor: 'black',
+        backgroundColor: props.data.color,
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center'
       }}
     >
-      <FontAwesomeIcon icon="users" size={20} color="white" />
+      <FontAwesomeIcon icon={props.data.icon} size={20} color="white" />
     </View>
   )
 
