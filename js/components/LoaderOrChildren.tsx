@@ -3,18 +3,23 @@ import { ActivityIndicator, View, ViewStyle } from 'react-native'
 
 type PropsT = {
   isLoading: boolean
+  size: 'large' | 'small'
   children: JSX.Element
   containerStyle?: ViewStyle
-}
-
-const renderLoader = () => {
-  return <ActivityIndicator animating style={{ alignSelf: 'center' }} />
 }
 
 const LoaderOrChildren = (props: PropsT) => {
   return (
     <View style={[{ flex: 1, justifyContent: 'center' }, props.containerStyle]}>
-      {props.isLoading ? renderLoader() : props.children}
+      {props.isLoading ? (
+        <ActivityIndicator
+          animating
+          size={props.size}
+          style={{ alignSelf: 'center' }}
+        />
+      ) : (
+        props.children
+      )}
     </View>
   )
 }
