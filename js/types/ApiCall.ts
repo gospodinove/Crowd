@@ -13,7 +13,7 @@ type ApiCallT =
     }
   | {
       type: 'fetchPlans'
-      params: { planIds: string[] }
+      params: { userId: string }
     }
   | {
       type: 'fetchUser'

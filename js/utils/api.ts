@@ -29,7 +29,7 @@ export default function api(call: ApiCallT) {
       return () =>
         firestore()
           .collection('plans')
-          .where(firestore.FieldPath.documentId(), 'in', call.params.planIds)
+          .where('users', 'array-contains', call.params.userId)
           .get()
   }
 }

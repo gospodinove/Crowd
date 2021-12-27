@@ -15,7 +15,7 @@ export const loadUserData = async (): Promise<UserT | undefined> => {
       email: userData.email,
       firstName: userData.firstName,
       lastName: userData.lastName,
-      planIds: userData.planIds
+      id: userData.id
     }
   } catch (err) {
     console.log(err)

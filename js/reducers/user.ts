@@ -5,14 +5,14 @@ type StateT = {
   firstName: string | undefined
   lastName: string | undefined
   email: string | undefined
-  planIds: string[]
+  id: string | undefined
 }
 
 const initialState: StateT = {
   firstName: undefined,
   lastName: undefined,
   email: undefined,
-  planIds: []
+  id: undefined
 }
 
 export const userSlice = createSlice({
@@ -33,7 +33,7 @@ export const userSlice = createSlice({
       state.email = action.payload.email
       state.firstName = action.payload.firstName
       state.lastName = action.payload.lastName
-      state.planIds = action.payload.planIds
+      state.id = action.payload.id
     },
     update: (
       state,
@@ -51,7 +51,7 @@ export const userSlice = createSlice({
       state.email = action.payload.email
       state.firstName = action.payload.firstName
       state.lastName = action.payload.lastName
-      state.planIds = action.payload.planIds
+      state.id = action.payload.id
     }
   }
 })
