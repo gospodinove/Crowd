@@ -57,7 +57,16 @@ const PlanItem = (props: PropsT) => {
           <VerticalSeparator type="circle" size={3} spacing={5} color="grey" />
 
           <Text style={{ fontSize: 11, color: 'grey' }}>
-            {formatDate(starDate) + ' - ' + formatDate(endDate)}
+            {formatDate(starDate)}
+          </Text>
+          <VerticalSeparator
+            type="arrow-right"
+            size={11}
+            spacing={2}
+            color="grey"
+          />
+          <Text style={{ fontSize: 11, color: 'grey' }}>
+            {formatDate(endDate)}
           </Text>
         </View>
       </View>
