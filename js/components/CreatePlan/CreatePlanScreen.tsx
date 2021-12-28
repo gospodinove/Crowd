@@ -7,7 +7,7 @@ import DateTimePicker, {
 import firestore from '@react-native-firebase/firestore'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { plansSlice } from '../../reducers/plans'
 import { RootState } from '../../redux/store'
@@ -16,6 +16,7 @@ import { assertNever } from '../../utils/assertNever'
 import { formatDate } from '../../utils/date'
 import { createPlanLoader } from '../../utils/loaders'
 import Button from '../Button'
+import ScrollContainer from '../ScrollContainer'
 import TextInput from '../TextInput'
 import VerticalSeparator from '../VerticalSepartor'
 import ColorSelector from './ColorSelector'
@@ -168,7 +169,7 @@ const CreatePlanScreen = (props: PropsT) => {
 
   return (
     <>
-      <ScrollView keyboardShouldPersistTaps="handled">
+      <ScrollContainer>
         <View
           style={{
             flexDirection: 'row',
@@ -253,7 +254,7 @@ const CreatePlanScreen = (props: PropsT) => {
           }}
           onIconPress={icon => setSelectedIcon(icon)}
         />
-      </ScrollView>
+      </ScrollContainer>
       <Button
         text="Create"
         type="primary"

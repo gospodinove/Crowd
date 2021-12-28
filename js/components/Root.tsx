@@ -1,6 +1,9 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import {
+  createStackNavigator,
+  TransitionPresets
+} from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../reducers/user'
@@ -65,7 +68,13 @@ const Root = (props: ReduxPropsT) => {
     <NavigationContainer>
       <RootStack.Navigator
         initialRouteName="tab"
-        screenOptions={{ presentation: 'modal', headerShown: false }}
+        screenOptions={{
+          presentation: 'modal',
+          headerShown: false,
+          gestureEnabled: true,
+          cardOverlayEnabled: true,
+          ...TransitionPresets.ModalPresentationIOS
+        }}
       >
         <RootStack.Screen name="createPlan" component={CreatePlanScreen} />
         <RootStack.Screen name="tab" component={TabNavigator} />
