@@ -35,6 +35,8 @@ function* onCreate(action: ReturnType<typeof plansSlice.actions.create>) {
 
   try {
     yield call(api({ type: 'createPlan', params: action.payload }))
+
+    yield put(plansSlice.actions.onCreate(action.payload))
   } catch (err) {
     console.log(err)
   } finally {

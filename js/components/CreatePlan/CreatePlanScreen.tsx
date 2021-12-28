@@ -5,11 +5,13 @@ import DateTimePicker, {
   WindowsDatePickerChangeEvent
 } from '@react-native-community/datetimepicker'
 import firestore from '@react-native-firebase/firestore'
+import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { plansSlice } from '../../reducers/plans'
 import { RootState } from '../../redux/store'
+import { ModalScreensParamsT } from '../../types/ModalScreensParams'
 import { assertNever } from '../../utils/assertNever'
 import { formatDate } from '../../utils/date'
 import { createPlanLoader } from '../../utils/loaders'
@@ -31,7 +33,9 @@ const connector = connect(
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type PropsT = ReduxPropsT
+type NavigationPropsT = StackScreenProps<ModalScreensParamsT, 'createPlan'>
+
+type PropsT = ReduxPropsT & NavigationPropsT
 
 const colors = [
   'tomato',
@@ -158,6 +162,8 @@ const CreatePlanScreen = (props: PropsT) => {
       endDate: firestore.Timestamp.fromDate(endDate),
       userIds: [props.userId]
     })
+
+    props.navigation.goBack()
   }
 
   return (
