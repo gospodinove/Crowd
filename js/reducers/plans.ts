@@ -17,15 +17,6 @@ export const plansSlice = createSlice({
     onFetch: (state, action: PayloadAction<PlanT[]>) => {
       state.plans = action.payload
     },
-    create: (
-      _,
-      __: PayloadAction<{
-        icon: string
-        color: string
-        startDate: Date
-        endDate: Date
-        name: string
-      }>
-    ) => {}
+    create: (_, __: PayloadAction<PlanT>) => {}
   }
 })

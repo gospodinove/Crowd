@@ -1,6 +1,7 @@
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import ApiCallT from '../types/ApiCall'
+import { assertNever } from './assertNever'
 
 export default function api(call: ApiCallT) {
   switch (call.type) {
@@ -29,7 +30,11 @@ export default function api(call: ApiCallT) {
       return () =>
         firestore()
           .collection('plans')
-          .where('users', 'array-contains', call.params.userId)
+          .where('userIds', 'array-contains', call.params.userId)
           .get()
+    case 'createPlan':
+      return () => firestore().collection('plans').add(call.params)
+    default:
+      assertNever(call)
   }
 }

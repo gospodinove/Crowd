@@ -1,3 +1,5 @@
+import { PlanT } from './Plan'
+
 type ApiCallT =
   | {
       type: 'signInWithEmailAndPassword'
@@ -18,5 +20,9 @@ type ApiCallT =
   | {
       type: 'fetchUser'
       params: { uid: string }
+    }
+  | {
+      type: 'createPlan'
+      params: PlanT
     }
 export default ApiCallT

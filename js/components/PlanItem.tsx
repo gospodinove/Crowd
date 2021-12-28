@@ -8,9 +8,6 @@ import VerticalSeparator from './VerticalSepartor'
 type PropsT = { data: PlanT }
 
 const PlanItem = (props: PropsT) => {
-  const starDate = new Date(props.data.startDate.seconds * 1000)
-  const endDate = new Date(props.data.endDate.seconds * 1000)
-
   const renderAvatar = () => (
     <View
       style={{
@@ -30,7 +27,7 @@ const PlanItem = (props: PropsT) => {
     <>
       <FontAwesomeIcon icon="user" size={11} color="grey" />
       <Text style={{ fontSize: 11, color: 'grey' }}>
-        {props.data.peopleCount}
+        {props.data.userIds.length}
       </Text>
     </>
   )
@@ -57,7 +54,7 @@ const PlanItem = (props: PropsT) => {
           <VerticalSeparator type="circle" size={3} spacing={5} color="grey" />
 
           <Text style={{ fontSize: 11, color: 'grey' }}>
-            {formatDate(starDate)}
+            {formatDate(props.data.startDate.toDate())}
           </Text>
           <VerticalSeparator
             type="arrow-right"
@@ -66,7 +63,7 @@ const PlanItem = (props: PropsT) => {
             color="grey"
           />
           <Text style={{ fontSize: 11, color: 'grey' }}>
-            {formatDate(endDate)}
+            {formatDate(props.data.endDate.toDate())}
           </Text>
         </View>
       </View>

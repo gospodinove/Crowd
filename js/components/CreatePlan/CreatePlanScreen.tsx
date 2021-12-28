@@ -4,12 +4,15 @@ import DateTimePicker, {
   AndroidEvent,
   WindowsDatePickerChangeEvent
 } from '@react-native-community/datetimepicker'
+import firestore from '@react-native-firebase/firestore'
 import React, { useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { plansSlice } from '../../reducers/plans'
+import { RootState } from '../../redux/store'
 import { assertNever } from '../../utils/assertNever'
 import { formatDate } from '../../utils/date'
+import { createPlanLoader } from '../../utils/loaders'
 import Button from '../Button'
 import TextInput from '../TextInput'
 import VerticalSeparator from '../VerticalSepartor'
@@ -18,7 +21,13 @@ import IconSelector from './IconSelector'
 
 type DatePickerT = 'start-date' | 'end-date'
 
-const connector = connect(null, { createPlan: plansSlice.actions.create })
+const connector = connect(
+  (state: RootState) => ({
+    userId: state.user.id,
+    isLoading: state.loaders.runningLoaders[createPlanLoader]
+  }),
+  { createPlan: plansSlice.actions.create }
+)
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
@@ -135,18 +144,19 @@ const CreatePlanScreen = (props: PropsT) => {
   }
 
   const onCreateButtonPress = () => {
-    // validation
+    // TODO: validation
 
-    if (!startDate || !endDate || !name.length) {
+    if (!startDate || !endDate || !name.length || !props.userId) {
       return
     }
 
     props.createPlan({
       name,
       color: selectedColor,
-      icon: selectedIcon.toString(),
-      startDate,
-      endDate
+      icon: selectedIcon,
+      startDate: firestore.Timestamp.fromDate(startDate),
+      endDate: firestore.Timestamp.fromDate(endDate),
+      userIds: [props.userId]
     })
   }
 
@@ -242,10 +252,12 @@ const CreatePlanScreen = (props: PropsT) => {
         text="Create"
         type="primary"
         size="large"
+        isLoading={props.isLoading}
         style={{ marginHorizontal: 20, marginBottom: 20 }}
+        onPress={onCreateButtonPress}
       />
     </>
   )
 }
 
-export default CreatePlanScreen
+export default connector(CreatePlanScreen)
