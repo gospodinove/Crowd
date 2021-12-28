@@ -22,6 +22,8 @@ function* onFetch() {
 
     const plans = documentSnapshot.docs.map(doc => doc.data())
 
+    plans.sort((p1, p2) => p1.startDate.seconds - p2.startDate.seconds)
+
     yield put(plansSlice.actions.onFetch(plans))
   } catch (err) {
     console.log(err)
