@@ -2,9 +2,9 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
+import { planIcons } from '../../constants/planIcons'
 
 type PropsT = {
-  icons: IconProp[]
   selectedIcon: IconProp
   containerStyle?: ViewStyle
   onIconPress: (icon: IconProp) => void
@@ -20,7 +20,7 @@ const IconSelector = (props: PropsT) => (
       }
     ]}
   >
-    {props.icons.map(i => (
+    {planIcons.map(i => (
       <View
         key={i.toString()}
         style={{

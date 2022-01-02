@@ -10,6 +10,7 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { planColors } from '../../constants/planColors'
+import { planIcons } from '../../constants/planIcons'
 import { plansSlice } from '../../reducers/plans'
 import { RootState } from '../../redux/store'
 import { ModalScreensParamsT } from '../../types/ModalScreensParams'
@@ -39,25 +40,9 @@ type NavigationPropsT = StackScreenProps<ModalScreensParamsT, 'createPlan'>
 
 type PropsT = ReduxPropsT & NavigationPropsT
 
-const icons: IconProp[] = [
-  'users',
-  'user-friends',
-  'layer-group',
-  'plane',
-  'plane-departure',
-  'paper-plane',
-  'globe',
-  'globe-europe',
-  'globe-americas',
-  'globe-africa',
-  'globe-asia',
-  'bus',
-  'car'
-]
-
 const CreatePlanScreen = (props: PropsT) => {
   const [selectedColor, setSelectedColor] = useState<string>(planColors[0])
-  const [selectedIcon, setSelectedIcon] = useState<IconProp>(icons[0])
+  const [selectedIcon, setSelectedIcon] = useState<IconProp>(planIcons[0])
 
   const [name, setName] = useState('')
 
@@ -231,7 +216,6 @@ const CreatePlanScreen = (props: PropsT) => {
         />
 
         <IconSelector
-          icons={icons}
           selectedIcon={selectedIcon}
           containerStyle={{
             paddingHorizontal: 20,
