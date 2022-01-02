@@ -1,8 +1,8 @@
 import React from 'react'
 import { Pressable, ScrollView, View, ViewStyle } from 'react-native'
+import { planColors } from '../../constants/planColors'
 
 type PropsT = {
-  colors: string[]
   selectedColor: string
   containerStyle?: ViewStyle
   onColorPress: (color: string) => void
@@ -14,7 +14,7 @@ const ColorSelector = (props: PropsT) => (
     showsHorizontalScrollIndicator={false}
     contentContainerStyle={props.containerStyle}
   >
-    {props.colors.map(c => (
+    {planColors.map(c => (
       <Pressable key={c} onPress={() => props.onColorPress(c)}>
         <View
           style={{
