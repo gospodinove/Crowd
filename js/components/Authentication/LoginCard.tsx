@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Text } from 'react-native'
-import Button from './Button'
-import Card from './Card'
-import TextInput from './TextInput'
+import Button from '../Button'
+import Card from '../Card'
+import TextInput from '../TextInput'
 
 type PropsT = {
   isLoading: boolean

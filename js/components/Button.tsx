@@ -8,6 +8,7 @@ import {
   TouchableOpacityProps,
   ViewStyle
 } from 'react-native'
+import { assertNever } from '../utils/assertNever'
 
 type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   text: string
@@ -31,6 +32,8 @@ const Button = (props: PropsT) => {
         return 'transparent'
       case 'custom':
         return 'grey'
+      default:
+        assertNever(props.type)
     }
   }
 
@@ -45,6 +48,8 @@ const Button = (props: PropsT) => {
         return 'grey'
       case 'custom':
         return '#000'
+      default:
+        assertNever(props.type)
     }
   }
 
@@ -55,6 +60,34 @@ const Button = (props: PropsT) => {
         return 'small'
       case 'large':
         return 'large'
+      default:
+        assertNever(props.size)
+    }
+  }
+
+  const getFontSize = () => {
+    switch (props.size) {
+      case 'large':
+        return 22
+      case 'medium':
+        return 15
+      case 'small':
+        return 11
+      default:
+        assertNever(props.size)
+    }
+  }
+
+  const getLineHeight = () => {
+    switch (props.size) {
+      case 'large':
+        return 40
+      case 'medium':
+        return 20
+      case 'small':
+        return 15
+      default:
+        assertNever(props.size)
     }
   }
 
@@ -74,7 +107,12 @@ const Button = (props: PropsT) => {
         ) : null}
 
         <Text
-          style={{ lineHeight: 20, color: getTextColor(), textAlign: 'center' }}
+          style={{
+            lineHeight: getLineHeight(),
+            color: getTextColor(),
+            textAlign: 'center',
+            fontSize: getFontSize()
+          }}
         >
           {props.text}
         </Text>

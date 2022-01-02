@@ -1,21 +1,20 @@
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
+import {
+  createStackNavigator,
+  TransitionPresets
+} from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../reducers/user'
-import { TabNavigatorParamsT } from '../types/TabNavigatorParams'
+import { RootStackParamsT } from '../types/RootStackParams'
 import { loadUserData } from '../utils/localData'
-import { getIconForTab } from '../utils/navigator'
-import AuthenticationScreen from './AuthenticationScreen'
-import DashboardTabNavigator from './DashboardTabNavigator'
-import MoreTabNavigator from './MoreTabNavigator'
-import NotificationsTabNavigator from './NotificationsTabNavigator'
-import PlansTabNavigator from './PlansTabNavigator'
+import AuthenticationScreen from './Authentication/AuthenticationScreen'
+import CreatePlanScreen from './CreatePlan/CreatePlanScreen'
 import SplashScreen from './SplashScreen'
+import TabNavigator from './TabNavigator'
 
-const Tab = createBottomTabNavigator<TabNavigatorParamsT>()
+const RootStack = createStackNavigator<RootStackParamsT>()
 
 const connector = connect(null, {
   onLocalUserDataLoaded: userSlice.actions.onLocalDataLoaded
@@ -67,42 +66,19 @@ const Root = (props: ReduxPropsT) => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="dashboardStack"
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesomeIcon
-              icon={getIconForTab(route.name)}
-              size={size}
-              color={color}
-            />
-          ),
-          tabBarActiveTintColor: 'black',
-          tabBarInactiveTintColor: 'gray',
-          headerShown: false
-        })}
+      <RootStack.Navigator
+        initialRouteName="tab"
+        screenOptions={{
+          presentation: 'modal',
+          headerShown: false,
+          gestureEnabled: true,
+          cardOverlayEnabled: true,
+          ...TransitionPresets.ModalPresentationIOS
+        }}
       >
-        <Tab.Screen
-          name="dashboardStack"
-          component={DashboardTabNavigator}
-          options={{ title: 'Dashboard' }}
-        />
-        <Tab.Screen
-          name="plansStack"
-          component={PlansTabNavigator}
-          options={{ title: 'Plans' }}
-        />
-        <Tab.Screen
-          name="notificationsStack"
-          component={NotificationsTabNavigator}
-          options={{ title: 'Notifications' }}
-        />
-        <Tab.Screen
-          name="moreStack"
-          component={MoreTabNavigator}
-          options={{ title: 'More' }}
-        />
-      </Tab.Navigator>
+        <RootStack.Screen name="createPlan" component={CreatePlanScreen} />
+        <RootStack.Screen name="tab" component={TabNavigator} />
+      </RootStack.Navigator>
     </NavigationContainer>
   )
 }

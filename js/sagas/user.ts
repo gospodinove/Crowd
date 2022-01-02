@@ -37,7 +37,7 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
       email: action.payload.email,
       firstName: userData.firstName,
       lastName: userData.lastName,
-      planIds: userData.planIds
+      id: documentSnapshot.id
     }
 
     yield call(storeUserData, user)
@@ -81,7 +81,7 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
       email: action.payload.email,
       firstName: action.payload.firstName,
       lastName: action.payload.lastName,
-      planIds: []
+      id: newUser.user.uid
     }
 
     yield call(storeUserData, user)
