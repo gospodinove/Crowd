@@ -1,6 +1,6 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React, { useCallback, useMemo } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
 import { planIcons } from '../../constants/planIcons'
 
@@ -55,4 +55,4 @@ const IconSelector = (props: PropsT) => (
   </View>
 )
 
-export default IconSelector
+export default memo(IconSelector)

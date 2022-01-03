@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { memo, useEffect, useLayoutEffect, useMemo } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { plansSlice } from '../reducers/plans'
@@ -35,18 +35,23 @@ const PlansScreen = (props: PropsT) => {
   }, [])
 
   useLayoutEffect(() => {
-    props.navigation.setOptions({
-      headerRight: () => (
-        <IconButton
-          iconName="plus"
-          size={32}
-          color="black"
-          onPress={() => {
-            props.navigation.navigate('createPlan')
-          }}
-        />
+    props.navigation.setOptions(
+      useMemo(
+        () => ({
+          headerRight: () => (
+            <IconButton
+              iconName="plus"
+              size={32}
+              color="black"
+              onPress={() => {
+                props.navigation.navigate('createPlan')
+              }}
+            />
+          )
+        }),
+        []
       )
-    })
+    )
   }, [props.navigation])
 
   const maybeFetchPlans = () => {
@@ -68,4 +73,4 @@ const PlansScreen = (props: PropsT) => {
   )
 }
 
-export default connector(PlansScreen)
+export default memo(connector(PlansScreen))

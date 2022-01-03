@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import { PlansTabNavigatorPropsT } from '../types/PlansTabNavigatorProps'
 import PlansScreen from './PlansScreen'
 
@@ -11,10 +11,10 @@ const PlansTabNavigator = () => {
       <Stack.Screen
         name="plans"
         component={PlansScreen}
-        options={{ title: 'Plans' }}
+        options={useMemo(() => ({ title: 'Plans' }), [])}
       />
     </Stack.Navigator>
   )
 }
 
-export default PlansTabNavigator
+export default memo(PlansTabNavigator)

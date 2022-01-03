@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 import { Button, Text, useColorScheme, View } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { connect, ConnectedProps } from 'react-redux'
@@ -18,7 +18,7 @@ type NavigationPropsT = StackScreenProps<DashboardTabNavigatorPropsT, 'user'>
 
 type PropsT = ReduxPropsT & NavigationPropsT
 
-const UserScreen = (props: PropsT) => {
+const DashboardScreen = (props: PropsT) => {
   const isDarkMode = useColorScheme() === 'dark'
 
   const containerStyle = {
@@ -39,4 +39,4 @@ const UserScreen = (props: PropsT) => {
   )
 }
 
-export default connector(UserScreen)
+export default memo(connector(DashboardScreen))

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import { Text, View } from 'react-native'
 import { PlanT } from '../types/Plan'
 import { formatDate } from '../utils/date'
@@ -10,14 +10,17 @@ type PropsT = { data: PlanT }
 const PlanItem = (props: PropsT) => {
   const renderAvatar = () => (
     <View
-      style={{
-        width: 50,
-        height: 50,
-        backgroundColor: props.data.color,
-        borderRadius: 25,
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
+      style={useMemo(
+        () => ({
+          width: 50,
+          height: 50,
+          backgroundColor: props.data.color,
+          borderRadius: 25,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }),
+        [props.data.color]
+      )}
     >
       <FontAwesomeIcon icon={props.data.icon} size={20} color="white" />
     </View>
@@ -26,7 +29,7 @@ const PlanItem = (props: PropsT) => {
   const renderPeopleCount = () => (
     <>
       <FontAwesomeIcon icon="user" size={11} color="grey" />
-      <Text style={{ fontSize: 11, color: 'grey' }}>
+      <Text style={useMemo(() => ({ fontSize: 11, color: 'grey' }), [])}>
         {props.data.userIds.length}
       </Text>
     </>
@@ -34,26 +37,34 @@ const PlanItem = (props: PropsT) => {
 
   return (
     <View
-      style={{
-        flexDirection: 'row',
-        marginHorizontal: 20,
-        paddingVertical: 10,
-        alignItems: 'center'
-      }}
+      style={useMemo(
+        () => ({
+          flexDirection: 'row',
+          marginHorizontal: 20,
+          paddingVertical: 10,
+          alignItems: 'center'
+        }),
+        []
+      )}
     >
       {renderAvatar()}
 
-      <View style={{ marginHorizontal: 5 }}>
-        <Text style={{ fontSize: 18, fontWeight: '600' }}>
+      <View style={useMemo(() => ({ marginHorizontal: 5 }), [])}>
+        <Text style={useMemo(() => ({ fontSize: 18, fontWeight: '600' }), [])}>
           {props.data.name}
         </Text>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View
+          style={useMemo(
+            () => ({ flexDirection: 'row', alignItems: 'center' }),
+            []
+          )}
+        >
           {renderPeopleCount()}
 
           <VerticalSeparator type="circle" size={3} spacing={5} color="grey" />
 
-          <Text style={{ fontSize: 11, color: 'grey' }}>
+          <Text style={useMemo(() => ({ fontSize: 11, color: 'grey' }), [])}>
             {formatDate(props.data.startDate.toDate())}
           </Text>
           <VerticalSeparator
@@ -62,7 +73,7 @@ const PlanItem = (props: PropsT) => {
             spacing={2}
             color="grey"
           />
-          <Text style={{ fontSize: 11, color: 'grey' }}>
+          <Text style={useMemo(() => ({ fontSize: 11, color: 'grey' }), [])}>
             {formatDate(props.data.endDate.toDate())}
           </Text>
         </View>
@@ -71,4 +82,4 @@ const PlanItem = (props: PropsT) => {
   )
 }
 
-export default PlanItem
+export default memo(PlanItem)

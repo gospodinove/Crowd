@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { View, ViewProps } from 'react-native'
 
 type PropsT = ViewProps & {
@@ -25,4 +25,4 @@ const Card = (props: PropsT) => {
   )
 }
 
-export default Card
+export default memo(Card)
