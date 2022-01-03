@@ -6,7 +6,7 @@ import DateTimePicker, {
 } from '@react-native-community/datetimepicker'
 import firestore from '@react-native-firebase/firestore'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { planColors } from '../../constants/planColors'
@@ -142,22 +142,28 @@ const CreatePlanScreen = (props: PropsT) => {
     <>
       <ScrollContainer>
         <View
-          style={{
-            flexDirection: 'row',
-            marginHorizontal: 20,
-            marginTop: 20,
-            alignItems: 'center'
-          }}
+          style={useMemo(
+            () => ({
+              flexDirection: 'row',
+              marginHorizontal: 20,
+              marginTop: 20,
+              alignItems: 'center'
+            }),
+            []
+          )}
         >
           <View
-            style={{
-              width: 70,
-              height: 70,
-              borderRadius: 35,
-              backgroundColor: selectedColor,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
+            style={useMemo(
+              () => ({
+                width: 70,
+                height: 70,
+                borderRadius: 35,
+                backgroundColor: selectedColor,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }),
+              [selectedColor]
+            )}
           >
             <FontAwesomeIcon icon={selectedIcon} size={35} color="black" />
           </View>
@@ -170,10 +176,15 @@ const CreatePlanScreen = (props: PropsT) => {
           >
             <TextInput
               placeholder="Name"
-              style={{ height: 40 }}
-              onChangeText={text => setName(text)}
+              style={useMemo(() => ({ height: 40 }), [])}
+              onChangeText={useCallback(text => setName(text), [])}
             />
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View
+              style={useMemo(
+                () => ({ flexDirection: 'row', alignItems: 'center' }),
+                []
+              )}
+            >
               <Button
                 text={startDate ? formatDate(startDate) : 'Start date'}
                 type="text"
@@ -208,20 +219,26 @@ const CreatePlanScreen = (props: PropsT) => {
 
         <ColorSelector
           selectedColor={selectedColor}
-          containerStyle={{
-            paddingHorizontal: 20,
-            marginTop: 20
-          }}
-          onColorPress={color => setSelectedColor(color)}
+          containerStyle={useMemo(
+            () => ({
+              paddingHorizontal: 20,
+              marginTop: 20
+            }),
+            []
+          )}
+          onColorPress={useCallback(color => setSelectedColor(color), [])}
         />
 
         <IconSelector
           selectedIcon={selectedIcon}
-          containerStyle={{
-            paddingHorizontal: 20,
-            marginTop: 20
-          }}
-          onIconPress={icon => setSelectedIcon(icon)}
+          containerStyle={useMemo(
+            () => ({
+              paddingHorizontal: 20,
+              marginTop: 20
+            }),
+            []
+          )}
+          onIconPress={useCallback(icon => setSelectedIcon(icon), [])}
         />
       </ScrollContainer>
       <Button
@@ -229,11 +246,11 @@ const CreatePlanScreen = (props: PropsT) => {
         type="primary"
         size="large"
         isLoading={props.isLoading}
-        style={{ marginHorizontal: 20, marginBottom: 20 }}
+        style={useMemo(() => ({ marginHorizontal: 20, marginBottom: 20 }), [])}
         onPress={onCreateButtonPress}
       />
     </>
   )
 }
 
-export default connector(CreatePlanScreen)
+export default memo(connector(CreatePlanScreen))
