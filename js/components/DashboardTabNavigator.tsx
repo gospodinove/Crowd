@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
 import UserScreen from './DashboardScreen'
 import EditUserScreen from './EditUserScreen'
@@ -12,15 +12,15 @@ const DashboardTabNavigator = () => {
       <Stack.Screen
         name="user"
         component={UserScreen}
-        options={{ title: 'Dashboard' }}
+        options={useMemo(() => ({ title: 'Dashboard' }), [])}
       />
       <Stack.Screen
         name="edit"
         component={EditUserScreen}
-        options={{ title: 'Edit User' }}
+        options={useMemo(() => ({ title: 'Edit User' }), [])}
       />
     </Stack.Navigator>
   )
 }
 
-export default DashboardTabNavigator
+export default memo(DashboardTabNavigator)

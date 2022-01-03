@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Button, Text, useColorScheme, View } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { connect, ConnectedProps } from 'react-redux'
@@ -31,7 +31,10 @@ const UserScreen = (props: PropsT) => {
       <Text>{'First name: ' + (props.firstName ?? '-')}</Text>
       <Text>{'Last name: ' + (props.lastName ?? '-')}</Text>
       <Text>{'Email: ' + (props.email ?? '-')}</Text>
-      <Button title="Edit" onPress={() => props.navigation.push('edit')} />
+      <Button
+        title="Edit"
+        onPress={useCallback(() => props.navigation.push('edit'), [])}
+      />
     </View>
   )
 }

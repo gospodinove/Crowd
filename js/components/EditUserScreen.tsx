@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { Button, TextInput, useColorScheme, View } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { connect, ConnectedProps } from 'react-redux'
@@ -29,10 +29,13 @@ const CustomTextInput = (props: {
       placeholder={props.placeholder}
       onChangeText={props.onChangeText}
       editable
-      style={{
-        height: 40,
-        borderWidth: 1
-      }}
+      style={useMemo(
+        () => ({
+          height: 40,
+          borderWidth: 1
+        }),
+        []
+      )}
     />
   )
 }
@@ -75,4 +78,4 @@ const EditUserScreen = (props: PropsT) => {
   )
 }
 
-export default connector(EditUserScreen)
+export default memo(connector(EditUserScreen))
