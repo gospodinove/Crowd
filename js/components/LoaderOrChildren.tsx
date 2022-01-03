@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import { ActivityIndicator, View, ViewStyle } from 'react-native'
 
 type PropsT = {
@@ -10,12 +10,17 @@ type PropsT = {
 
 const LoaderOrChildren = (props: PropsT) => {
   return (
-    <View style={[{ flex: 1, justifyContent: 'center' }, props.containerStyle]}>
+    <View
+      style={useMemo(
+        () => [{ flex: 1, justifyContent: 'center' }, props.containerStyle],
+        [props.containerStyle]
+      )}
+    >
       {props.isLoading ? (
         <ActivityIndicator
           animating
           size={props.size}
-          style={{ alignSelf: 'center' }}
+          style={useMemo(() => ({ alignSelf: 'center' }), [])}
         />
       ) : (
         props.children
@@ -24,4 +29,4 @@ const LoaderOrChildren = (props: PropsT) => {
   )
 }
 
-export default LoaderOrChildren
+export default memo(LoaderOrChildren)
