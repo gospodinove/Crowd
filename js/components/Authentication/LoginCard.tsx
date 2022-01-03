@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { Text } from 'react-native'
 import Button from '../Button'
 import Card from '../Card'
@@ -25,13 +25,16 @@ const LoginCard = (props: PropsT) => {
   return (
     <Card>
       <Text
-        style={{
-          textAlign: 'center',
-          fontSize: 20,
-          fontWeight: '600',
-          lineHeight: 30,
-          marginBottom: 10
-        }}
+        style={useMemo(
+          () => ({
+            textAlign: 'center',
+            fontSize: 20,
+            fontWeight: '600',
+            lineHeight: 30,
+            marginBottom: 10
+          }),
+          []
+        )}
       >
         One step away from your Crowds
       </Text>
@@ -40,9 +43,12 @@ const LoginCard = (props: PropsT) => {
         value={email}
         placeholder="Email"
         onChangeText={setEmail}
-        style={{
-          marginBottom: 10
-        }}
+        style={useMemo(
+          () => ({
+            marginBottom: 10
+          }),
+          []
+        )}
       />
       <TextInput
         autoCapitalize="none"
@@ -50,7 +56,12 @@ const LoginCard = (props: PropsT) => {
         placeholder="Password"
         secureTextEntry
         onChangeText={setPassword}
-        style={{ marginBottom: 10 }}
+        style={useMemo(
+          () => ({
+            marginBottom: 10
+          }),
+          []
+        )}
       />
       <Button
         text="Login"
@@ -58,10 +69,15 @@ const LoginCard = (props: PropsT) => {
         type="primary"
         isLoading={props.isLoading}
         onPress={onButtonPress}
-        style={{ marginBottom: 10 }}
+        style={useMemo(
+          () => ({
+            marginBottom: 10
+          }),
+          []
+        )}
       />
     </Card>
   )
 }
 
-export default LoginCard
+export default memo(LoginCard)

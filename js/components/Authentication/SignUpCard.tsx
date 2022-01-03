@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { Text, View } from 'react-native'
 import Button from '../Button'
 import Card from '../Card'
@@ -34,43 +34,55 @@ const SignUpCard = (props: PropsT) => {
   return (
     <Card>
       <Text
-        style={{
-          textAlign: 'center',
-          fontSize: 20,
-          fontWeight: '600',
-          lineHeight: 30,
-          marginBottom: 10
-        }}
+        style={useMemo(
+          () => ({
+            textAlign: 'center',
+            fontSize: 20,
+            fontWeight: '600',
+            lineHeight: 30,
+            marginBottom: 10
+          }),
+          []
+        )}
       >
         One step away from your Crowds
       </Text>
 
       <View
-        style={{
-          flexDirection: 'row'
-        }}
+        style={useMemo(
+          () => ({
+            flexDirection: 'row'
+          }),
+          []
+        )}
       >
         <TextInput
           autoCapitalize="none"
           value={firstName}
           placeholder="First name"
           onChangeText={setFirstName}
-          style={{
-            flex: 1,
-            marginRight: 5,
-            marginBottom: 10
-          }}
+          style={useMemo(
+            () => ({
+              flex: 1,
+              marginRight: 5,
+              marginBottom: 10
+            }),
+            []
+          )}
         />
         <TextInput
           autoCapitalize="none"
           value={lastName}
           placeholder="Last name"
           onChangeText={setLastName}
-          style={{
-            flex: 1,
-            marginLeft: 5,
-            marginBottom: 10
-          }}
+          style={useMemo(
+            () => ({
+              flex: 1,
+              marginLeft: 5,
+              marginBottom: 10
+            }),
+            []
+          )}
         />
       </View>
 
@@ -79,9 +91,12 @@ const SignUpCard = (props: PropsT) => {
         value={email}
         placeholder="Email"
         onChangeText={setEmail}
-        style={{
-          marginBottom: 10
-        }}
+        style={useMemo(
+          () => ({
+            marginBottom: 10
+          }),
+          []
+        )}
       />
       <TextInput
         autoCapitalize="none"
@@ -89,17 +104,27 @@ const SignUpCard = (props: PropsT) => {
         placeholder="Password"
         secureTextEntry
         onChangeText={setPassword}
-        style={{ marginBottom: 10 }}
+        style={useMemo(
+          () => ({
+            marginBottom: 10
+          }),
+          []
+        )}
       />
       <Button
         text="Sign Up"
         size="medium"
         type="primary"
         onPress={onButtonPress}
-        style={{ marginBottom: 10 }}
+        style={useMemo(
+          () => ({
+            marginBottom: 10
+          }),
+          []
+        )}
       />
     </Card>
   )
 }
 
-export default SignUpCard
+export default memo(SignUpCard)

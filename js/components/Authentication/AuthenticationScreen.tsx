@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { memo, useMemo, useRef, useState } from 'react'
 import { Animated, Text, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { connect, ConnectedProps } from 'react-redux'
+import { ConstStyles } from '../../constants/style'
 import { userSlice } from '../../reducers/user'
 import { RootState } from '../../redux/store'
 import { loginLoader, signUpLoader } from '../../utils/loaders'
@@ -82,29 +83,45 @@ const AuthenticationScreen = (props: PropsT) => {
 
   return (
     <Animated.View
-      style={{
-        flex: 1,
-        backgroundColor: animation.interpolate({
-          inputRange: [0, 1],
-          outputRange: ['#fee', '#ffe']
-        })
-      }}
+      style={useMemo(
+        () => ({
+          flex: 1,
+          backgroundColor: animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['#fee', '#ffe']
+          })
+        }),
+        []
+      )}
     >
-      <PagerView ref={pagerViewRef} style={{ flex: 1 }} scrollEnabled={false}>
-        <View key="login" style={{ paddingTop: 150, paddingHorizontal: 20 }}>
+      <PagerView
+        ref={pagerViewRef}
+        style={ConstStyles.flex1}
+        scrollEnabled={false}
+      >
+        <View
+          key="login"
+          style={useMemo(
+            () => ({ paddingTop: 150, paddingHorizontal: 20 }),
+            []
+          )}
+        >
           <LoginCard
             isLoading={props.isLoginLoading}
             onButtonPress={onLoginPress}
           />
           <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginVertical: 10
-            }}
+            style={useMemo(
+              () => ({
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginVertical: 10
+              }),
+              []
+            )}
           >
-            <Text style={{ textAlign: 'center' }}>
+            <Text style={useMemo(() => ({ textAlign: 'center' }), [])}>
               You do not have an account?
             </Text>
             <Button
@@ -116,17 +133,26 @@ const AuthenticationScreen = (props: PropsT) => {
             />
           </View>
         </View>
-        <View key="signUp" style={{ paddingTop: 150, paddingHorizontal: 20 }}>
+        <View
+          key="signUp"
+          style={useMemo(
+            () => ({ paddingTop: 150, paddingHorizontal: 20 }),
+            []
+          )}
+        >
           <SignUpCard
             isLoading={props.isSignUpLoading}
             onButtonPress={onSignUpPress}
           />
           <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: 10
-            }}
+            style={useMemo(
+              () => ({
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 10
+              }),
+              []
+            )}
           >
             <Button
               text="Login"
@@ -135,7 +161,12 @@ const AuthenticationScreen = (props: PropsT) => {
               leftIcon="chevron-left"
               onPress={switchMode}
             />
-            <Text style={{ textAlign: 'center', marginLeft: 10 }}>
+            <Text
+              style={useMemo(
+                () => ({ textAlign: 'center', marginLeft: 10 }),
+                []
+              )}
+            >
               You already have an account?
             </Text>
           </View>
@@ -145,4 +176,4 @@ const AuthenticationScreen = (props: PropsT) => {
   )
 }
 
-export default connector(AuthenticationScreen)
+export default memo(connector(AuthenticationScreen))
