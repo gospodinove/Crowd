@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { ScrollView, ScrollViewProps } from 'react-native'
 
 type PropsT = Omit<
@@ -14,12 +14,15 @@ const ScrollContainer = (props: PropsT) => {
     <ScrollView
       keyboardShouldPersistTaps="handled"
       scrollEnabled={scrollContentHeight > scrollViewHeight}
-      onContentSizeChange={(_, h) => setScrollContentHeight(h)}
-      onLayout={event => setScrollViewHeight(event.nativeEvent.layout.height)}
+      onContentSizeChange={useCallback((_, h) => setScrollContentHeight(h), [])}
+      onLayout={useCallback(
+        event => setScrollViewHeight(event.nativeEvent.layout.height),
+        []
+      )}
     >
       {props.children}
     </ScrollView>
   )
 }
 
-export default ScrollContainer
+export default memo(ScrollContainer)
