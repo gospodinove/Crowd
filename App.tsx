@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Provider } from 'react-redux'
 import Root from './js/components/Root'
 import store from './js/redux/store'
@@ -11,4 +11,4 @@ const App = () => {
   )
 }
 
-export default App
+export default memo(App)
