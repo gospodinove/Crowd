@@ -38,7 +38,7 @@ const AuthenticationScreen = (props: PropsT) => {
   const pagerViewRef = useRef(React.createRef<PagerView>()).current
 
   const onLoginPress = useCallback(
-    () => (email: string, password: string) => {
+    (email: string, password: string) => {
       if (!email || !password) {
         return
       }
@@ -49,19 +49,13 @@ const AuthenticationScreen = (props: PropsT) => {
   )
 
   const onSignUpPress = useCallback(
-    () =>
-      (
-        firstName: string,
-        lastName: string,
-        email: string,
-        password: string
-      ) => {
-        if (!email || !password || !firstName || !lastName) {
-          return
-        }
+    (firstName: string, lastName: string, email: string, password: string) => {
+      if (!email || !password || !firstName || !lastName) {
+        return
+      }
 
-        props.onSignUpPress({ firstName, lastName, email, password })
-      },
+      props.onSignUpPress({ firstName, lastName, email, password })
+    },
     [props.onSignUpPress]
   )
 
