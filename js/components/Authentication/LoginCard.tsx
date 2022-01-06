@@ -3,7 +3,7 @@ import { Text } from 'react-native'
 import Button from '../Button'
 import Card from '../Card'
 import TextInput from '../TextInput'
-import { styles } from './LoginCard.styles'
+import { loginCardStyles } from './LoginCard.styles'
 
 type PropsT = {
   isLoading: boolean
@@ -25,13 +25,13 @@ const LoginCard = (props: PropsT) => {
 
   return (
     <Card>
-      <Text style={styles.title}>One step away from your Crowds</Text>
+      <Text style={loginCardStyles.title}>One step away from your Crowds</Text>
       <TextInput
         autoCapitalize="none"
         value={email}
         placeholder="Email"
         onChangeText={setEmail}
-        style={styles.marginBottom}
+        style={loginCardStyles.marginBottom}
       />
       <TextInput
         autoCapitalize="none"
@@ -39,7 +39,7 @@ const LoginCard = (props: PropsT) => {
         placeholder="Password"
         secureTextEntry
         onChangeText={setPassword}
-        style={styles.marginBottom}
+        style={loginCardStyles.marginBottom}
       />
       <Button
         text="Login"
@@ -47,7 +47,7 @@ const LoginCard = (props: PropsT) => {
         type="primary"
         isLoading={props.isLoading}
         onPress={onButtonPress}
-        style={styles.marginBottom}
+        style={loginCardStyles.marginBottom}
       />
     </Card>
   )

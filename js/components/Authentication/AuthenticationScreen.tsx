@@ -7,7 +7,7 @@ import { userSlice } from '../../reducers/user'
 import { RootState } from '../../redux/store'
 import { loginLoader, signUpLoader } from '../../utils/loaders'
 import Button from '../Button'
-import { styles } from './AuthenticationScreen.styles'
+import { authStyles } from './AuthenticationScreen.styles'
 import LoginCard from './LoginCard'
 import SignUpCard from './SignUpCard'
 
@@ -101,13 +101,13 @@ const AuthenticationScreen = (props: PropsT) => {
         style={ConstStyles.flex1}
         scrollEnabled={false}
       >
-        <View key="login" style={styles.cardContainer}>
+        <View key="login" style={authStyles.cardContainer}>
           <LoginCard
             isLoading={props.isLoginLoading}
             onButtonPress={onLoginPress}
           />
-          <View style={styles.cardFooterContainer}>
-            <Text style={styles.loginCardFooterText}>
+          <View style={authStyles.cardFooterContainer}>
+            <Text style={authStyles.loginCardFooterText}>
               You do not have an account?
             </Text>
             <Button
@@ -119,12 +119,12 @@ const AuthenticationScreen = (props: PropsT) => {
             />
           </View>
         </View>
-        <View key="signUp" style={styles.cardContainer}>
+        <View key="signUp" style={authStyles.cardContainer}>
           <SignUpCard
             isLoading={props.isSignUpLoading}
             onButtonPress={onSignUpPress}
           />
-          <View style={styles.cardFooterContainer}>
+          <View style={authStyles.cardFooterContainer}>
             <Button
               text="Login"
               size="small"
@@ -132,7 +132,7 @@ const AuthenticationScreen = (props: PropsT) => {
               leftIcon="chevron-left"
               onPress={switchMode}
             />
-            <Text style={styles.signUpCardFooterText}>
+            <Text style={authStyles.signUpCardFooterText}>
               You already have an account?
             </Text>
           </View>

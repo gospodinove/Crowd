@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export const styles = StyleSheet.create({
+export const authStyles = StyleSheet.create({
   cardContainer: { paddingTop: 150, paddingHorizontal: 20 },
   cardFooterContainer: {
     flexDirection: 'row',

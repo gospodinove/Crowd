@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export const styles = StyleSheet.create({
+export const loginCardStyles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: 20,

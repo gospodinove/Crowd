@@ -3,7 +3,7 @@ import { Text, View } from 'react-native'
 import Button from '../Button'
 import Card from '../Card'
 import TextInput from '../TextInput'
-import { styles } from './SignUpCard.styles'
+import { signUpCardStyles } from './SignUpCard.styles'
 
 type PropsT = {
   isLoading: boolean
@@ -34,22 +34,22 @@ const SignUpCard = (props: PropsT) => {
 
   return (
     <Card>
-      <Text style={styles.title}>One step away from your Crowds</Text>
+      <Text style={signUpCardStyles.title}>One step away from your Crowds</Text>
 
-      <View style={styles.namesRowContainer}>
+      <View style={signUpCardStyles.namesRowContainer}>
         <TextInput
           autoCapitalize="none"
           value={firstName}
           placeholder="First name"
           onChangeText={setFirstName}
-          style={styles.halfWidthInput}
+          style={signUpCardStyles.halfWidthInput}
         />
         <TextInput
           autoCapitalize="none"
           value={lastName}
           placeholder="Last name"
           onChangeText={setLastName}
-          style={styles.halfWidthInput}
+          style={signUpCardStyles.halfWidthInput}
         />
       </View>
 
@@ -58,7 +58,7 @@ const SignUpCard = (props: PropsT) => {
         value={email}
         placeholder="Email"
         onChangeText={setEmail}
-        style={styles.marginBottom}
+        style={signUpCardStyles.marginBottom}
       />
       <TextInput
         autoCapitalize="none"
@@ -66,14 +66,14 @@ const SignUpCard = (props: PropsT) => {
         placeholder="Password"
         secureTextEntry
         onChangeText={setPassword}
-        style={styles.marginBottom}
+        style={signUpCardStyles.marginBottom}
       />
       <Button
         text="Sign Up"
         size="medium"
         type="primary"
         onPress={onButtonPress}
-        style={styles.marginBottom}
+        style={signUpCardStyles.marginBottom}
       />
     </Card>
   )
