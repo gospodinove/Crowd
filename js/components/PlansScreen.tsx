@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useEffect, useLayoutEffect, useMemo } from 'react'
+import React, { memo, useEffect, useLayoutEffect } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { plansSlice } from '../reducers/plans'
@@ -9,8 +9,8 @@ import { PlanT } from '../types/Plan'
 import { PlansTabNavigatorPropsT } from '../types/PlansTabNavigatorProps'
 import { plansLoader } from '../utils/loaders'
 import IconButton from './IconButton'
-import LoaderOrChildren from './LoaderOrChildren'
 import PlanItem from './PlanItem'
+import ScreenWithLoader from './ScreenWithLoader'
 
 type NavigationPropsT = StackScreenProps<
   PlansTabNavigatorPropsT & ModalScreensParamsT,
@@ -35,23 +35,18 @@ const PlansScreen = (props: PropsT) => {
   }, [])
 
   useLayoutEffect(() => {
-    props.navigation.setOptions(
-      useMemo(
-        () => ({
-          headerRight: () => (
-            <IconButton
-              iconName="plus"
-              size={32}
-              color="black"
-              onPress={() => {
-                props.navigation.navigate('createPlan')
-              }}
-            />
-          )
-        }),
-        []
+    props.navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          iconName="plus"
+          size={32}
+          color="black"
+          onPress={() => {
+            props.navigation.navigate('createPlan')
+          }}
+        />
       )
-    )
+    })
   }, [props.navigation])
 
   const maybeFetchPlans = () => {
@@ -67,9 +62,9 @@ const PlansScreen = (props: PropsT) => {
   )
 
   return (
-    <LoaderOrChildren isLoading={props.isLoading} size="large">
+    <ScreenWithLoader isLoading={props.isLoading} size="large">
       <FlatList<PlanT> data={props.plans} renderItem={renderItem} />
-    </LoaderOrChildren>
+    </ScreenWithLoader>
   )
 }
 
