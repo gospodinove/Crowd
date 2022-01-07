@@ -29,12 +29,14 @@ export const userSlice = createSlice({
         password: string
       }>
     ) => {},
-    storeUser: (state, action: PayloadAction<UserT>) => {
+    setUserData: (state, action: PayloadAction<UserT>) => {
       state.email = action.payload.email
       state.firstName = action.payload.firstName
       state.lastName = action.payload.lastName
       state.id = action.payload.id
     },
+    loadUserData: (_, __: PayloadAction<string>) => {},
+    storeUserLocally: () => {},
     update: (
       state,
       action: PayloadAction<{
@@ -46,12 +48,6 @@ export const userSlice = createSlice({
       state.email = action.payload.email
       state.firstName = action.payload.firstName
       state.lastName = action.payload.lastName
-    },
-    onLocalDataLoaded: (state, action: PayloadAction<UserT>) => {
-      state.email = action.payload.email
-      state.firstName = action.payload.firstName
-      state.lastName = action.payload.lastName
-      state.id = action.payload.id
     }
   }
 })
