@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useEffect, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { plansSlice } from '../reducers/plans'
@@ -29,6 +29,10 @@ type ReduxPropsT = ConnectedProps<typeof connector>
 
 type PropsT = NavigationPropsT & ReduxPropsT
 
+const renderItem = (item: ListRenderItemInfo<PlanT>) => (
+  <PlanItem data={item.item} />
+)
+
 const PlansScreen = (props: PropsT) => {
   useEffect(() => {
     maybeFetchPlans()
@@ -49,17 +53,13 @@ const PlansScreen = (props: PropsT) => {
     })
   }, [props.navigation])
 
-  const maybeFetchPlans = () => {
+  const maybeFetchPlans = useCallback(() => {
     if (props.plans.length) {
       return
     }
 
     props.fetchPlans()
-  }
-
-  const renderItem = (item: ListRenderItemInfo<PlanT>) => (
-    <PlanItem data={item.item} />
-  )
+  }, [props.fetchPlans])
 
   return (
     <ScreenWithLoader isLoading={props.isLoading} size="large">

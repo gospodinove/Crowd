@@ -6,6 +6,7 @@ type PropsT = Omit<
   'onContentSizeChange' | 'scrollEnabled' | 'keyboardShouldPersistTaps'
 > & { children: (JSX.Element | null)[] }
 
+// Scroll view that doesn't scroll unless its content goes out of its bounds
 const ScrollContainer = (props: PropsT) => {
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const [scrollViewHeight, setScrollViewHeight] = useState(0)

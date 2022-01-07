@@ -33,7 +33,10 @@ const DashboardScreen = (props: PropsT) => {
       <Text>{'Email: ' + (props.email ?? '-')}</Text>
       <Button
         title="Edit"
-        onPress={useCallback(() => props.navigation.push('edit'), [])}
+        onPress={useCallback(
+          () => props.navigation.push('edit'),
+          [props.navigation]
+        )}
       />
     </View>
   )
