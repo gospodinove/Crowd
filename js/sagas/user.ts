@@ -162,11 +162,21 @@ function* onStoreUserLocally() {
   }
 }
 
+function* onLogout() {
+  try {
+    yield call(api({ type: 'logout', params: undefined }))
+    yield put(userSlice.actions.onLogout())
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export default function* userSaga() {
   yield all([
     takeLatest(userSlice.actions.signUp, onSignUp),
     takeLatest(userSlice.actions.login, onLogin),
     takeLatest(userSlice.actions.loadUserData, onLoadUserData),
-    takeLatest(userSlice.actions.storeUserLocally, onStoreUserLocally)
+    takeLatest(userSlice.actions.storeUserLocally, onStoreUserLocally),
+    takeLatest(userSlice.actions.logout, onLogout)
   ])
 }

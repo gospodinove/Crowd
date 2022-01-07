@@ -27,6 +27,11 @@ export const userSlice = createSlice({
       state.data = action.payload
     },
     loadUserData: (_, __: PayloadAction<string>) => {},
-    storeUserLocally: () => {}
+    storeUserLocally: () => {},
+    logout: () => {},
+    onLogout: state => {
+      // clear user specific data
+      state.data = undefined
+    }
   }
 })

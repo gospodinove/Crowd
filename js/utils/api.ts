@@ -34,6 +34,8 @@ export default function api(call: ApiCallT) {
           .get()
     case 'createPlan':
       return () => firestore().collection('plans').add(call.params)
+    case 'logout':
+      return () => auth().signOut()
     default:
       assertNever(call)
   }

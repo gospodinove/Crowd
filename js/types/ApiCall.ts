@@ -30,4 +30,5 @@ type ApiCallT =
       type: 'createPlan'
       params: PlanT
     }
+  | { type: 'logout'; params: undefined }
 export default ApiCallT
