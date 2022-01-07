@@ -7,9 +7,7 @@ import { RootState } from '../redux/store'
 import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
 
 const connector = connect((state: RootState) => ({
-  firstName: state.user.firstName,
-  lastName: state.user.lastName,
-  email: state.user.email
+  user: state.user.data
 }))
 
 type ReduxPropsT = ConnectedProps<typeof connector>
@@ -28,9 +26,9 @@ const DashboardScreen = (props: PropsT) => {
 
   return (
     <View style={containerStyle}>
-      <Text>{'First name: ' + (props.firstName ?? '-')}</Text>
-      <Text>{'Last name: ' + (props.lastName ?? '-')}</Text>
-      <Text>{'Email: ' + (props.email ?? '-')}</Text>
+      <Text>{'First name: ' + (props.user?.firstName ?? '-')}</Text>
+      <Text>{'Last name: ' + (props.user?.lastName ?? '-')}</Text>
+      <Text>{'Email: ' + (props.user?.email ?? '-')}</Text>
       <Button
         title="Edit"
         onPress={useCallback(

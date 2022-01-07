@@ -11,7 +11,9 @@ function* onFetch() {
   yield put(loadersSlice.actions.startLoader(plansLoader))
 
   try {
-    const userId: string = yield select((state: RootState) => state.user.id)
+    const userId: string = yield select(
+      (state: RootState) => state.user.data?.id
+    )
 
     if (!userId) {
       throw new Error('[onFetchPlanIds] - No user id')

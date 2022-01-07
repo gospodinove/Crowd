@@ -150,12 +150,7 @@ function* onLoadUserData(
 
 function* onStoreUserLocally() {
   try {
-    const userData: UserT = yield select((state: RootState) => ({
-      email: state.user.email,
-      firstName: state.user.firstName,
-      lastName: state.user.lastName,
-      id: state.user.id
-    }))
+    const userData: UserT = yield select((state: RootState) => state.user.data)
 
     if (!userData) {
       return

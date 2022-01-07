@@ -18,7 +18,7 @@ import TabNavigator from './TabNavigator'
 const RootStack = createStackNavigator<RootStackParamsT>()
 
 const connector = connect(
-  (state: RootState) => ({ isUserDataLoaded: state.user.id !== undefined }),
+  (state: RootState) => ({ isUserDataLoaded: state.user.data !== undefined }),
   {
     loadUserData: userSlice.actions.loadUserData
   }

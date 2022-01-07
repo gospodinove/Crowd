@@ -2,17 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserT } from '../types/User'
 
 type StateT = {
-  firstName: string | undefined
-  lastName: string | undefined
-  email: string | undefined
-  id: string | undefined
+  data: UserT | undefined
 }
 
 const initialState: StateT = {
-  firstName: undefined,
-  lastName: undefined,
-  email: undefined,
-  id: undefined
+  data: undefined
 }
 
 export const userSlice = createSlice({
@@ -30,24 +24,9 @@ export const userSlice = createSlice({
       }>
     ) => {},
     setUserData: (state, action: PayloadAction<UserT>) => {
-      state.email = action.payload.email
-      state.firstName = action.payload.firstName
-      state.lastName = action.payload.lastName
-      state.id = action.payload.id
+      state.data = action.payload
     },
     loadUserData: (_, __: PayloadAction<string>) => {},
-    storeUserLocally: () => {},
-    update: (
-      state,
-      action: PayloadAction<{
-        firstName: string | undefined
-        lastName: string | undefined
-        email: string | undefined
-      }>
-    ) => {
-      state.email = action.payload.email
-      state.firstName = action.payload.firstName
-      state.lastName = action.payload.lastName
-    }
+    storeUserLocally: () => {}
   }
 })
