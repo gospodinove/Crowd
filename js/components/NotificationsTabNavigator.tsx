@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import { NotificationsTabNavigatorPropsT } from '../types/NotificationsTabNavigatorProps'
 import NotificationsScreen from './NotificationsScreen'
 
@@ -11,10 +11,10 @@ const NotificationsTabNavigator = () => {
       <Stack.Screen
         name="notifications"
         component={NotificationsScreen}
-        options={{ title: 'Notifications' }}
+        options={useMemo(() => ({ title: 'Notifications' }), [])}
       />
     </Stack.Navigator>
   )
 }
 
-export default NotificationsTabNavigator
+export default memo(NotificationsTabNavigator)

@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { plansSlice } from '../reducers/plans'
@@ -9,8 +9,8 @@ import { PlanT } from '../types/Plan'
 import { PlansTabNavigatorPropsT } from '../types/PlansTabNavigatorProps'
 import { plansLoader } from '../utils/loaders'
 import IconButton from './IconButton'
-import LoaderOrChildren from './LoaderOrChildren'
 import PlanItem from './PlanItem'
+import ScreenWithLoader from './ScreenWithLoader'
 
 type NavigationPropsT = StackScreenProps<
   PlansTabNavigatorPropsT & ModalScreensParamsT,
@@ -28,6 +28,10 @@ const connector = connect(
 type ReduxPropsT = ConnectedProps<typeof connector>
 
 type PropsT = NavigationPropsT & ReduxPropsT
+
+const renderItem = (item: ListRenderItemInfo<PlanT>) => (
+  <PlanItem data={item.item} />
+)
 
 const PlansScreen = (props: PropsT) => {
   useEffect(() => {
@@ -49,23 +53,19 @@ const PlansScreen = (props: PropsT) => {
     })
   }, [props.navigation])
 
-  const maybeFetchPlans = () => {
+  const maybeFetchPlans = useCallback(() => {
     if (props.plans.length) {
       return
     }
 
     props.fetchPlans()
-  }
-
-  const renderItem = (item: ListRenderItemInfo<PlanT>) => (
-    <PlanItem data={item.item} />
-  )
+  }, [props.fetchPlans])
 
   return (
-    <LoaderOrChildren isLoading={props.isLoading} size="large">
+    <ScreenWithLoader isLoading={props.isLoading} size="large">
       <FlatList<PlanT> data={props.plans} renderItem={renderItem} />
-    </LoaderOrChildren>
+    </ScreenWithLoader>
   )
 }
 
-export default connector(PlansScreen)
+export default memo(connector(PlansScreen))

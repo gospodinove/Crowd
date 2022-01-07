@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { Text, View } from 'react-native'
 import Button from '../Button'
 import Card from '../Card'
 import TextInput from '../TextInput'
+import { signUpCardStyles } from './SignUpCard.styles'
 
 type PropsT = {
   isLoading: boolean
@@ -27,50 +28,28 @@ const SignUpCard = (props: PropsT) => {
   const [email, setEmail] = useState<StateT['email']>('')
   const [password, setPassword] = useState<StateT['password']>('')
 
-  const onButtonPress = () => {
+  const onButtonPress = useCallback(() => {
     props.onButtonPress(firstName, lastName, email, password)
-  }
+  }, [props.onButtonPress, firstName, lastName, email, password])
 
   return (
     <Card>
-      <Text
-        style={{
-          textAlign: 'center',
-          fontSize: 20,
-          fontWeight: '600',
-          lineHeight: 30,
-          marginBottom: 10
-        }}
-      >
-        One step away from your Crowds
-      </Text>
+      <Text style={signUpCardStyles.title}>One step away from your Crowds</Text>
 
-      <View
-        style={{
-          flexDirection: 'row'
-        }}
-      >
+      <View style={signUpCardStyles.namesRowContainer}>
         <TextInput
           autoCapitalize="none"
           value={firstName}
           placeholder="First name"
           onChangeText={setFirstName}
-          style={{
-            flex: 1,
-            marginRight: 5,
-            marginBottom: 10
-          }}
+          style={signUpCardStyles.halfWidthInput}
         />
         <TextInput
           autoCapitalize="none"
           value={lastName}
           placeholder="Last name"
           onChangeText={setLastName}
-          style={{
-            flex: 1,
-            marginLeft: 5,
-            marginBottom: 10
-          }}
+          style={signUpCardStyles.halfWidthInput}
         />
       </View>
 
@@ -79,9 +58,7 @@ const SignUpCard = (props: PropsT) => {
         value={email}
         placeholder="Email"
         onChangeText={setEmail}
-        style={{
-          marginBottom: 10
-        }}
+        style={signUpCardStyles.marginBottom}
       />
       <TextInput
         autoCapitalize="none"
@@ -89,17 +66,17 @@ const SignUpCard = (props: PropsT) => {
         placeholder="Password"
         secureTextEntry
         onChangeText={setPassword}
-        style={{ marginBottom: 10 }}
+        style={signUpCardStyles.marginBottom}
       />
       <Button
         text="Sign Up"
         size="medium"
         type="primary"
         onPress={onButtonPress}
-        style={{ marginBottom: 10 }}
+        style={signUpCardStyles.marginBottom}
       />
     </Card>
   )
 }
 
-export default SignUpCard
+export default memo(SignUpCard)

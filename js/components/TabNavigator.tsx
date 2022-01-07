@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import { TabNavigatorParamsT } from '../types/TabNavigatorParams'
 import { getIconForTab } from '../utils/navigator'
 import DashboardTabNavigator from './DashboardTabNavigator'
@@ -13,40 +13,44 @@ const Tab = createBottomTabNavigator<TabNavigatorParamsT>()
 const TabNavigator = () => (
   <Tab.Navigator
     initialRouteName="dashboardStack"
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ color, size }) => (
-        <FontAwesomeIcon
-          icon={getIconForTab(route.name)}
-          size={size}
-          color={color}
-        />
-      ),
-      tabBarActiveTintColor: 'black',
-      tabBarInactiveTintColor: 'gray',
-      headerShown: false
-    })}
+    screenOptions={useMemo(
+      () =>
+        ({ route }) => ({
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesomeIcon
+              icon={getIconForTab(route.name)}
+              size={size}
+              color={color}
+            />
+          ),
+          tabBarActiveTintColor: 'black',
+          tabBarInactiveTintColor: 'gray',
+          headerShown: false
+        }),
+      []
+    )}
   >
     <Tab.Screen
       name="dashboardStack"
       component={DashboardTabNavigator}
-      options={{ title: 'Dashboard' }}
+      options={useMemo(() => ({ title: 'Dashboard' }), [])}
     />
     <Tab.Screen
       name="plansStack"
       component={PlansTabNavigator}
-      options={{ title: 'Plans' }}
+      options={useMemo(() => ({ title: 'Plans' }), [])}
     />
     <Tab.Screen
       name="notificationsStack"
       component={NotificationsTabNavigator}
-      options={{ title: 'Notifications' }}
+      options={useMemo(() => ({ title: 'Notifications' }), [])}
     />
     <Tab.Screen
       name="moreStack"
       component={MoreTabNavigator}
-      options={{ title: 'More' }}
+      options={useMemo(() => ({ title: 'More' }), [])}
     />
   </Tab.Navigator>
 )
 
-export default TabNavigator
+export default memo(TabNavigator)

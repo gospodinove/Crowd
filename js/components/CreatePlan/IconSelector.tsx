@@ -1,6 +1,6 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
 import { planIcons } from '../../constants/planIcons'
 
@@ -12,32 +12,41 @@ type PropsT = {
 
 const IconSelector = (props: PropsT) => (
   <View
-    style={[
-      props.containerStyle,
-      {
-        flexWrap: 'wrap',
-        flexDirection: 'row'
-      }
-    ]}
+    style={useMemo(
+      () => [
+        props.containerStyle,
+        {
+          flexWrap: 'wrap',
+          flexDirection: 'row'
+        }
+      ],
+      [props.containerStyle]
+    )}
   >
     {planIcons.map(i => (
       <View
         key={i.toString()}
-        style={{
-          flexBasis: '20%',
-          alignItems: 'center'
-        }}
+        style={useMemo(
+          () => ({
+            flexBasis: '20%',
+            alignItems: 'center'
+          }),
+          []
+        )}
       >
         <Pressable
-          style={{
-            width: 70,
-            height: 70,
-            borderRadius: 35,
-            backgroundColor: i == props.selectedIcon ? '#ddd' : undefined,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-          onPress={() => props.onIconPress(i)}
+          style={useMemo(
+            () => ({
+              width: 70,
+              height: 70,
+              borderRadius: 35,
+              backgroundColor: i == props.selectedIcon ? '#ddd' : undefined,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }),
+            [props.selectedIcon, i]
+          )}
+          onPress={useCallback(() => props.onIconPress(i), [i])}
         >
           <FontAwesomeIcon icon={i} size={30} color="black" />
         </Pressable>
@@ -46,4 +55,4 @@ const IconSelector = (props: PropsT) => (
   </View>
 )
 
-export default IconSelector
+export default memo(IconSelector)

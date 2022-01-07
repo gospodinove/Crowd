@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import { Text, View } from 'react-native'
 import { assertNever } from '../utils/assertNever'
 
@@ -21,17 +21,25 @@ type PropsT = { color: string; spacing: number } & (
 
 const renderCircle = (size: number, color: string) => (
   <View
-    style={{
-      width: size,
-      height: size,
-      backgroundColor: color,
-      borderRadius: size
-    }}
+    style={useMemo(
+      () => ({
+        width: size,
+        height: size,
+        backgroundColor: color,
+        borderRadius: size
+      }),
+      [size, color]
+    )}
   />
 )
 
 const renderLine = (width: number, color: string) => (
-  <View style={{ height: '100%', width, backgroundColor: color }} />
+  <View
+    style={useMemo(
+      () => ({ height: '100%', width, backgroundColor: color }),
+      [width, color]
+    )}
+  />
 )
 
 const getCharater = (characterType: CharacterSeparatorsT) => {
@@ -52,7 +60,11 @@ const renderCharacter = (
   characterType: CharacterSeparatorsT,
   size: number,
   color: string
-) => <Text style={{ fontSize: size, color }}>{getCharater(characterType)}</Text>
+) => (
+  <Text style={useMemo(() => ({ fontSize: size, color }), [size, color])}>
+    {getCharater(characterType)}
+  </Text>
+)
 
 const VerticalSeparator = (props: PropsT) => {
   const renderSeparator = () => {
@@ -72,8 +84,15 @@ const VerticalSeparator = (props: PropsT) => {
   }
 
   return (
-    <View style={{ marginHorizontal: props.spacing }}>{renderSeparator()}</View>
+    <View
+      style={useMemo(
+        () => ({ marginHorizontal: props.spacing }),
+        [props.spacing]
+      )}
+    >
+      {renderSeparator()}
+    </View>
   )
 }
 
-export default VerticalSeparator
+export default memo(VerticalSeparator)

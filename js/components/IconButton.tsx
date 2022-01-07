@@ -1,6 +1,6 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import { Pressable } from 'react-native'
 
 type PropsT = {
@@ -14,7 +14,10 @@ const Padding = 5
 
 const IconButton = (props: PropsT) => {
   return (
-    <Pressable onPress={props.onPress} style={{ padding: Padding }}>
+    <Pressable
+      onPress={props.onPress}
+      style={useMemo(() => ({ padding: Padding }), [Padding])}
+    >
       <FontAwesomeIcon
         icon={props.iconName}
         size={props.size - 2 * Padding}
@@ -24,4 +27,4 @@ const IconButton = (props: PropsT) => {
   )
 }
 
-export default IconButton
+export default memo(IconButton)

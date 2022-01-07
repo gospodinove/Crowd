@@ -1,6 +1,6 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import {
   ActivityIndicator,
   Text,
@@ -9,6 +9,7 @@ import {
   ViewStyle
 } from 'react-native'
 import { assertNever } from '../utils/assertNever'
+import { buttonStyles } from './Button.styles'
 
 type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   text: string
@@ -102,52 +103,52 @@ const Button = (props: PropsT) => {
           <FontAwesomeIcon
             icon={props.leftIcon}
             color={getTextColor()}
-            style={{ marginRight: 5 }}
+            style={style.leftIcon}
           />
         ) : null}
 
-        <Text
-          style={{
-            lineHeight: getLineHeight(),
-            color: getTextColor(),
-            textAlign: 'center',
-            fontSize: getFontSize()
-          }}
-        >
-          {props.text}
-        </Text>
+        <Text style={style.text}>{props.text}</Text>
 
         {props.rightIcon ? (
           <FontAwesomeIcon
             icon={props.rightIcon}
             color={getTextColor()}
-            style={{ marginLeft: 5 }}
+            style={style.rightIcon}
           />
         ) : null}
       </>
     )
   }
 
-  return (
-    <TouchableOpacity
-      {...props}
-      style={[
-        props.style,
-        {
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: getBackgroundColor(),
+  const lineHeight = getLineHeight()
+  const textColor = getTextColor()
+  const fontSize = getFontSize()
+  const backgroundColor = getBackgroundColor()
+
+  const style = useMemo(
+    () =>
+      buttonStyles({
+        text: {
+          lineHeight,
+          color: textColor,
+          fontSize
+        },
+        container: {
+          ...props.style,
+          backgroundColor,
           paddingVertical: props.type !== 'text' ? 10 : 0,
           paddingHorizontal: props.type !== 'text' ? 10 : 0,
           borderRadius: props.type === 'rounded' ? 100 : 10
         }
-      ]}
-      activeOpacity={0.6}
-    >
+      }),
+    [lineHeight, textColor, fontSize, backgroundColor, props.style, props.type]
+  )
+
+  return (
+    <TouchableOpacity {...props} style={style.container} activeOpacity={0.6}>
       {renderContent()}
     </TouchableOpacity>
   )
 }
 
-export default Button
+export default memo(Button)

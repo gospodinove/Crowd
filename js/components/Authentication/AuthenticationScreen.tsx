@@ -1,11 +1,13 @@
-import React, { useRef, useState } from 'react'
+import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { Animated, Text, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { connect, ConnectedProps } from 'react-redux'
+import { ConstStyles } from '../../constants/style'
 import { userSlice } from '../../reducers/user'
 import { RootState } from '../../redux/store'
 import { loginLoader, signUpLoader } from '../../utils/loaders'
 import Button from '../Button'
+import { authStyles } from './AuthenticationScreen.styles'
 import LoginCard from './LoginCard'
 import SignUpCard from './SignUpCard'
 
@@ -35,28 +37,29 @@ const AuthenticationScreen = (props: PropsT) => {
 
   const pagerViewRef = useRef(React.createRef<PagerView>()).current
 
-  const onLoginPress = (email: string, password: string) => {
-    if (!email || !password) {
-      return
-    }
+  const onLoginPress = useCallback(
+    (email: string, password: string) => {
+      if (!email || !password) {
+        return
+      }
 
-    props.onLoginPress({ email, password })
-  }
+      props.onLoginPress({ email, password })
+    },
+    [props.onLoginPress]
+  )
 
-  const onSignUpPress = (
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string
-  ) => {
-    if (!email || !password || !firstName || !lastName) {
-      return
-    }
+  const onSignUpPress = useCallback(
+    (firstName: string, lastName: string, email: string, password: string) => {
+      if (!email || !password || !firstName || !lastName) {
+        return
+      }
 
-    props.onSignUpPress({ firstName, lastName, email, password })
-  }
+      props.onSignUpPress({ firstName, lastName, email, password })
+    },
+    [props.onSignUpPress]
+  )
 
-  const switchMode = () => {
+  const switchMode = useCallback(() => {
     if (mode === 'login') {
       pagerViewRef.current?.setPage(1)
 
@@ -78,33 +81,33 @@ const AuthenticationScreen = (props: PropsT) => {
 
       setMode('login')
     }
-  }
+  }, [mode])
 
   return (
     <Animated.View
-      style={{
-        flex: 1,
-        backgroundColor: animation.interpolate({
-          inputRange: [0, 1],
-          outputRange: ['#fee', '#ffe']
-        })
-      }}
+      style={useMemo(
+        () => ({
+          flex: 1,
+          backgroundColor: animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['#fee', '#ffe']
+          })
+        }),
+        []
+      )}
     >
-      <PagerView ref={pagerViewRef} style={{ flex: 1 }} scrollEnabled={false}>
-        <View key="login" style={{ paddingTop: 150, paddingHorizontal: 20 }}>
+      <PagerView
+        ref={pagerViewRef}
+        style={ConstStyles.flex1}
+        scrollEnabled={false}
+      >
+        <View key="login" style={authStyles.cardContainer}>
           <LoginCard
             isLoading={props.isLoginLoading}
             onButtonPress={onLoginPress}
           />
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginVertical: 10
-            }}
-          >
-            <Text style={{ textAlign: 'center' }}>
+          <View style={authStyles.cardFooterContainer}>
+            <Text style={authStyles.loginCardFooterText}>
               You do not have an account?
             </Text>
             <Button
@@ -116,18 +119,12 @@ const AuthenticationScreen = (props: PropsT) => {
             />
           </View>
         </View>
-        <View key="signUp" style={{ paddingTop: 150, paddingHorizontal: 20 }}>
+        <View key="signUp" style={authStyles.cardContainer}>
           <SignUpCard
             isLoading={props.isSignUpLoading}
             onButtonPress={onSignUpPress}
           />
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: 10
-            }}
-          >
+          <View style={authStyles.cardFooterContainer}>
             <Button
               text="Login"
               size="small"
@@ -135,7 +132,7 @@ const AuthenticationScreen = (props: PropsT) => {
               leftIcon="chevron-left"
               onPress={switchMode}
             />
-            <Text style={{ textAlign: 'center', marginLeft: 10 }}>
+            <Text style={authStyles.signUpCardFooterText}>
               You already have an account?
             </Text>
           </View>
@@ -145,4 +142,4 @@ const AuthenticationScreen = (props: PropsT) => {
   )
 }
 
-export default connector(AuthenticationScreen)
+export default memo(connector(AuthenticationScreen))

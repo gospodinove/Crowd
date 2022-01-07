@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, ScrollView, View, ViewStyle } from 'react-native'
 import { planColors } from '../../constants/planColors'
 
@@ -15,21 +15,27 @@ const ColorSelector = (props: PropsT) => (
     contentContainerStyle={props.containerStyle}
   >
     {planColors.map(c => (
-      <Pressable key={c} onPress={() => props.onColorPress(c)}>
+      <Pressable
+        key={c}
+        onPress={useCallback(() => props.onColorPress(c), [c])}
+      >
         <View
-          style={{
-            width: 30,
-            height: 30,
-            borderRadius: 15,
-            backgroundColor: c,
-            marginHorizontal: 5,
-            borderColor: 'grey',
-            borderWidth: props.selectedColor == c ? 5 : 0
-          }}
+          style={useMemo(
+            () => ({
+              width: 30,
+              height: 30,
+              borderRadius: 15,
+              backgroundColor: c,
+              marginHorizontal: 5,
+              borderColor: 'grey',
+              borderWidth: props.selectedColor == c ? 5 : 0
+            }),
+            [props.selectedColor, c]
+          )}
         />
       </Pressable>
     ))}
   </ScrollView>
 )
 
-export default ColorSelector
+export default memo(ColorSelector)

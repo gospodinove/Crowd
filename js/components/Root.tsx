@@ -2,9 +2,10 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { NavigationContainer } from '@react-navigation/native'
 import {
   createStackNavigator,
+  StackNavigationOptions,
   TransitionPresets
 } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../reducers/user'
 import { RootStackParamsT } from '../types/RootStackParams'
@@ -64,18 +65,17 @@ const Root = (props: ReduxPropsT) => {
     return <SplashScreen />
   }
 
+  const rootOptions: StackNavigationOptions = {
+    presentation: 'modal',
+    headerShown: false,
+    gestureEnabled: true,
+    cardOverlayEnabled: true,
+    ...TransitionPresets.ModalPresentationIOS
+  }
+
   return (
     <NavigationContainer>
-      <RootStack.Navigator
-        initialRouteName="tab"
-        screenOptions={{
-          presentation: 'modal',
-          headerShown: false,
-          gestureEnabled: true,
-          cardOverlayEnabled: true,
-          ...TransitionPresets.ModalPresentationIOS
-        }}
-      >
+      <RootStack.Navigator initialRouteName="tab" screenOptions={rootOptions}>
         <RootStack.Screen name="createPlan" component={CreatePlanScreen} />
         <RootStack.Screen name="tab" component={TabNavigator} />
       </RootStack.Navigator>
@@ -83,4 +83,4 @@ const Root = (props: ReduxPropsT) => {
   )
 }
 
-export default connector(Root)
+export default memo(connector(Root))
