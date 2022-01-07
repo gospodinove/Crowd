@@ -18,7 +18,7 @@ function* onFetch() {
     }
 
     const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<PlanT> =
-      yield call(api, { type: 'fetchPlans', params: { userId } })
+      yield call(api({ type: 'fetchPlans', params: { userId } }))
 
     const plans = documentSnapshot.docs.map(doc => doc.data())
 
@@ -36,7 +36,7 @@ function* onCreate(action: ReturnType<typeof plansSlice.actions.create>) {
   yield put(loadersSlice.actions.startLoader(createPlanLoader))
 
   try {
-    yield call(api, { type: 'createPlan', params: action.payload })
+    yield call(api({ type: 'createPlan', params: action.payload }))
 
     yield put(plansSlice.actions.onCreate(action.payload))
   } catch (err) {

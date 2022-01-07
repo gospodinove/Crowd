@@ -13,19 +13,23 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
   yield put(loadersSlice.actions.startLoader(loginLoader))
 
   try {
-    const userCredential: FirebaseAuthTypes.UserCredential = yield call(api, {
-      type: 'signInWithEmailAndPassword',
-      params: {
-        email: action.payload.email,
-        password: action.payload.password
-      }
-    })
+    const userCredential: FirebaseAuthTypes.UserCredential = yield call(
+      api({
+        type: 'signInWithEmailAndPassword',
+        params: {
+          email: action.payload.email,
+          password: action.payload.password
+        }
+      })
+    )
 
     const documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot<UserDataT> =
-      yield call(api, {
-        type: 'fetchUserData',
-        params: { uid: userCredential.user.uid }
-      })
+      yield call(
+        api({
+          type: 'fetchUserData',
+          params: { uid: userCredential.user.uid }
+        })
+      )
 
     const userData = documentSnapshot.data()
 
@@ -55,24 +59,28 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
 
   try {
     // create the authentication credential
-    const newUser: FirebaseAuthTypes.UserCredential = yield call(api, {
-      type: 'createUserWithEmailAndPassword',
-      params: {
-        email: action.payload.email,
-        password: action.payload.password
-      }
-    })
+    const newUser: FirebaseAuthTypes.UserCredential = yield call(
+      api({
+        type: 'createUserWithEmailAndPassword',
+        params: {
+          email: action.payload.email,
+          password: action.payload.password
+        }
+      })
+    )
 
     // create the user database object
-    yield call(api, {
-      type: 'addUser',
-      params: {
-        email: action.payload.email,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
-        uid: newUser.user.uid
-      }
-    })
+    yield call(
+      api({
+        type: 'addUser',
+        params: {
+          email: action.payload.email,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          uid: newUser.user.uid
+        }
+      })
+    )
 
     const user: UserT = {
       email: action.payload.email,
@@ -94,10 +102,12 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
 function* fetchUserData(userId: string) {
   try {
     const documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot<UserDataT> =
-      yield call(api, {
-        type: 'fetchUserData',
-        params: { uid: userId }
-      })
+      yield call(
+        api({
+          type: 'fetchUserData',
+          params: { uid: userId }
+        })
+      )
 
     const userData = documentSnapshot.data()
 
