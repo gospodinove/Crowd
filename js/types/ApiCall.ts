@@ -11,18 +11,24 @@ type ApiCallT =
     }
   | {
       type: 'addUser'
-      params: { firstName: string; lastName: string; uid: string }
+      params: {
+        email: string
+        firstName: string
+        lastName: string
+        uid: string
+      }
     }
   | {
       type: 'fetchPlans'
       params: { userId: string }
     }
   | {
-      type: 'fetchUser'
+      type: 'fetchUserData'
       params: { uid: string }
     }
   | {
       type: 'createPlan'
       params: PlanT
     }
+  | { type: 'logout'; params: undefined }
 export default ApiCallT

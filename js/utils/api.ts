@@ -20,11 +20,11 @@ export default function api(call: ApiCallT) {
     case 'addUser':
       return () =>
         firestore().collection('users').doc(call.params.uid).set({
+          email: call.params.email,
           firstName: call.params.firstName,
-          lastName: call.params.lastName,
-          planIds: []
+          lastName: call.params.lastName
         })
-    case 'fetchUser':
+    case 'fetchUserData':
       return () => firestore().collection('users').doc(call.params.uid).get()
     case 'fetchPlans':
       return () =>
@@ -34,6 +34,8 @@ export default function api(call: ApiCallT) {
           .get()
     case 'createPlan':
       return () => firestore().collection('plans').add(call.params)
+    case 'logout':
+      return () => auth().signOut()
     default:
       assertNever(call)
   }

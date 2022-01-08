@@ -2,17 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserT } from '../types/User'
 
 type StateT = {
-  firstName: string | undefined
-  lastName: string | undefined
-  email: string | undefined
-  id: string | undefined
+  data: UserT | undefined
 }
 
 const initialState: StateT = {
-  firstName: undefined,
-  lastName: undefined,
-  email: undefined,
-  id: undefined
+  data: undefined
 }
 
 export const userSlice = createSlice({
@@ -29,29 +23,15 @@ export const userSlice = createSlice({
         password: string
       }>
     ) => {},
-    storeUser: (state, action: PayloadAction<UserT>) => {
-      state.email = action.payload.email
-      state.firstName = action.payload.firstName
-      state.lastName = action.payload.lastName
-      state.id = action.payload.id
+    setUserData: (state, action: PayloadAction<UserT>) => {
+      state.data = action.payload
     },
-    update: (
-      state,
-      action: PayloadAction<{
-        firstName: string | undefined
-        lastName: string | undefined
-        email: string | undefined
-      }>
-    ) => {
-      state.email = action.payload.email
-      state.firstName = action.payload.firstName
-      state.lastName = action.payload.lastName
-    },
-    onLocalDataLoaded: (state, action: PayloadAction<UserT>) => {
-      state.email = action.payload.email
-      state.firstName = action.payload.firstName
-      state.lastName = action.payload.lastName
-      state.id = action.payload.id
+    loadUserData: (_, __: PayloadAction<string>) => {},
+    storeUserLocally: () => {},
+    logout: () => {},
+    onLogout: state => {
+      // clear user specific data
+      state.data = undefined
     }
   }
 })

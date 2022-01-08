@@ -8,8 +8,8 @@ import {
 import React, { memo, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../reducers/user'
+import { RootState } from '../redux/store'
 import { RootStackParamsT } from '../types/RootStackParams'
-import { loadUserData } from '../utils/localData'
 import AuthenticationScreen from './Authentication/AuthenticationScreen'
 import CreatePlanScreen from './CreatePlan/CreatePlanScreen'
 import SplashScreen from './SplashScreen'
@@ -17,35 +17,25 @@ import TabNavigator from './TabNavigator'
 
 const RootStack = createStackNavigator<RootStackParamsT>()
 
-const connector = connect(null, {
-  onLocalUserDataLoaded: userSlice.actions.onLocalDataLoaded
-})
+const connector = connect(
+  (state: RootState) => ({ isUserDataLoaded: state.user.data !== undefined }),
+  {
+    loadUserData: userSlice.actions.loadUserData
+  }
+)
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
 const Root = (props: ReduxPropsT) => {
   const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null)
-  const [isLocalDataLoaded, setIsLocalDataLoaded] = useState(false)
+  const [userCredentials, setUserCredentials] =
+    useState<FirebaseAuthTypes.User | null>(null)
 
-  const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
-    setUser(user)
+  const onAuthStateChanged = (credentials: FirebaseAuthTypes.User | null) => {
+    setUserCredentials(credentials)
     if (initializing) {
       setInitializing(false)
     }
-  }
-
-  const loadLocalData = async () => {
-    const user = await loadUserData()
-
-    if (!user) {
-      // TODO: retry state
-      return
-    }
-
-    props.onLocalUserDataLoaded(user)
-
-    setIsLocalDataLoaded(true)
   }
 
   useEffect(() => {
@@ -53,14 +43,16 @@ const Root = (props: ReduxPropsT) => {
     return subscriber // unsubscribe on unmount
   }, [])
 
-  if (initializing) return null
+  if (initializing) {
+    return <SplashScreen />
+  }
 
-  if (!user) {
+  if (!userCredentials) {
     return <AuthenticationScreen />
   }
 
-  if (!isLocalDataLoaded) {
-    loadLocalData()
+  if (!props.isUserDataLoaded) {
+    props.loadUserData(userCredentials.uid)
 
     return <SplashScreen />
   }

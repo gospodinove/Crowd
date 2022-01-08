@@ -28,7 +28,7 @@ type DatePickerT = 'start-date' | 'end-date'
 
 const connector = connect(
   (state: RootState) => ({
-    userId: state.user.id,
+    userId: state.user.data?.id,
     isLoading: state.loaders.runningLoaders[createPlanLoader]
   }),
   { createPlan: plansSlice.actions.create }
