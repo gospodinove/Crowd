@@ -1,11 +1,16 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import { NavigationContainer } from '@react-navigation/native'
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer
+} from '@react-navigation/native'
 import {
   createStackNavigator,
   StackNavigationOptions,
   TransitionPresets
 } from '@react-navigation/stack'
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
+import { useColorScheme } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../reducers/user'
 import { RootState } from '../redux/store'
@@ -43,6 +48,13 @@ const Root = (props: ReduxPropsT) => {
     return subscriber // unsubscribe on unmount
   }, [])
 
+  const scheme = useColorScheme()
+
+  const preferedTheme = useMemo(
+    () => (scheme === 'dark' ? DarkTheme : DefaultTheme),
+    [scheme]
+  )
+
   if (initializing) {
     return <SplashScreen />
   }
@@ -66,7 +78,7 @@ const Root = (props: ReduxPropsT) => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={preferedTheme}>
       <RootStack.Navigator initialRouteName="tab" screenOptions={rootOptions}>
         <RootStack.Screen name="createPlan" component={CreatePlanScreen} />
         <RootStack.Screen name="tab" component={TabNavigator} />
