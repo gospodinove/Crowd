@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { useTheme } from '@react-navigation/native'
 import React, { memo, useMemo } from 'react'
 import { Text, View } from 'react-native'
 import { PlanT } from '../types/Plan'
@@ -9,9 +10,15 @@ import VerticalSeparator from './VerticalSepartor'
 type PropsT = { data: PlanT }
 
 const PlanItem = (props: PropsT) => {
+  const theme = useTheme()
+
   const style = useMemo(
-    () => planItemStyles({ avatarBackgroundColor: props.data.color }),
-    [props.data.color]
+    () =>
+      planItemStyles({
+        avatarBackgroundColor: props.data.color,
+        textColor: theme.colors.text
+      }),
+    [props.data.color, theme]
   )
 
   const renderAvatar = () => (
