@@ -29,10 +29,6 @@ type ReduxPropsT = ConnectedProps<typeof connector>
 
 type PropsT = NavigationPropsT & ReduxPropsT
 
-const renderItem = (item: ListRenderItemInfo<PlanT>) => (
-  <PlanItem data={item.item} />
-)
-
 const PlansScreen = (props: PropsT) => {
   useEffect(() => {
     maybeFetchPlans()
@@ -60,6 +56,15 @@ const PlansScreen = (props: PropsT) => {
 
     props.fetchPlans()
   }, [props.fetchPlans])
+
+  const onPlanItemPress = useCallback(planId => console.log(planId), [])
+
+  const renderItem = useCallback(
+    (item: ListRenderItemInfo<PlanT>) => (
+      <PlanItem data={item.item} onPress={onPlanItemPress} />
+    ),
+    []
+  )
 
   return (
     <ScreenWithLoader isLoading={props.isLoading} size="large">

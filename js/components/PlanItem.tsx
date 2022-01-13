@@ -1,18 +1,20 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React, { memo, useMemo } from 'react'
-import { Text, View } from 'react-native'
+import React, { memo, useCallback, useMemo } from 'react'
+import { Pressable, Text, View } from 'react-native'
 import { PlanT } from '../types/Plan'
 import { formatDate } from '../utils/date'
 import { planItemStyles } from './PlanItem.styles'
 import VerticalSeparator from './VerticalSepartor'
 
-type PropsT = { data: PlanT }
+type PropsT = { data: PlanT; onPress: (planId: string) => void }
 
 const PlanItem = (props: PropsT) => {
   const style = useMemo(
     () => planItemStyles({ avatarBackgroundColor: props.data.color }),
     [props.data.color]
   )
+
+  const onPress = useCallback(() => props.onPress(props.data.id), [])
 
   const renderAvatar = () => (
     <View style={style.avatar}>
@@ -28,7 +30,7 @@ const PlanItem = (props: PropsT) => {
   )
 
   return (
-    <View style={style.container}>
+    <Pressable style={style.container} onPress={onPress}>
       {renderAvatar()}
 
       <View style={style.detailsContainer}>
@@ -53,7 +55,7 @@ const PlanItem = (props: PropsT) => {
           </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   )
 }
 

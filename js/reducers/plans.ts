@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { PlanT } from '../types/Plan'
+import { PlanDataT, PlanT } from '../types/Plan'
 
 type StateT = {
   plans: PlanT[]
@@ -17,7 +17,7 @@ export const plansSlice = createSlice({
     onFetch: (state, action: PayloadAction<PlanT[]>) => {
       state.plans = action.payload
     },
-    create: (_, __: PayloadAction<PlanT>) => {},
+    create: (_, __: PayloadAction<PlanDataT>) => {},
     onCreate: (state, action: PayloadAction<PlanT>) => {
       state.plans.push(action.payload)
     }
