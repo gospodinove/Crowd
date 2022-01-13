@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PlanDataT, PlanT } from '../types/Plan'
 
 type StateT = {
-  plans: PlanT[]
+  data: PlanT[]
 }
 
 const initialState: StateT = {
-  plans: []
+  data: []
 }
 
 export const plansSlice = createSlice({
@@ -15,11 +15,11 @@ export const plansSlice = createSlice({
   reducers: {
     fetch: () => {},
     onFetch: (state, action: PayloadAction<PlanT[]>) => {
-      state.plans = action.payload
+      state.data = action.payload
     },
     create: (_, __: PayloadAction<PlanDataT>) => {},
     onCreate: (state, action: PayloadAction<PlanT>) => {
-      state.plans.push(action.payload)
+      state.data.push(action.payload)
     }
   }
 })
