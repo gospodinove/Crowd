@@ -8,18 +8,30 @@ type PropsT = Omit<
 
 // Scroll view that doesn't scroll unless its content goes out of its bounds
 const ScrollContainer = (props: PropsT) => {
-  const [scrollContentHeight, setScrollContentHeight] = useState(0)
-  const [scrollViewHeight, setScrollViewHeight] = useState(0)
+  const [contentDimensionOfInterest, setContentDimensionOfInterest] =
+    useState(0)
+  const [dimensionOfInterest, setDimensionOfInterest] = useState(0)
 
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
-      scrollEnabled={scrollContentHeight > scrollViewHeight}
-      onContentSizeChange={useCallback((_, h) => setScrollContentHeight(h), [])}
-      onLayout={useCallback(
-        event => setScrollViewHeight(event.nativeEvent.layout.height),
-        []
+      scrollEnabled={contentDimensionOfInterest > dimensionOfInterest}
+      onContentSizeChange={useCallback(
+        (w, h) => {
+          setContentDimensionOfInterest(props.horizontal ? w : h)
+        },
+        [props.horizontal]
       )}
+      onLayout={useCallback(
+        event =>
+          setDimensionOfInterest(
+            props.horizontal
+              ? event.nativeEvent.layout.width
+              : event.nativeEvent.layout.height
+          ),
+        [props.horizontal]
+      )}
+      {...props}
     >
       {props.children}
     </ScrollView>
