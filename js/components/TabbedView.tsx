@@ -1,10 +1,5 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
-import {
-  Animated,
-  ColorValue,
-  TouchableWithoutFeedback,
-  View
-} from 'react-native'
+import { Animated, ColorValue, Pressable, View } from 'react-native'
 import {
   NavigationState,
   SceneMap,
@@ -58,15 +53,15 @@ const TabbedView = (props: PropsT) => {
               })
 
               return (
-                <View key={index} style={style.tabBarItem}>
-                  <TouchableWithoutFeedback
-                    onPress={() => setCurrentIndex(index)}
-                  >
-                    <Animated.Text style={[style.tabBarItemTitle, { opacity }]}>
-                      {title}
-                    </Animated.Text>
-                  </TouchableWithoutFeedback>
-                </View>
+                <Pressable
+                  key={index}
+                  style={style.tabBarItem}
+                  onPress={useCallback(() => setCurrentIndex(index), [index])}
+                >
+                  <Animated.Text style={[style.tabBarItemTitle, { opacity }]}>
+                    {title}
+                  </Animated.Text>
+                </Pressable>
               )
             })}
           </ScrollContainer>
