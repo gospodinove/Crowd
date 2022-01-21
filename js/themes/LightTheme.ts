@@ -9,6 +9,7 @@ export const LightTheme: Theme = {
     text: '#000000',
     border: '#6f6f6f',
     notification: 'red',
-    secondaryBackground: '#ffffff'
+    secondaryBackground: '#ffffff',
+    icon: '#6f6f6f'
   }
 }

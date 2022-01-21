@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useLayoutEffect } from 'react'
 import { View } from 'react-native'
@@ -15,18 +16,20 @@ type ReduxPropsT = ConnectedProps<typeof connector>
 type PropsT = NavigationPropsT & ReduxPropsT
 
 const MoreScreen = (props: PropsT) => {
+  const theme = useTheme()
+
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
         <IconButton
           iconName="sign-out-alt"
           size={32}
-          color="black"
+          color={theme.colors.text}
           onPress={() => props.logout()}
         />
       )
     })
-  }, [props.navigation, props.logout])
+  }, [props.navigation, props.logout, theme])
 
   return <View></View>
 }

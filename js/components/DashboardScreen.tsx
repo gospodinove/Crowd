@@ -1,7 +1,7 @@
+import { useTheme } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useCallback } from 'react'
-import { Button, Text, useColorScheme, View } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { Button, Text, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from '../redux/store'
 import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
@@ -17,18 +17,28 @@ type NavigationPropsT = StackScreenProps<DashboardTabNavigatorPropsT, 'user'>
 type PropsT = ReduxPropsT & NavigationPropsT
 
 const DashboardScreen = (props: PropsT) => {
-  const isDarkMode = useColorScheme() === 'dark'
+  const theme = useTheme()
 
   const containerStyle = {
     margin: 20,
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
+    backgroundColor: theme.colors.card,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: 10,
+    padding: 20
   }
 
   return (
     <View style={containerStyle}>
-      <Text>{'First name: ' + (props.user?.firstName ?? '-')}</Text>
-      <Text>{'Last name: ' + (props.user?.lastName ?? '-')}</Text>
-      <Text>{'Email: ' + (props.user?.email ?? '-')}</Text>
+      <Text style={{ color: theme.colors.text }}>
+        {'First name: ' + (props.user?.firstName ?? '-')}
+      </Text>
+      <Text style={{ color: theme.colors.text }}>
+        {'Last name: ' + (props.user?.lastName ?? '-')}
+      </Text>
+      <Text style={{ color: theme.colors.text }}>
+        {'Email: ' + (props.user?.email ?? '-')}
+      </Text>
       <Button
         title="Edit"
         onPress={useCallback(
