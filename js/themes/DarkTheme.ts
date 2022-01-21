@@ -1,7 +1,6 @@
-import { Theme } from '../types/Theme'
+import { ThemeT } from '../types/Theme'
 
-export const DarkTheme: Theme = {
-  dark: true,
+export const DarkTheme: ThemeT = {
   colors: {
     primary: '#db6601',
     background: '#000615',

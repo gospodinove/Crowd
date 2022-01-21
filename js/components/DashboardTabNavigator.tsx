@@ -1,19 +1,23 @@
-import { useTheme } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useContext, useMemo } from 'react'
 import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
 import UserScreen from './DashboardScreen'
+import { ThemeContext } from './ThemeProvider'
 
 const Stack = createStackNavigator<DashboardTabNavigatorPropsT>()
 
 const DashboardTabNavigator = () => {
-  const theme = useTheme()
+  const theme = useContext(ThemeContext)
 
   return (
     <Stack.Navigator
       initialRouteName="user"
       screenOptions={useMemo(
-        () => ({ headerStyle: { backgroundColor: theme.colors.background } }),
+        () => ({
+          headerStyle: { backgroundColor: theme.colors.background },
+          headerTintColor: theme.colors.text,
+          cardStyle: { backgroundColor: theme.colors.background }
+        }),
         [theme]
       )}
     >

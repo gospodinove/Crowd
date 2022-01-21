@@ -1,19 +1,23 @@
-import { useTheme } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useContext, useMemo } from 'react'
 import { NotificationsTabNavigatorPropsT } from '../types/NotificationsTabNavigatorProps'
 import NotificationsScreen from './NotificationsScreen'
+import { ThemeContext } from './ThemeProvider'
 
 const Stack = createStackNavigator<NotificationsTabNavigatorPropsT>()
 
 const NotificationsTabNavigator = () => {
-  const theme = useTheme()
+  const theme = useContext(ThemeContext)
 
   return (
     <Stack.Navigator
       initialRouteName="notifications"
       screenOptions={useMemo(
-        () => ({ headerStyle: { backgroundColor: theme.colors.background } }),
+        () => ({
+          headerStyle: { backgroundColor: theme.colors.background },
+          headerTintColor: theme.colors.text,
+          cardStyle: { backgroundColor: theme.colors.background }
+        }),
         [theme]
       )}
     >

@@ -17,6 +17,7 @@ import AuthenticationScreen from './Authentication/AuthenticationScreen'
 import CreatePlanScreen from './CreatePlan/CreatePlanScreen'
 import SplashScreen from './SplashScreen'
 import TabNavigator from './TabNavigator'
+import ThemeProvider from './ThemeProvider'
 
 const RootStack = createStackNavigator<RootStackParamsT>()
 
@@ -72,16 +73,21 @@ const Root = (props: ReduxPropsT) => {
     headerShown: false,
     gestureEnabled: true,
     cardOverlayEnabled: true,
-    ...TransitionPresets.ModalPresentationIOS
+    ...TransitionPresets.ModalPresentationIOS,
+    cardStyle: {
+      backgroundColor: theme.colors.background
+    }
   }
 
   return (
-    <NavigationContainer theme={theme}>
-      <RootStack.Navigator initialRouteName="tab" screenOptions={rootOptions}>
-        <RootStack.Screen name="createPlan" component={CreatePlanScreen} />
-        <RootStack.Screen name="tab" component={TabNavigator} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <ThemeProvider>
+      <NavigationContainer>
+        <RootStack.Navigator initialRouteName="tab" screenOptions={rootOptions}>
+          <RootStack.Screen name="createPlan" component={CreatePlanScreen} />
+          <RootStack.Screen name="tab" component={TabNavigator} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   )
 }
 

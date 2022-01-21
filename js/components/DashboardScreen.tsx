@@ -1,10 +1,10 @@
-import { useTheme } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useContext } from 'react'
 import { Button, Text, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from '../redux/store'
 import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
+import { ThemeContext } from './ThemeProvider'
 
 const connector = connect((state: RootState) => ({
   user: state.user.data
@@ -17,7 +17,7 @@ type NavigationPropsT = StackScreenProps<DashboardTabNavigatorPropsT, 'user'>
 type PropsT = ReduxPropsT & NavigationPropsT
 
 const DashboardScreen = (props: PropsT) => {
-  const theme = useTheme()
+  const theme = useContext(ThemeContext)
 
   const containerStyle = {
     margin: 20,
