@@ -8,5 +8,7 @@ export type ThemeT = {
     notification: string
     secondaryBackground: string
     icon: string
+    black: '#000'
+    white: '#fff'
   }
 }

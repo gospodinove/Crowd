@@ -6,7 +6,7 @@ import DateTimePicker, {
 } from '@react-native-community/datetimepicker'
 import firestore from '@react-native-firebase/firestore'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useContext, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { planColors } from '../../constants/planColors'
@@ -20,6 +20,7 @@ import { createPlanLoader } from '../../utils/loaders'
 import Button from '../Button'
 import ScrollContainer from '../ScrollContainer'
 import TextInput from '../TextInput'
+import { ThemeContext } from '../ThemeProvider'
 import VerticalSeparator from '../VerticalSepartor'
 import ColorSelector from './ColorSelector'
 import IconSelector from './IconSelector'
@@ -41,6 +42,8 @@ type NavigationPropsT = StackScreenProps<ModalScreensParamsT, 'createPlan'>
 type PropsT = ReduxPropsT & NavigationPropsT
 
 const CreatePlanScreen = (props: PropsT) => {
+  const theme = useContext(ThemeContext)
+
   const [selectedColor, setSelectedColor] = useState<string>(planColors[0])
   const [selectedIcon, setSelectedIcon] = useState<IconProp>(planIcons[0])
 
@@ -165,7 +168,11 @@ const CreatePlanScreen = (props: PropsT) => {
               [selectedColor]
             )}
           >
-            <FontAwesomeIcon icon={selectedIcon} size={35} color="black" />
+            <FontAwesomeIcon
+              icon={selectedIcon}
+              size={35}
+              color={theme.colors.black}
+            />
           </View>
           <View
             style={{
@@ -195,7 +202,7 @@ const CreatePlanScreen = (props: PropsT) => {
                 type="arrow-right"
                 size={12}
                 spacing={5}
-                color="black"
+                color={theme.colors.text}
               />
               <Button
                 text={endDate ? formatDate(endDate) : 'End date'}

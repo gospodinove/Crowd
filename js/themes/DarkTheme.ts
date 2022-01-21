@@ -9,6 +9,8 @@ export const DarkTheme: ThemeT = {
     border: '#2c3549',
     notification: 'red',
     secondaryBackground: '#1a2234',
-    icon: '#2c3549'
+    icon: '#2c3549',
+    black: '#000',
+    white: '#fff'
   }
 }
