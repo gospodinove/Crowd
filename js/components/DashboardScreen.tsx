@@ -1,10 +1,11 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback } from 'react'
-import { Button, Text, useColorScheme, View } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import React, { memo, useMemo } from 'react'
+import { Text, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { RootState } from '../redux/store'
 import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
+import Card from './Card'
 
 const connector = connect((state: RootState) => ({
   user: state.user.data
@@ -17,25 +18,30 @@ type NavigationPropsT = StackScreenProps<DashboardTabNavigatorPropsT, 'user'>
 type PropsT = ReduxPropsT & NavigationPropsT
 
 const DashboardScreen = (props: PropsT) => {
-  const isDarkMode = useColorScheme() === 'dark'
-
-  const containerStyle = {
-    margin: 20,
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
-  }
+  const theme = useAppTheme()
 
   return (
-    <View style={containerStyle}>
-      <Text>{'First name: ' + (props.user?.firstName ?? '-')}</Text>
-      <Text>{'Last name: ' + (props.user?.lastName ?? '-')}</Text>
-      <Text>{'Email: ' + (props.user?.email ?? '-')}</Text>
-      <Button
-        title="Edit"
-        onPress={useCallback(
-          () => props.navigation.push('edit'),
-          [props.navigation]
-        )}
-      />
+    <View
+      style={useMemo(
+        () => ({
+          backgroundColor: theme.colors.background,
+          padding: 20,
+          flex: 1
+        }),
+        [theme]
+      )}
+    >
+      <Card>
+        <Text style={{ color: theme.colors.text }}>
+          {'First name: ' + (props.user?.firstName ?? '-')}
+        </Text>
+        <Text style={{ color: theme.colors.text }}>
+          {'Last name: ' + (props.user?.lastName ?? '-')}
+        </Text>
+        <Text style={{ color: theme.colors.text }}>
+          {'Email: ' + (props.user?.email ?? '-')}
+        </Text>
+      </Card>
     </View>
   )
 }

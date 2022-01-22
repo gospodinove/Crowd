@@ -1,6 +1,7 @@
 import { ColorValue, StyleSheet } from 'react-native'
 
 type PropsT = {
+  textColor: ColorValue
   avatarBackgroundColor: ColorValue
 }
 
@@ -29,7 +30,8 @@ export const planItemStyles = (props: PropsT) =>
     },
     name: {
       fontSize: 18,
-      fontWeight: '600'
+      fontWeight: '600',
+      color: props.textColor
     },
     detailsRow: {
       flexDirection: 'row',

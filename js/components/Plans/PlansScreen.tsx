@@ -1,7 +1,14 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback, useEffect, useLayoutEffect } from 'react'
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo
+} from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
+import { useAppTheme } from '../../hooks/useAppTheme'
 import { plansSlice } from '../../reducers/plans'
 import { RootState } from '../../redux/store'
 import { ModalScreensParamsT } from '../../types/ModalScreensParams'
@@ -30,6 +37,8 @@ type ReduxPropsT = ConnectedProps<typeof connector>
 type PropsT = NavigationPropsT & ReduxPropsT
 
 const PlansScreen = (props: PropsT) => {
+  const theme = useAppTheme()
+
   useEffect(() => {
     maybeFetchPlans()
   }, [])
@@ -40,14 +49,14 @@ const PlansScreen = (props: PropsT) => {
         <IconButton
           iconName="plus"
           size={32}
-          color="black"
+          color={theme.colors.icon}
           onPress={() => {
             props.navigation.navigate('createPlan')
           }}
         />
       )
     })
-  }, [props.navigation])
+  }, [props.navigation, theme])
 
   const maybeFetchPlans = useCallback(() => {
     if (props.plans.length) {
@@ -78,7 +87,14 @@ const PlansScreen = (props: PropsT) => {
   )
 
   return (
-    <ScreenWithLoader isLoading={props.isLoading} size="large">
+    <ScreenWithLoader
+      isLoading={props.isLoading}
+      size="large"
+      containerStyle={useMemo(
+        () => ({ backgroundColor: theme.colors.background }),
+        [theme]
+      )}
+    >
       <FlatList<PlanT> data={props.plans} renderItem={renderItem} />
     </ScreenWithLoader>
   )

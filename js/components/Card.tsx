@@ -1,5 +1,6 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { View, ViewProps } from 'react-native'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { cardStyles } from './Card.styles'
 
 type PropsT = ViewProps & {
@@ -7,7 +8,18 @@ type PropsT = ViewProps & {
 }
 
 const Card = (props: PropsT) => {
-  return <View style={cardStyles.container}>{props.children}</View>
+  const theme = useAppTheme()
+
+  const style = useMemo(
+    () =>
+      cardStyles({
+        backgroundColor: theme.colors.secondaryBackground,
+        borderColor: theme.colors.border
+      }),
+    [theme]
+  )
+
+  return <View style={style.container}>{props.children}</View>
 }
 
 export default memo(Card)

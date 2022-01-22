@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, Text, View } from 'react-native'
+import { useAppTheme } from '../../hooks/useAppTheme'
 import { PlanT } from '../../types/Plan'
 import { formatDate } from '../../utils/date'
 import VerticalSeparator from '../VerticalSepartor'
@@ -9,9 +10,15 @@ import { planItemStyles } from './PlanItem.styles'
 type PropsT = { data: PlanT; onPress: (planId: string) => void }
 
 const PlanItem = (props: PropsT) => {
+  const theme = useAppTheme()
+
   const style = useMemo(
-    () => planItemStyles({ avatarBackgroundColor: props.data.color }),
-    [props.data.color]
+    () =>
+      planItemStyles({
+        avatarBackgroundColor: props.data.color,
+        textColor: theme.colors.text
+      }),
+    [props.data.color, theme]
   )
 
   const onPress = useCallback(
