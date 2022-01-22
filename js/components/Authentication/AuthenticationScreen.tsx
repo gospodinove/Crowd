@@ -119,7 +119,8 @@ const AuthenticationScreen = (props: PropsT) => {
             <Button
               text="Sign Up"
               size="small"
-              type="rounded"
+              type="primary"
+              rounded
               rightIcon="chevron-right"
               onPress={switchMode}
             />
@@ -134,7 +135,8 @@ const AuthenticationScreen = (props: PropsT) => {
             <Button
               text="Login"
               size="small"
-              type="rounded"
+              type="primary"
+              rounded
               leftIcon="chevron-left"
               onPress={switchMode}
             />

@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback } from 'react'
-import { Button, Text, View } from 'react-native'
+import React, { memo } from 'react'
+import { Text, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../hooks/useAppTheme'
 import { RootState } from '../redux/store'
@@ -39,13 +39,6 @@ const DashboardScreen = (props: PropsT) => {
       <Text style={{ color: theme.colors.text }}>
         {'Email: ' + (props.user?.email ?? '-')}
       </Text>
-      <Button
-        title="Edit"
-        onPress={useCallback(
-          () => props.navigation.push('edit'),
-          [props.navigation]
-        )}
-      />
     </View>
   )
 }
