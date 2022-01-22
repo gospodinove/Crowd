@@ -59,7 +59,11 @@ const Root = (props: ReduxPropsT) => {
   }
 
   if (!userCredentials) {
-    return <AuthenticationScreen />
+    return (
+      <ThemeProvider>
+        <AuthenticationScreen />
+      </ThemeProvider>
+    )
   }
 
   if (!props.isUserDataLoaded) {
