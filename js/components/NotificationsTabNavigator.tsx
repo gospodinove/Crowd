@@ -20,8 +20,7 @@ const NotificationsTabNavigator = () => {
             borderBottomWidth: 0.2,
             borderBottomColor: theme.colors.border
           },
-          headerTintColor: theme.colors.text,
-          cardStyle: { backgroundColor: theme.colors.background }
+          headerTintColor: theme.colors.text
         }),
         [theme]
       )}

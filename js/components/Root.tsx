@@ -5,13 +5,10 @@ import {
   StackNavigationOptions,
   TransitionPresets
 } from '@react-navigation/stack'
-import React, { memo, useEffect, useMemo, useState } from 'react'
-import { useColorScheme } from 'react-native'
+import React, { memo, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { userSlice } from '../reducers/user'
 import { RootState } from '../redux/store'
-import { DarkTheme } from '../themes/DarkTheme'
-import { LightTheme } from '../themes/LightTheme'
 import { RootStackParamsT } from '../types/RootStackParams'
 import AuthenticationScreen from './Authentication/AuthenticationScreen'
 import CreatePlanScreen from './CreatePlan/CreatePlanScreen'
@@ -47,13 +44,6 @@ const Root = (props: ReduxPropsT) => {
     return subscriber // unsubscribe on unmount
   }, [])
 
-  const scheme = useColorScheme()
-
-  const theme = useMemo(
-    () => (scheme === 'dark' ? DarkTheme : LightTheme),
-    [scheme]
-  )
-
   if (initializing) {
     return <SplashScreen />
   }
@@ -77,10 +67,7 @@ const Root = (props: ReduxPropsT) => {
     headerShown: false,
     gestureEnabled: true,
     cardOverlayEnabled: true,
-    ...TransitionPresets.ModalPresentationIOS,
-    cardStyle: {
-      backgroundColor: theme.colors.background
-    }
+    ...TransitionPresets.ModalPresentationIOS
   }
 
   return (

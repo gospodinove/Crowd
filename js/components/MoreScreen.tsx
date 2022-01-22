@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../hooks/useAppTheme'
@@ -31,7 +31,14 @@ const MoreScreen = (props: PropsT) => {
     })
   }, [props.navigation, props.logout, theme])
 
-  return <View></View>
+  return (
+    <View
+      style={useMemo(
+        () => ({ backgroundColor: theme.colors.background, flex: 1 }),
+        [theme]
+      )}
+    ></View>
+  )
 }
 
 export default memo(connector(MoreScreen))

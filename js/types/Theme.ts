@@ -5,7 +5,6 @@ export type ThemeT = {
     secondaryBackground: string
     text: string
     border: string
-    notification: string
     icon: string
     black: '#000'
     white: '#fff'

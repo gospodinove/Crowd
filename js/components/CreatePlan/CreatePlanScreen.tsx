@@ -142,7 +142,12 @@ const CreatePlanScreen = (props: PropsT) => {
   }
 
   return (
-    <>
+    <View
+      style={useMemo(
+        () => ({ backgroundColor: theme.colors.background, flex: 1 }),
+        [theme]
+      )}
+    >
       <ScrollContainer>
         <View
           style={useMemo(
@@ -175,11 +180,14 @@ const CreatePlanScreen = (props: PropsT) => {
             />
           </View>
           <View
-            style={{
-              flex: 1,
-              alignItems: 'stretch',
-              marginLeft: 10
-            }}
+            style={useMemo(
+              () => ({
+                flex: 1,
+                alignItems: 'stretch',
+                marginLeft: 10
+              }),
+              []
+            )}
           >
             <TextInput
               placeholder="Name"
@@ -256,7 +264,7 @@ const CreatePlanScreen = (props: PropsT) => {
         style={useMemo(() => ({ marginHorizontal: 20, marginBottom: 20 }), [])}
         onPress={onCreateButtonPress}
       />
-    </>
+    </View>
   )
 }
 

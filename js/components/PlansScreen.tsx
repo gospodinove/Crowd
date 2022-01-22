@@ -1,5 +1,11 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback, useEffect, useLayoutEffect } from 'react'
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo
+} from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../hooks/useAppTheme'
@@ -65,7 +71,14 @@ const PlansScreen = (props: PropsT) => {
   }, [props.fetchPlans])
 
   return (
-    <ScreenWithLoader isLoading={props.isLoading} size="large">
+    <ScreenWithLoader
+      isLoading={props.isLoading}
+      size="large"
+      containerStyle={useMemo(
+        () => ({ backgroundColor: theme.colors.background }),
+        [theme]
+      )}
+    >
       <FlatList<PlanT> data={props.plans} renderItem={renderItem} />
     </ScreenWithLoader>
   )

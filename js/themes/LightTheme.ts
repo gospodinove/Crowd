@@ -7,7 +7,6 @@ export const LightTheme: ThemeT = {
     secondaryBackground: '#ffffff',
     text: '#000000',
     border: '#6f6f6f',
-    notification: 'red',
     icon: '#6f6f6f',
     black: '#000',
     white: '#fff'
