@@ -8,13 +8,14 @@ import {
   TouchableOpacityProps,
   ViewStyle
 } from 'react-native'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { assertNever } from '../utils/assertNever'
 import { buttonStyles } from './Button.styles'
 
 type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   text: string
   size: 'large' | 'medium' | 'small'
-  type: 'primary' | 'secondary' | 'text' | 'rounded' | 'custom'
+  type: 'primary' | 'secondary' | 'text' | 'rounded'
   isLoading?: boolean
   style?: Omit<ViewStyle, 'backgroundColor'>
   leftIcon?: IconProp
@@ -22,17 +23,17 @@ type PropsT = Omit<TouchableOpacityProps, 'style'> & {
 }
 
 const Button = (props: PropsT) => {
+  const theme = useAppTheme()
+
   const getBackgroundColor = (): string => {
     switch (props.type) {
       case 'primary':
       case 'rounded':
-        return '#000'
+        return theme.colors.primary
       case 'secondary':
-        return 'grey'
+        return theme.colors.card
       case 'text':
         return 'transparent'
-      case 'custom':
-        return 'grey'
       default:
         assertNever(props.type)
     }
@@ -42,13 +43,11 @@ const Button = (props: PropsT) => {
     switch (props.type) {
       case 'primary':
       case 'rounded':
-        return '#fff'
+        return theme.colors.white
       case 'secondary':
-        return '#000'
+        return theme.colors.text
       case 'text':
-        return 'grey'
-      case 'custom':
-        return '#000'
+        return theme.colors.text
       default:
         assertNever(props.type)
     }
