@@ -14,7 +14,12 @@ const PlansTabNavigator = () => {
       initialRouteName="plans"
       screenOptions={useMemo(
         () => ({
-          headerStyle: { backgroundColor: theme.colors.background },
+          headerStyle: {
+            backgroundColor: theme.colors.background,
+            shadowColor: 'transparent',
+            borderBottomWidth: 0.2,
+            borderBottomColor: theme.colors.border
+          },
           headerTintColor: theme.colors.text,
           cardStyle: { backgroundColor: theme.colors.background }
         }),

@@ -31,7 +31,9 @@ const TabNavigator = () => {
             tabBarInactiveTintColor: theme.colors.icon,
             headerShown: false,
             tabBarStyle: {
-              backgroundColor: theme.colors.background
+              backgroundColor: theme.colors.background,
+              borderTopWidth: 0.2,
+              borderTopColor: theme.colors.border
             }
           }),
         [theme]
