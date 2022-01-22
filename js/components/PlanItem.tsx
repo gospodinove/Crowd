@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useMemo } from 'react'
 import { Text, View } from 'react-native'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { PlanT } from '../types/Plan'
 import { formatDate } from '../utils/date'
 import { planItemStyles } from './PlanItem.styles'
@@ -9,9 +10,15 @@ import VerticalSeparator from './VerticalSepartor'
 type PropsT = { data: PlanT }
 
 const PlanItem = (props: PropsT) => {
+  const theme = useAppTheme()
+
   const style = useMemo(
-    () => planItemStyles({ avatarBackgroundColor: props.data.color }),
-    [props.data.color]
+    () =>
+      planItemStyles({
+        avatarBackgroundColor: props.data.color,
+        textColor: theme.colors.text
+      }),
+    [props.data.color, theme]
   )
 
   const renderAvatar = () => (

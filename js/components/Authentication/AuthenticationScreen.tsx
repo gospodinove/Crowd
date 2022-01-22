@@ -3,6 +3,7 @@ import { Animated, Text, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { connect, ConnectedProps } from 'react-redux'
 import { ConstStyles } from '../../constants/style'
+import { useAppTheme } from '../../hooks/useAppTheme'
 import { userSlice } from '../../reducers/user'
 import { RootState } from '../../redux/store'
 import { loginLoader, signUpLoader } from '../../utils/loaders'
@@ -31,6 +32,8 @@ type StateT = {
 }
 
 const AuthenticationScreen = (props: PropsT) => {
+  const theme = useAppTheme()
+
   const [mode, setMode] = useState<StateT['mode']>('login')
 
   const animation = useRef(new Animated.Value(0)).current
@@ -90,10 +93,13 @@ const AuthenticationScreen = (props: PropsT) => {
           flex: 1,
           backgroundColor: animation.interpolate({
             inputRange: [0, 1],
-            outputRange: ['#fee', '#ffe']
+            outputRange: [
+              theme.colors.background,
+              theme.colors.secondaryBackground
+            ]
           })
         }),
-        []
+        [theme]
       )}
     >
       <PagerView
@@ -113,7 +119,8 @@ const AuthenticationScreen = (props: PropsT) => {
             <Button
               text="Sign Up"
               size="small"
-              type="rounded"
+              type="primary"
+              rounded
               rightIcon="chevron-right"
               onPress={switchMode}
             />
@@ -128,7 +135,8 @@ const AuthenticationScreen = (props: PropsT) => {
             <Button
               text="Login"
               size="small"
-              type="rounded"
+              type="primary"
+              rounded
               leftIcon="chevron-left"
               onPress={switchMode}
             />

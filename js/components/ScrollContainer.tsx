@@ -20,6 +20,7 @@ const ScrollContainer = (props: PropsT) => {
         event => setScrollViewHeight(event.nativeEvent.layout.height),
         []
       )}
+      {...props}
     >
       {props.children}
     </ScrollView>

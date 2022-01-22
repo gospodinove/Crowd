@@ -8,31 +8,32 @@ import {
   TouchableOpacityProps,
   ViewStyle
 } from 'react-native'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { assertNever } from '../utils/assertNever'
 import { buttonStyles } from './Button.styles'
 
 type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   text: string
   size: 'large' | 'medium' | 'small'
-  type: 'primary' | 'secondary' | 'text' | 'rounded' | 'custom'
+  type: 'primary' | 'secondary' | 'text'
   isLoading?: boolean
+  rounded?: boolean
   style?: Omit<ViewStyle, 'backgroundColor'>
   leftIcon?: IconProp
   rightIcon?: IconProp
 }
 
 const Button = (props: PropsT) => {
+  const theme = useAppTheme()
+
   const getBackgroundColor = (): string => {
     switch (props.type) {
       case 'primary':
-      case 'rounded':
-        return '#000'
+        return theme.colors.primary
       case 'secondary':
-        return 'grey'
+        return theme.colors.secondaryBackground
       case 'text':
         return 'transparent'
-      case 'custom':
-        return 'grey'
       default:
         assertNever(props.type)
     }
@@ -41,14 +42,11 @@ const Button = (props: PropsT) => {
   const getTextColor = (): string => {
     switch (props.type) {
       case 'primary':
-      case 'rounded':
-        return '#fff'
+        return theme.colors.white
       case 'secondary':
-        return '#000'
+        return theme.colors.text
       case 'text':
-        return 'grey'
-      case 'custom':
-        return '#000'
+        return theme.colors.text
       default:
         assertNever(props.type)
     }
@@ -63,6 +61,18 @@ const Button = (props: PropsT) => {
         return 'large'
       default:
         assertNever(props.size)
+    }
+  }
+
+  const getLoaderColor = () => {
+    switch (props.type) {
+      case 'primary':
+        return theme.colors.white
+      case 'secondary':
+      case 'text':
+        return theme.colors.text
+      default:
+        assertNever(props.type)
     }
   }
 
@@ -94,7 +104,9 @@ const Button = (props: PropsT) => {
 
   const renderContent = (): JSX.Element => {
     if (props.isLoading) {
-      return <ActivityIndicator size={getLoaderSize()} />
+      return (
+        <ActivityIndicator size={getLoaderSize()} color={getLoaderColor()} />
+      )
     }
 
     return (
@@ -138,10 +150,18 @@ const Button = (props: PropsT) => {
           backgroundColor,
           paddingVertical: props.type !== 'text' ? 10 : 0,
           paddingHorizontal: props.type !== 'text' ? 10 : 0,
-          borderRadius: props.type === 'rounded' ? 100 : 10
+          borderRadius: props.rounded ? 100 : 10
         }
       }),
-    [lineHeight, textColor, fontSize, backgroundColor, props.style, props.type]
+    [
+      lineHeight,
+      textColor,
+      fontSize,
+      backgroundColor,
+      props.style,
+      props.type,
+      props.rounded
+    ]
   )
 
   return (

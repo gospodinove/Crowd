@@ -14,6 +14,7 @@ import AuthenticationScreen from './Authentication/AuthenticationScreen'
 import CreatePlanScreen from './CreatePlan/CreatePlanScreen'
 import SplashScreen from './SplashScreen'
 import TabNavigator from './TabNavigator'
+import ThemeProvider from './ThemeProvider'
 
 const RootStack = createStackNavigator<RootStackParamsT>()
 
@@ -48,7 +49,11 @@ const Root = (props: ReduxPropsT) => {
   }
 
   if (!userCredentials) {
-    return <AuthenticationScreen />
+    return (
+      <ThemeProvider>
+        <AuthenticationScreen />
+      </ThemeProvider>
+    )
   }
 
   if (!props.isUserDataLoaded) {
@@ -66,12 +71,14 @@ const Root = (props: ReduxPropsT) => {
   }
 
   return (
-    <NavigationContainer>
-      <RootStack.Navigator initialRouteName="tab" screenOptions={rootOptions}>
-        <RootStack.Screen name="createPlan" component={CreatePlanScreen} />
-        <RootStack.Screen name="tab" component={TabNavigator} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <ThemeProvider>
+      <NavigationContainer>
+        <RootStack.Navigator initialRouteName="tab" screenOptions={rootOptions}>
+          <RootStack.Screen name="createPlan" component={CreatePlanScreen} />
+          <RootStack.Screen name="tab" component={TabNavigator} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   )
 }
 
