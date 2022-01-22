@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React, { memo, useContext, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { Text, View } from 'react-native'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { PlanT } from '../types/Plan'
 import { formatDate } from '../utils/date'
 import { planItemStyles } from './PlanItem.styles'
-import { ThemeContext } from './ThemeProvider'
 import VerticalSeparator from './VerticalSepartor'
 
 type PropsT = { data: PlanT }
 
 const PlanItem = (props: PropsT) => {
-  const theme = useContext(ThemeContext)
+  const theme = useAppTheme()
 
   const style = useMemo(
     () =>

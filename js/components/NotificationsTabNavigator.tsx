@@ -1,13 +1,13 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import React, { memo, useContext, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { NotificationsTabNavigatorPropsT } from '../types/NotificationsTabNavigatorProps'
 import NotificationsScreen from './NotificationsScreen'
-import { ThemeContext } from './ThemeProvider'
 
 const Stack = createStackNavigator<NotificationsTabNavigatorPropsT>()
 
 const NotificationsTabNavigator = () => {
-  const theme = useContext(ThemeContext)
+  const theme = useAppTheme()
 
   return (
     <Stack.Navigator

@@ -6,11 +6,12 @@ import DateTimePicker, {
 } from '@react-native-community/datetimepicker'
 import firestore from '@react-native-firebase/firestore'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback, useContext, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { planColors } from '../../constants/planColors'
 import { planIcons } from '../../constants/planIcons'
+import { useAppTheme } from '../../hooks/useAppTheme'
 import { plansSlice } from '../../reducers/plans'
 import { RootState } from '../../redux/store'
 import { ModalScreensParamsT } from '../../types/ModalScreensParams'
@@ -20,7 +21,6 @@ import { createPlanLoader } from '../../utils/loaders'
 import Button from '../Button'
 import ScrollContainer from '../ScrollContainer'
 import TextInput from '../TextInput'
-import { ThemeContext } from '../ThemeProvider'
 import VerticalSeparator from '../VerticalSepartor'
 import ColorSelector from './ColorSelector'
 import IconSelector from './IconSelector'
@@ -42,7 +42,7 @@ type NavigationPropsT = StackScreenProps<ModalScreensParamsT, 'createPlan'>
 type PropsT = ReduxPropsT & NavigationPropsT
 
 const CreatePlanScreen = (props: PropsT) => {
-  const theme = useContext(ThemeContext)
+  const theme = useAppTheme()
 
   const [selectedColor, setSelectedColor] = useState<string>(planColors[0])
   const [selectedIcon, setSelectedIcon] = useState<IconProp>(planIcons[0])

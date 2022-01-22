@@ -1,13 +1,13 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import React, { memo, useContext, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { MoreTabNavigatorPropsT } from '../types/MoreTabNavigatorProps'
 import MoreScreen from './MoreScreen'
-import { ThemeContext } from './ThemeProvider'
 
 const Stack = createStackNavigator<MoreTabNavigatorPropsT>()
 
 const MoreTabNavigator = () => {
-  const theme = useContext(ThemeContext)
+  const theme = useAppTheme()
 
   return (
     <Stack.Navigator

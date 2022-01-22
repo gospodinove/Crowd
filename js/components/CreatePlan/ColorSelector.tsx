@@ -1,7 +1,7 @@
-import React, { memo, useCallback, useContext, useMemo } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, ScrollView, View, ViewStyle } from 'react-native'
 import { planColors } from '../../constants/planColors'
-import { ThemeContext } from '../ThemeProvider'
+import { useAppTheme } from '../../hooks/useAppTheme'
 
 type PropsT = {
   selectedColor: string
@@ -10,7 +10,7 @@ type PropsT = {
 }
 
 const ColorSelector = (props: PropsT) => {
-  const theme = useContext(ThemeContext)
+  const theme = useAppTheme()
 
   return (
     <ScrollView

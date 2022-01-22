@@ -1,9 +1,9 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React, { memo, useCallback, useContext, useMemo } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
 import { planIcons } from '../../constants/planIcons'
-import { ThemeContext } from '../ThemeProvider'
+import { useAppTheme } from '../../hooks/useAppTheme'
 
 type PropsT = {
   selectedIcon: IconProp
@@ -12,7 +12,7 @@ type PropsT = {
 }
 
 const IconSelector = (props: PropsT) => {
-  const theme = useContext(ThemeContext)
+  const theme = useAppTheme()
 
   return (
     <View

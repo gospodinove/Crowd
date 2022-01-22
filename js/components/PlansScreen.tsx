@@ -1,13 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useLayoutEffect
-} from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { plansSlice } from '../reducers/plans'
 import { RootState } from '../redux/store'
 import { ModalScreensParamsT } from '../types/ModalScreensParams'
@@ -17,7 +12,6 @@ import { plansLoader } from '../utils/loaders'
 import IconButton from './IconButton'
 import PlanItem from './PlanItem'
 import ScreenWithLoader from './ScreenWithLoader'
-import { ThemeContext } from './ThemeProvider'
 
 type NavigationPropsT = StackScreenProps<
   PlansTabNavigatorPropsT & ModalScreensParamsT,
@@ -41,7 +35,7 @@ const renderItem = (item: ListRenderItemInfo<PlanT>) => (
 )
 
 const PlansScreen = (props: PropsT) => {
-  const theme = useContext(ThemeContext)
+  const theme = useAppTheme()
 
   useEffect(() => {
     maybeFetchPlans()

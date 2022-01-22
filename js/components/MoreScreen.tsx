@@ -1,11 +1,11 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useContext, useLayoutEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { userSlice } from '../reducers/user'
 import { MoreTabNavigatorPropsT } from '../types/MoreTabNavigatorProps'
 import IconButton from './IconButton'
-import { ThemeContext } from './ThemeProvider'
 
 type NavigationPropsT = StackScreenProps<MoreTabNavigatorPropsT, 'more'>
 
@@ -16,7 +16,7 @@ type ReduxPropsT = ConnectedProps<typeof connector>
 type PropsT = NavigationPropsT & ReduxPropsT
 
 const MoreScreen = (props: PropsT) => {
-  const theme = useContext(ThemeContext)
+  const theme = useAppTheme()
 
   useLayoutEffect(() => {
     props.navigation.setOptions({

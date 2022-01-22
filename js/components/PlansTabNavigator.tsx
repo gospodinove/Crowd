@@ -1,13 +1,13 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import React, { memo, useContext, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { PlansTabNavigatorPropsT } from '../types/PlansTabNavigatorProps'
 import PlansScreen from './PlansScreen'
-import { ThemeContext } from './ThemeProvider'
 
 const Stack = createStackNavigator<PlansTabNavigatorPropsT>()
 
 const PlansTabNavigator = () => {
-  const theme = useContext(ThemeContext)
+  const theme = useAppTheme()
 
   return (
     <Stack.Navigator
