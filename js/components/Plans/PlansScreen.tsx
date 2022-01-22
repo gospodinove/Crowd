@@ -90,6 +90,7 @@ const PlansScreen = (props: PropsT) => {
     <ScreenWithLoader
       isLoading={props.isLoading}
       size="large"
+      color={theme.colors.text}
       containerStyle={useMemo(
         () => ({ backgroundColor: theme.colors.background }),
         [theme]
