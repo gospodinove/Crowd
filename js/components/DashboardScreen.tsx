@@ -21,7 +21,7 @@ const DashboardScreen = (props: PropsT) => {
 
   const containerStyle = {
     margin: 20,
-    backgroundColor: theme.colors.card,
+    backgroundColor: theme.colors.secondaryBackground,
     borderWidth: 1,
     borderColor: theme.colors.border,
     borderRadius: 10,

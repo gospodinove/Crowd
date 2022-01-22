@@ -31,7 +31,7 @@ const Button = (props: PropsT) => {
       case 'rounded':
         return theme.colors.primary
       case 'secondary':
-        return theme.colors.card
+        return theme.colors.secondaryBackground
       case 'text':
         return 'transparent'
       default:

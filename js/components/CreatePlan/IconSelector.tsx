@@ -45,7 +45,9 @@ const IconSelector = (props: PropsT) => {
                 height: 70,
                 borderRadius: 35,
                 backgroundColor:
-                  i == props.selectedIcon ? theme.colors.card : undefined,
+                  i == props.selectedIcon
+                    ? theme.colors.secondaryBackground
+                    : undefined,
                 justifyContent: 'center',
                 alignItems: 'center'
               }),
