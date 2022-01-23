@@ -24,6 +24,7 @@ const TabbedView = (props: PropsT) => {
 
   const renderScene = useCallback(
     SceneMap(
+      // props.tabs to an array of {key: screen}
       props.tabs.reduce(
         (result, item) => ({ ...result, [item.key]: item.screen }),
         {}
