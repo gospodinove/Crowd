@@ -46,12 +46,7 @@ const PlanItem = (props: PropsT) => {
       {renderAvatar()}
 
       <View style={style.detailsContainer}>
-        <Text
-          size={18}
-          weight="semibold"
-          lineHeight={20}
-          color={theme.colors.text}
-        >
+        <Text size={18} weight="semibold" lineHeight={20}>
           {props.data.name}
         </Text>
 
@@ -60,12 +55,7 @@ const PlanItem = (props: PropsT) => {
 
           <VerticalSeparator type="circle" size={3} spacing={5} color="grey" />
 
-          <Text
-            size={11}
-            color={theme.colors.text}
-            weight="regular"
-            lineHeight={20}
-          >
+          <Text size={11} weight="regular" lineHeight={20}>
             {formatDate(props.data.startDate.toDate())}
           </Text>
           <VerticalSeparator
@@ -74,12 +64,7 @@ const PlanItem = (props: PropsT) => {
             spacing={2}
             color="grey"
           />
-          <Text
-            size={11}
-            color={theme.colors.text}
-            weight="regular"
-            lineHeight={20}
-          >
+          <Text size={11} weight="regular" lineHeight={20}>
             {formatDate(props.data.endDate.toDate())}
           </Text>
         </View>

@@ -140,9 +140,6 @@ const Button = (props: PropsT) => {
     )
   }
 
-  const lineHeight = getLineHeight()
-  const textColor = getTextColor()
-  const fontSize = getFontSize()
   const backgroundColor = getBackgroundColor()
 
   const style = useMemo(
@@ -156,15 +153,7 @@ const Button = (props: PropsT) => {
           borderRadius: props.rounded ? 100 : 10
         }
       }),
-    [
-      lineHeight,
-      textColor,
-      fontSize,
-      backgroundColor,
-      props.style,
-      props.type,
-      props.rounded
-    ]
+    [backgroundColor, props.style, props.type, props.rounded]
   )
 
   return (
