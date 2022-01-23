@@ -1,6 +1,7 @@
 import React, { memo, useMemo } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { assertNever } from '../utils/assertNever'
+import Text from './Text'
 
 type CharacterSeparatorsT = 'dash' | 'long-dash' | 'arrow-left' | 'arrow-right'
 
@@ -61,7 +62,7 @@ const renderCharacter = (
   size: number,
   color: string
 ) => (
-  <Text style={useMemo(() => ({ fontSize: size, color }), [size, color])}>
+  <Text size={size} color={color} lineHeight={20} weight="regular">
     {getCharater(characterType)}
   </Text>
 )

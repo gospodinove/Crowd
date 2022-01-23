@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useMemo } from 'react'
 import {
   ActivityIndicator,
-  Text,
   TouchableOpacity,
   TouchableOpacityProps,
   ViewStyle
@@ -11,6 +10,7 @@ import {
 import { useAppTheme } from '../hooks/useAppTheme'
 import { assertNever } from '../utils/assertNever'
 import { buttonStyles } from './Button.styles'
+import Text from './Text'
 
 type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   text: string
@@ -119,7 +119,15 @@ const Button = (props: PropsT) => {
           />
         ) : null}
 
-        <Text style={style.text}>{props.text}</Text>
+        <Text
+          weight="regular"
+          lineHeight={getLineHeight()}
+          color={getTextColor()}
+          size={getFontSize()}
+          style={style.text}
+        >
+          {props.text}
+        </Text>
 
         {props.rightIcon ? (
           <FontAwesomeIcon
@@ -132,19 +140,11 @@ const Button = (props: PropsT) => {
     )
   }
 
-  const lineHeight = getLineHeight()
-  const textColor = getTextColor()
-  const fontSize = getFontSize()
   const backgroundColor = getBackgroundColor()
 
   const style = useMemo(
     () =>
       buttonStyles({
-        text: {
-          lineHeight,
-          color: textColor,
-          fontSize
-        },
         container: {
           ...props.style,
           backgroundColor,
@@ -153,15 +153,7 @@ const Button = (props: PropsT) => {
           borderRadius: props.rounded ? 100 : 10
         }
       }),
-    [
-      lineHeight,
-      textColor,
-      fontSize,
-      backgroundColor,
-      props.style,
-      props.type,
-      props.rounded
-    ]
+    [backgroundColor, props.style, props.type, props.rounded]
   )
 
   return (

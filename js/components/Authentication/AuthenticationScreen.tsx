@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
-import { Animated, Text, View } from 'react-native'
+import { Animated, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { connect, ConnectedProps } from 'react-redux'
 import { ConstStyles } from '../../constants/style'
@@ -8,6 +8,7 @@ import { userSlice } from '../../reducers/user'
 import { RootState } from '../../redux/store'
 import { loginLoader, signUpLoader } from '../../utils/loaders'
 import Button from '../Button'
+import Text from '../Text'
 import { authStyles } from './AuthenticationScreen.styles'
 import LoginCard from './LoginCard'
 import SignUpCard from './SignUpCard'
@@ -113,7 +114,12 @@ const AuthenticationScreen = (props: PropsT) => {
             onButtonPress={onLoginPress}
           />
           <View style={authStyles.cardFooterContainer}>
-            <Text style={authStyles.loginCardFooterText}>
+            <Text
+              lineHeight={20}
+              weight="regular"
+              size={14}
+              style={authStyles.loginCardFooterText}
+            >
               You do not have an account?
             </Text>
             <Button
@@ -140,7 +146,12 @@ const AuthenticationScreen = (props: PropsT) => {
               leftIcon="chevron-left"
               onPress={switchMode}
             />
-            <Text style={authStyles.signUpCardFooterText}>
+            <Text
+              lineHeight={20}
+              weight="regular"
+              size={14}
+              style={authStyles.signUpCardFooterText}
+            >
               You already have an account?
             </Text>
           </View>
