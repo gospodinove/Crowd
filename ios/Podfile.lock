@@ -365,6 +365,9 @@ PODS:
     - FirebaseAnalytics (~> 8.11.0)
   - Firebase/CoreOnly (8.11.0):
     - FirebaseCore (= 8.11.0)
+  - Firebase/DynamicLinks (8.11.0):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 8.11.0)
   - Firebase/Firestore (8.11.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 8.11.0)
@@ -400,6 +403,8 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (~> 2.30908.0)
+  - FirebaseDynamicLinks (8.11.0):
+    - FirebaseCore (~> 8.0)
   - FirebaseFirestore (8.11.0):
     - abseil/algorithm (= 0.20200225.0)
     - abseil/base (= 0.20200225.0)
@@ -839,6 +844,11 @@ PODS:
     - Firebase/Auth (= 8.11.0)
     - React-Core
     - RNFBApp
+  - RNFBDynamicLinks (14.2.3):
+    - Firebase/DynamicLinks (= 8.11.0)
+    - GoogleUtilities/AppDelegateSwizzler
+    - React-Core
+    - RNFBApp
   - RNFBFirestore (12.9.3):
     - Firebase/Firestore (= 8.11.0)
     - React-Core
@@ -916,6 +926,7 @@ DEPENDENCIES:
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
+  - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLocalize (from `../node_modules/react-native-localize`)
@@ -933,6 +944,7 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseDynamicLinks
     - FirebaseFirestore
     - FirebaseInstallations
     - Flipper
@@ -1031,6 +1043,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
+  RNFBDynamicLinks:
+    :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNGestureHandler:
@@ -1057,6 +1071,7 @@ SPEC CHECKSUMS:
   FirebaseAuth: d96d73aba85d192d7a7aa0b86dd6d7f8ec170b4b
   FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
   FirebaseCoreDiagnostics: 64d9709d804a6c25bd77841371c1fcfd909d5601
+  FirebaseDynamicLinks: f506c83eb7eba0f9861f84cd6b65c38b3bd5ff6f
   FirebaseFirestore: 3b2e4b532c68809b3df5f8d39d28b3398ffc196b
   FirebaseInstallations: 044eede8a049bce71c4541ee68d6e4364fcbe774
   Flipper: 30e8eeeed6abdc98edaf32af0cda2f198be4b733
@@ -1112,6 +1127,7 @@ SPEC CHECKSUMS:
   RNFBAnalytics: 2dbe78d2c4213ad68922b2a59148943a24d464ac
   RNFBApp: 0d0ffe0e3aacdf9fcad35f90b79bd8a3d3a99844
   RNFBAuth: 6607d2302910b5d01ba702cbaf5e350a09b9e86b
+  RNFBDynamicLinks: e9390d129dd2ff70ef357e7a5c7fe4f0ba0126df
   RNFBFirestore: b68411a1145c04402692098ae6637f627e3c994c
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
