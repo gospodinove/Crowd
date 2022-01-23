@@ -29,6 +29,7 @@ const PlanScreen = (props: PropsT) => {
         { key: 'overview', title: 'Overview', screen: DashboardScreen },
         { key: 'schedule', title: 'Schedule', screen: NotificationsScreen },
         { key: 'payments', title: 'Payments', screen: NotificationsScreen },
+        { key: 'members', title: 'Members', screen: NotificationsScreen },
         { key: 'cars', title: 'Cars', screen: NotificationsScreen }
       ]}
       backgroundColor={props.route.params.color}
