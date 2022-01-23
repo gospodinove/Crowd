@@ -1,11 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useMemo } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../hooks/useAppTheme'
 import { RootState } from '../redux/store'
 import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
 import Card from './Card'
+import Text from './Text'
 
 const connector = connect((state: RootState) => ({
   user: state.user.data
@@ -32,13 +33,13 @@ const DashboardScreen = (props: PropsT) => {
       )}
     >
       <Card>
-        <Text style={{ color: theme.colors.text }}>
+        <Text weight="regular" size={14} lineHeight={20}>
           {'First name: ' + (props.user?.firstName ?? '-')}
         </Text>
-        <Text style={{ color: theme.colors.text }}>
+        <Text weight="regular" size={14} lineHeight={20}>
           {'Last name: ' + (props.user?.lastName ?? '-')}
         </Text>
-        <Text style={{ color: theme.colors.text }}>
+        <Text weight="regular" size={14} lineHeight={20}>
           {'Email: ' + (props.user?.email ?? '-')}
         </Text>
       </Card>

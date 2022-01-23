@@ -1,9 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useCallback, useMemo } from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { useAppTheme } from '../../hooks/useAppTheme'
 import { PlanT } from '../../types/Plan'
 import { formatDate } from '../../utils/date'
+import Text from '../Text'
 import VerticalSeparator from '../VerticalSepartor'
 import { planItemStyles } from './PlanItem.styles'
 
@@ -15,8 +16,7 @@ const PlanItem = (props: PropsT) => {
   const style = useMemo(
     () =>
       planItemStyles({
-        avatarBackgroundColor: props.data.color,
-        textColor: theme.colors.text
+        avatarBackgroundColor: props.data.color
       }),
     [props.data.color, theme]
   )
@@ -35,7 +35,9 @@ const PlanItem = (props: PropsT) => {
   const renderPeopleCount = () => (
     <>
       <FontAwesomeIcon icon="user" size={11} color="grey" />
-      <Text style={style.peopleCountNumber}>{props.data.userIds.length}</Text>
+      <Text size={11} weight="regular" lineHeight={20}>
+        {props.data.userIds.length}
+      </Text>
     </>
   )
 
@@ -44,14 +46,26 @@ const PlanItem = (props: PropsT) => {
       {renderAvatar()}
 
       <View style={style.detailsContainer}>
-        <Text style={style.name}>{props.data.name}</Text>
+        <Text
+          size={18}
+          weight="semibold"
+          lineHeight={20}
+          color={theme.colors.text}
+        >
+          {props.data.name}
+        </Text>
 
         <View style={style.detailsRow}>
           {renderPeopleCount()}
 
           <VerticalSeparator type="circle" size={3} spacing={5} color="grey" />
 
-          <Text style={style.date}>
+          <Text
+            size={11}
+            color={theme.colors.text}
+            weight="regular"
+            lineHeight={20}
+          >
             {formatDate(props.data.startDate.toDate())}
           </Text>
           <VerticalSeparator
@@ -60,7 +74,12 @@ const PlanItem = (props: PropsT) => {
             spacing={2}
             color="grey"
           />
-          <Text style={style.date}>
+          <Text
+            size={11}
+            color={theme.colors.text}
+            weight="regular"
+            lineHeight={20}
+          >
             {formatDate(props.data.endDate.toDate())}
           </Text>
         </View>

@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useMemo } from 'react'
 import {
   ActivityIndicator,
-  Text,
   TouchableOpacity,
   TouchableOpacityProps,
   ViewStyle
@@ -11,6 +10,7 @@ import {
 import { useAppTheme } from '../hooks/useAppTheme'
 import { assertNever } from '../utils/assertNever'
 import { buttonStyles } from './Button.styles'
+import Text from './Text'
 
 type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   text: string
@@ -119,7 +119,15 @@ const Button = (props: PropsT) => {
           />
         ) : null}
 
-        <Text style={style.text}>{props.text}</Text>
+        <Text
+          weight="regular"
+          lineHeight={getLineHeight()}
+          color={getTextColor()}
+          size={getFontSize()}
+          style={style.text}
+        >
+          {props.text}
+        </Text>
 
         {props.rightIcon ? (
           <FontAwesomeIcon
@@ -140,11 +148,6 @@ const Button = (props: PropsT) => {
   const style = useMemo(
     () =>
       buttonStyles({
-        text: {
-          lineHeight,
-          color: textColor,
-          fontSize
-        },
         container: {
           ...props.style,
           backgroundColor,

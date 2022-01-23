@@ -1,7 +1,8 @@
 import React, { memo, useCallback, useState } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import Button from '../Button'
 import Card from '../Card'
+import Text from '../Text'
 import TextInput from '../TextInput'
 import { signUpCardStyles } from './SignUpCard.styles'
 
@@ -34,7 +35,14 @@ const SignUpCard = (props: PropsT) => {
 
   return (
     <Card>
-      <Text style={signUpCardStyles.title}>One step away from your Crowds</Text>
+      <Text
+        size={20}
+        weight="semibold"
+        lineHeight={30}
+        style={signUpCardStyles.title}
+      >
+        One step away from your Crowds
+      </Text>
 
       <View style={signUpCardStyles.namesRowContainer}>
         <TextInput

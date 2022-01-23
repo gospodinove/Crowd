@@ -1,7 +1,6 @@
 import { ColorValue, StyleSheet } from 'react-native'
 
 type PropsT = {
-  textColor: ColorValue
   avatarBackgroundColor: ColorValue
 }
 
@@ -21,24 +20,11 @@ export const planItemStyles = (props: PropsT) =>
       justifyContent: 'center',
       alignItems: 'center'
     },
-    peopleCountNumber: {
-      fontSize: 11,
-      color: 'grey'
-    },
     detailsContainer: {
       marginHorizontal: 5
-    },
-    name: {
-      fontSize: 18,
-      fontWeight: '600',
-      color: props.textColor
     },
     detailsRow: {
       flexDirection: 'row',
       alignItems: 'center'
-    },
-    date: {
-      fontSize: 11,
-      color: 'grey'
     }
   })

@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useState } from 'react'
-import { Text } from 'react-native'
 import Button from '../Button'
 import Card from '../Card'
+import Text from '../Text'
 import TextInput from '../TextInput'
 import { loginCardStyles } from './LoginCard.styles'
 
@@ -25,7 +25,15 @@ const LoginCard = (props: PropsT) => {
 
   return (
     <Card>
-      <Text style={loginCardStyles.title}>One step away from your Crowds</Text>
+      <Text
+        size={20}
+        weight="semibold"
+        lineHeight={30}
+        style={loginCardStyles.title}
+      >
+        One step away from your Crowds
+      </Text>
+
       <TextInput
         autoCapitalize="none"
         value={email}
