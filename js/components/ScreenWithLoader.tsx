@@ -5,6 +5,7 @@ import { styles } from './ScreenWithLoader.styles'
 type PropsT = {
   isLoading: boolean
   size: 'large' | 'small'
+  color: string
   children: JSX.Element
   containerStyle?: ViewStyle
 }
@@ -21,7 +22,7 @@ const ScreenWithLoader = (props: PropsT) => {
 
       {props.isLoading ? (
         <View style={style.loaderContainer}>
-          <ActivityIndicator animating size={props.size} />
+          <ActivityIndicator animating size={props.size} color={props.color} />
         </View>
       ) : null}
     </View>

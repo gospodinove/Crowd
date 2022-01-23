@@ -1,13 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React, { memo, useMemo } from 'react'
-import { Text, View } from 'react-native'
-import { useAppTheme } from '../hooks/useAppTheme'
-import { PlanT } from '../types/Plan'
-import { formatDate } from '../utils/date'
+import React, { memo, useCallback, useMemo } from 'react'
+import { Pressable, Text, View } from 'react-native'
+import { useAppTheme } from '../../hooks/useAppTheme'
+import { PlanT } from '../../types/Plan'
+import { formatDate } from '../../utils/date'
+import VerticalSeparator from '../VerticalSepartor'
 import { planItemStyles } from './PlanItem.styles'
-import VerticalSeparator from './VerticalSepartor'
 
-type PropsT = { data: PlanT }
+type PropsT = { data: PlanT; onPress: (planId: string) => void }
 
 const PlanItem = (props: PropsT) => {
   const theme = useAppTheme()
@@ -19,6 +19,11 @@ const PlanItem = (props: PropsT) => {
         textColor: theme.colors.text
       }),
     [props.data.color, theme]
+  )
+
+  const onPress = useCallback(
+    () => props.onPress(props.data.id),
+    [props.data.id, props.onPress]
   )
 
   const renderAvatar = () => (
@@ -35,7 +40,7 @@ const PlanItem = (props: PropsT) => {
   )
 
   return (
-    <View style={style.container}>
+    <Pressable style={style.container} onPress={onPress}>
       {renderAvatar()}
 
       <View style={style.detailsContainer}>
@@ -60,7 +65,7 @@ const PlanItem = (props: PropsT) => {
           </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   )
 }
 

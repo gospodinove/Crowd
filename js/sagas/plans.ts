@@ -3,7 +3,7 @@ import { all, call, put, select, takeLatest } from '@redux-saga/core/effects'
 import { loadersSlice } from '../reducers/loaders'
 import { plansSlice } from '../reducers/plans'
 import { RootState } from '../redux/store'
-import { PlanT } from '../types/Plan'
+import { PlanDataT, PlanT } from '../types/Plan'
 import api from '../utils/api'
 import { createPlanLoader, plansLoader } from '../utils/loaders'
 
@@ -19,10 +19,13 @@ function* onFetch() {
       throw new Error('[onFetchPlanIds] - No user id')
     }
 
-    const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<PlanT> =
+    const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<PlanDataT> =
       yield call(api({ type: 'fetchPlans', params: { userId } }))
 
-    const plans = documentSnapshot.docs.map(doc => doc.data())
+    const plans: PlanT[] = documentSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
 
     plans.sort((p1, p2) => p1.startDate.seconds - p2.startDate.seconds)
 
@@ -38,9 +41,15 @@ function* onCreate(action: ReturnType<typeof plansSlice.actions.create>) {
   yield put(loadersSlice.actions.startLoader(createPlanLoader))
 
   try {
-    yield call(api({ type: 'createPlan', params: action.payload }))
+    const documentSnapshot: FirebaseFirestoreTypes.DocumentReference<PlanDataT> =
+      yield call(api({ type: 'createPlan', params: action.payload }))
 
-    yield put(plansSlice.actions.onCreate(action.payload))
+    yield put(
+      plansSlice.actions.onCreate({
+        ...action.payload,
+        id: documentSnapshot.id
+      })
+    )
   } catch (err) {
     console.log(err)
   } finally {

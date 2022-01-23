@@ -1,4 +1,4 @@
-import { PlanT } from './Plan'
+import { PlanDataT } from './Plan'
 
 type ApiCallT =
   | {
@@ -28,7 +28,7 @@ type ApiCallT =
     }
   | {
       type: 'createPlan'
-      params: PlanT
+      params: PlanDataT
     }
   | { type: 'logout'; params: undefined }
 export default ApiCallT

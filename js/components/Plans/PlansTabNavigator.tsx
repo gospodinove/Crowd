@@ -1,7 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React, { memo, useMemo } from 'react'
-import { useAppTheme } from '../hooks/useAppTheme'
-import { PlansTabNavigatorPropsT } from '../types/PlansTabNavigatorProps'
+import { useAppTheme } from '../../hooks/useAppTheme'
+import { PlansTabNavigatorPropsT } from '../../types/PlansTabNavigatorProps'
+import PlanScreen from './PlanScreen'
 import PlansScreen from './PlansScreen'
 
 const Stack = createStackNavigator<PlansTabNavigatorPropsT>()
@@ -29,6 +30,11 @@ const PlansTabNavigator = () => {
         name="plans"
         component={PlansScreen}
         options={useMemo(() => ({ title: 'Plans' }), [])}
+      />
+      <Stack.Screen
+        name="plan"
+        component={PlanScreen}
+        options={useMemo(() => ({ title: 'Plan' }), [])}
       />
     </Stack.Navigator>
   )

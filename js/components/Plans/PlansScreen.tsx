@@ -8,16 +8,16 @@ import React, {
 } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
-import { useAppTheme } from '../hooks/useAppTheme'
-import { plansSlice } from '../reducers/plans'
-import { RootState } from '../redux/store'
-import { ModalScreensParamsT } from '../types/ModalScreensParams'
-import { PlanT } from '../types/Plan'
-import { PlansTabNavigatorPropsT } from '../types/PlansTabNavigatorProps'
-import { plansLoader } from '../utils/loaders'
-import IconButton from './IconButton'
+import { useAppTheme } from '../../hooks/useAppTheme'
+import { plansSlice } from '../../reducers/plans'
+import { RootState } from '../../redux/store'
+import { ModalScreensParamsT } from '../../types/ModalScreensParams'
+import { PlanT } from '../../types/Plan'
+import { PlansTabNavigatorPropsT } from '../../types/PlansTabNavigatorProps'
+import { plansLoader } from '../../utils/loaders'
+import IconButton from '../IconButton'
+import ScreenWithLoader from '../ScreenWithLoader'
 import PlanItem from './PlanItem'
-import ScreenWithLoader from './ScreenWithLoader'
 
 type NavigationPropsT = StackScreenProps<
   PlansTabNavigatorPropsT & ModalScreensParamsT,
@@ -26,7 +26,7 @@ type NavigationPropsT = StackScreenProps<
 
 const connector = connect(
   (state: RootState) => ({
-    plans: state.plans.plans,
+    plans: state.plans.data,
     isLoading: state.loaders.runningLoaders[plansLoader]
   }),
   { fetchPlans: plansSlice.actions.fetch }
@@ -35,10 +35,6 @@ const connector = connect(
 type ReduxPropsT = ConnectedProps<typeof connector>
 
 type PropsT = NavigationPropsT & ReduxPropsT
-
-const renderItem = (item: ListRenderItemInfo<PlanT>) => (
-  <PlanItem data={item.item} />
-)
 
 const PlansScreen = (props: PropsT) => {
   const theme = useAppTheme()
@@ -70,10 +66,31 @@ const PlansScreen = (props: PropsT) => {
     props.fetchPlans()
   }, [props.fetchPlans])
 
+  const onPlanItemPress = useCallback(
+    (planId: string) => {
+      const plan = props.plans.find(item => item.id === planId)
+
+      if (!plan) {
+        return
+      }
+
+      props.navigation.push('plan', plan)
+    },
+    [props.plans, props.navigation]
+  )
+
+  const renderItem = useCallback(
+    (item: ListRenderItemInfo<PlanT>) => (
+      <PlanItem data={item.item} onPress={onPlanItemPress} />
+    ),
+    [onPlanItemPress]
+  )
+
   return (
     <ScreenWithLoader
       isLoading={props.isLoading}
       size="large"
+      color={theme.colors.text}
       containerStyle={useMemo(
         () => ({ backgroundColor: theme.colors.background }),
         [theme]
