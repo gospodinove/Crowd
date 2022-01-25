@@ -1,13 +1,23 @@
+import {
+  createMaterialTopTabNavigator,
+  MaterialTopTabBarProps
+} from '@react-navigation/material-top-tabs'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useLayoutEffect } from 'react'
+import { GroupPlanTabBarPropsT } from '../../types/GroupPlanTabBarProps'
 import { PlansTabNavigatorPropsT } from '../../types/PlansTabNavigatorProps'
 import DashboardScreen from '../DashboardScreen'
 import NotificationsScreen from '../NotificationsScreen'
-import TabbedView from '../TabbedView'
+import TabBar from '../TabBar'
+import MembersScreen from './MembersScreen'
 
 type NavigationPropsT = StackScreenProps<PlansTabNavigatorPropsT, 'plan'>
 
 type PropsT = NavigationPropsT
+
+const Tab = createMaterialTopTabNavigator<GroupPlanTabBarPropsT>()
+
+const tabNames = ['Overview', 'Schedule', 'Payments', 'Members', 'Cars']
 
 const PlanScreen = (props: PropsT) => {
   useLayoutEffect(() => {
@@ -23,17 +33,25 @@ const PlanScreen = (props: PropsT) => {
     })
   }, [props.navigation, props.route.params.name, props.route.params.color])
 
+  const renderTabBar = useCallback(
+    (tabBarProps: MaterialTopTabBarProps) => (
+      <TabBar
+        {...tabBarProps}
+        backgroundColor={props.route.params.color}
+        titles={tabNames}
+      />
+    ),
+    [props.route.params.color, tabNames]
+  )
+
   return (
-    <TabbedView
-      tabs={[
-        { key: 'overview', title: 'Overview', screen: DashboardScreen },
-        { key: 'schedule', title: 'Schedule', screen: NotificationsScreen },
-        { key: 'payments', title: 'Payments', screen: NotificationsScreen },
-        { key: 'members', title: 'Members', screen: NotificationsScreen },
-        { key: 'cars', title: 'Cars', screen: NotificationsScreen }
-      ]}
-      backgroundColor={props.route.params.color}
-    />
+    <Tab.Navigator tabBar={renderTabBar}>
+      <Tab.Screen name="overview" component={DashboardScreen} />
+      <Tab.Screen name="schedule" component={NotificationsScreen} />
+      <Tab.Screen name="payments" component={DashboardScreen} />
+      <Tab.Screen name="members" component={MembersScreen} />
+      <Tab.Screen name="cars" component={NotificationsScreen} />
+    </Tab.Navigator>
   )
 }
 
