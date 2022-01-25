@@ -4,11 +4,11 @@ import {
 } from '@react-navigation/material-top-tabs'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useCallback, useLayoutEffect } from 'react'
-import { GroupPlanTabBarPropsT } from '../../types/GroupPlanTabBarProps'
-import { PlansTabNavigatorPropsT } from '../../types/PlansTabNavigatorProps'
+import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
+import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
+import TabBar from '../../TabBar'
 import DashboardScreen from '../DashboardScreen'
 import NotificationsScreen from '../NotificationsScreen'
-import TabBar from '../TabBar'
 import MembersScreen from './MembersScreen'
 
 type NavigationPropsT = StackScreenProps<PlansTabNavigatorPropsT, 'plan'>

@@ -1,9 +1,9 @@
 import React, { memo, useCallback, useState } from 'react'
 import { View } from 'react-native'
-import Button from '../Button'
-import Card from '../Card'
-import Text from '../Text'
-import TextInput from '../TextInput'
+import Button from '../../Button'
+import Card from '../../Card'
+import Text from '../../Text'
+import TextInput from '../../TextInput'
 import { signUpCardStyles } from './SignUpCard.styles'
 
 type PropsT = {

@@ -4,10 +4,10 @@ import React, { memo, useMemo } from 'react'
 import { useAppTheme } from '../hooks/useAppTheme'
 import { TabNavigatorParamsT } from '../types/TabNavigatorParams'
 import { getIconForTab } from '../utils/navigator'
-import DashboardTabNavigator from './DashboardTabNavigator'
-import MoreTabNavigator from './MoreTabNavigator'
-import NotificationsTabNavigator from './NotificationsTabNavigator'
-import PlansTabNavigator from './Plans/PlansTabNavigator'
+import DashboardTabNavigator from './Screens/DashboardTabNavigator'
+import MoreTabNavigator from './Screens/MoreTabNavigator'
+import NotificationsTabNavigator from './Screens/NotificationsTabNavigator'
+import PlansTabNavigator from './Screens/Plans/PlansTabNavigator'
 
 const Tab = createBottomTabNavigator<TabNavigatorParamsT>()
 

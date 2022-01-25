@@ -2,10 +2,10 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useLayoutEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
-import { useAppTheme } from '../hooks/useAppTheme'
-import { userSlice } from '../reducers/user'
-import { MoreTabNavigatorPropsT } from '../types/MoreTabNavigatorProps'
-import IconButton from './IconButton'
+import { useAppTheme } from '../../hooks/useAppTheme'
+import { userSlice } from '../../reducers/user'
+import { MoreTabNavigatorPropsT } from '../../types/MoreTabNavigatorProps'
+import IconButton from '../IconButton'
 
 type NavigationPropsT = StackScreenProps<MoreTabNavigatorPropsT, 'more'>
 

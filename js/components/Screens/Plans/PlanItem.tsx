@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View } from 'react-native'
-import { useAppTheme } from '../../hooks/useAppTheme'
-import { PlanT } from '../../types/Plan'
-import { formatDate } from '../../utils/date'
-import Text from '../Text'
-import VerticalSeparator from '../VerticalSepartor'
+import { useAppTheme } from '../../../hooks/useAppTheme'
+import { PlanT } from '../../../types/Plan'
+import { formatDate } from '../../../utils/date'
+import Text from '../../Text'
+import VerticalSeparator from '../../VerticalSepartor'
 import { planItemStyles } from './PlanItem.styles'
 
 type PropsT = { data: PlanT; onPress: (planId: string) => void }

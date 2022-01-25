@@ -2,8 +2,8 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
-import { planIcons } from '../../constants/planIcons'
-import { useAppTheme } from '../../hooks/useAppTheme'
+import { planIcons } from '../../../../constants/planIcons'
+import { useAppTheme } from '../../../../hooks/useAppTheme'
 
 type PropsT = {
   selectedIcon: IconProp

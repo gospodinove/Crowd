@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react'
 import { View } from 'react-native'
-import { useAppTheme } from '../hooks/useAppTheme'
+import { useAppTheme } from '../../hooks/useAppTheme'
 
 const NotificationsScreen = () => {
   const theme = useAppTheme()
