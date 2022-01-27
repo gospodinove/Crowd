@@ -1,8 +1,8 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
+import { IconNameT } from './IconName'
 
 export type PlanDataT = {
-  icon: IconProp
+  icon: IconNameT
   name: string
   color: string
   startDate: FirebaseFirestoreTypes.Timestamp

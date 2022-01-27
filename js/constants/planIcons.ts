@@ -1,6 +1,6 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { IconNameT } from '../types/IconName'
 
-export const planIcons: IconProp[] = [
+export const planIcons: IconNameT[] = [
   'users',
   'user-friends',
   'layer-group',
