@@ -1,10 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { memo, useMemo } from 'react'
 import { useAppTheme } from '../hooks/useAppTheme'
 import { TabNavigatorParamsT } from '../types/TabNavigatorParams'
 import { getIconForTab } from '../utils/navigator'
 import DashboardTabNavigator from './DashboardTabNavigator'
+import Icon from './Icon'
 import MoreTabNavigator from './MoreTabNavigator'
 import NotificationsTabNavigator from './NotificationsTabNavigator'
 import PlansTabNavigator from './Plans/PlansTabNavigator'
@@ -21,8 +21,8 @@ const TabNavigator = () => {
         () =>
           ({ route }) => ({
             tabBarIcon: ({ color, size }) => (
-              <FontAwesomeIcon
-                icon={getIconForTab(route.name)}
+              <Icon
+                name={getIconForTab(route.name)}
                 size={size}
                 color={color}
               />

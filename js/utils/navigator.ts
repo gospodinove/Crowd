@@ -1,9 +1,9 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { IconNameT } from '../types/IconName'
 import { TabNavigatorParamsT } from '../types/TabNavigatorParams'
 
 export const getIconForTab = (
   routeName: keyof TabNavigatorParamsT
-): IconProp => {
+): IconNameT => {
   switch (routeName) {
     case 'dashboardStack':
       return 'tachometer-alt'
