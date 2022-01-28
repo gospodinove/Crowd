@@ -1,5 +1,3 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import DateTimePicker, {
   AndroidEvent,
   WindowsDatePickerChangeEvent
@@ -14,11 +12,13 @@ import { planIcons } from '../../../../constants/planIcons'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
 import { plansSlice } from '../../../../reducers/plans'
 import { RootState } from '../../../../redux/store'
+import { IconNameT } from '../../../../types/IconName'
 import { ModalScreensParamsT } from '../../../../types/ModalScreensParams'
 import { assertNever } from '../../../../utils/assertNever'
 import { formatDate } from '../../../../utils/date'
 import { createPlanLoader } from '../../../../utils/loaders'
 import Button from '../../../Button'
+import Icon from '../../../Icon'
 import ScrollContainer from '../../../ScrollContainer'
 import TextInput from '../../../TextInput'
 import VerticalSeparator from '../../../VerticalSepartor'
@@ -45,7 +45,7 @@ const CreatePlanScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
   const [selectedColor, setSelectedColor] = useState<string>(planColors[0])
-  const [selectedIcon, setSelectedIcon] = useState<IconProp>(planIcons[0])
+  const [selectedIcon, setSelectedIcon] = useState<IconNameT>(planIcons[0])
 
   const [name, setName] = useState('')
 
@@ -173,11 +173,7 @@ const CreatePlanScreen = (props: PropsT) => {
               [selectedColor]
             )}
           >
-            <FontAwesomeIcon
-              icon={selectedIcon}
-              size={35}
-              color={theme.colors.black}
-            />
+            <Icon name={selectedIcon} size={35} color={theme.colors.black} />
           </View>
           <View
             style={useMemo(

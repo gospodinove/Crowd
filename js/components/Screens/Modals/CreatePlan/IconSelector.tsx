@@ -1,14 +1,14 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
 import { planIcons } from '../../../../constants/planIcons'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
+import { IconNameT } from '../../../../types/IconName'
+import Icon from '../../../Icon'
 
 type PropsT = {
-  selectedIcon: IconProp
+  selectedIcon: IconNameT
   containerStyle?: ViewStyle
-  onIconPress: (icon: IconProp) => void
+  onIconPress: (icon: IconNameT) => void
 }
 
 const IconSelector = (props: PropsT) => {
@@ -55,7 +55,7 @@ const IconSelector = (props: PropsT) => {
             )}
             onPress={useCallback(() => props.onIconPress(i), [i])}
           >
-            <FontAwesomeIcon icon={i} size={30} color={theme.colors.icon} />
+            <Icon name={i} size={30} color={theme.colors.icon} />
           </Pressable>
         </View>
       ))}

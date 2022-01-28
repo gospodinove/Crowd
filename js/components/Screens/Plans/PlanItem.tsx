@@ -1,9 +1,9 @@
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View } from 'react-native'
 import { useAppTheme } from '../../../hooks/useAppTheme'
 import { PlanT } from '../../../types/Plan'
 import { formatDate } from '../../../utils/date'
+import Icon from '../../Icon'
 import Text from '../../Text'
 import VerticalSeparator from '../../VerticalSepartor'
 import { planItemStyles } from './PlanItem.styles'
@@ -28,13 +28,13 @@ const PlanItem = (props: PropsT) => {
 
   const renderAvatar = () => (
     <View style={style.avatar}>
-      <FontAwesomeIcon icon={props.data.icon} size={20} color="white" />
+      <Icon name={props.data.icon} size={20} color="white" />
     </View>
   )
 
   const renderPeopleCount = () => (
     <>
-      <FontAwesomeIcon icon="user" size={11} color="grey" />
+      <Icon name="user" size={11} color="grey" />
       <Text size={11} weight="regular" lineHeight={20}>
         {props.data.userIds.length}
       </Text>

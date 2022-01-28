@@ -1,5 +1,3 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { memo, useMemo } from 'react'
 import {
   ActivityIndicator,
@@ -8,8 +6,10 @@ import {
   ViewStyle
 } from 'react-native'
 import { useAppTheme } from '../hooks/useAppTheme'
+import { IconNameT } from '../types/IconName'
 import { assertNever } from '../utils/assertNever'
 import { buttonStyles } from './Button.styles'
+import Icon from './Icon'
 import Text from './Text'
 
 type PropsT = Omit<TouchableOpacityProps, 'style'> & {
@@ -19,8 +19,8 @@ type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   isLoading?: boolean
   rounded?: boolean
   style?: Omit<ViewStyle, 'backgroundColor'>
-  leftIcon?: IconProp
-  rightIcon?: IconProp
+  leftIcon?: IconNameT
+  rightIcon?: IconNameT
 }
 
 const Button = (props: PropsT) => {
@@ -112,8 +112,9 @@ const Button = (props: PropsT) => {
     return (
       <>
         {props.leftIcon ? (
-          <FontAwesomeIcon
-            icon={props.leftIcon}
+          <Icon
+            name={props.leftIcon}
+            size={12}
             color={getTextColor()}
             style={style.leftIcon}
           />
@@ -130,8 +131,9 @@ const Button = (props: PropsT) => {
         </Text>
 
         {props.rightIcon ? (
-          <FontAwesomeIcon
-            icon={props.rightIcon}
+          <Icon
+            name={props.rightIcon}
+            size={12}
             color={getTextColor()}
             style={style.rightIcon}
           />
