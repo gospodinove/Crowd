@@ -16,7 +16,7 @@ import { PlanT } from '../../../types/Plan'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
 import { plansLoader } from '../../../utils/loaders'
 import IconButton from '../../IconButton'
-import ScreenWithLoader from '../../ScreenWithLoader'
+import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanItem from './PlanItem'
 
 type NavigationPropsT = StackScreenProps<
@@ -87,7 +87,7 @@ const PlansScreen = (props: PropsT) => {
   )
 
   return (
-    <ScreenWithLoader
+    <LoaderOrChildren
       isLoading={props.isLoading}
       size="large"
       color={theme.colors.text}
@@ -97,7 +97,7 @@ const PlansScreen = (props: PropsT) => {
       )}
     >
       <FlatList<PlanT> data={props.plans} renderItem={renderItem} />
-    </ScreenWithLoader>
+    </LoaderOrChildren>
   )
 }
 

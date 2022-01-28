@@ -6,7 +6,11 @@ import { usersSlice } from '../reducers/users'
 import { RootState } from '../redux/store'
 import { UserDataT, UserT } from '../types/User'
 import api from '../utils/api'
-import { loginLoader, signUpLoader } from '../utils/loaders'
+import {
+  inviteMembersSearch,
+  loginLoader,
+  signUpLoader
+} from '../utils/loaders'
 import { loadUserData, storeUserData } from '../utils/localData'
 
 function* onLogin(action: ReturnType<typeof usersSlice.actions.login>) {
@@ -174,6 +178,8 @@ function* onLogout() {
 }
 
 function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
+  yield put(loadersSlice.actions.startLoader(inviteMembersSearch))
+
   try {
     const rawResults: FirebaseFirestoreTypes.QuerySnapshot<UserDataT> =
       yield call(
@@ -191,9 +197,11 @@ function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
       }
     })
 
-    yield put(usersSlice.actions.onSearch(result))
+    yield put(usersSlice.actions.setSearchResults(result))
   } catch (err) {
     console.log(err)
+  } finally {
+    yield put(loadersSlice.actions.stopLoader(inviteMembersSearch))
   }
 }
 
