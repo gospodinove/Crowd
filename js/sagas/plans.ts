@@ -12,7 +12,7 @@ function* onFetch() {
 
   try {
     const userId: string = yield select(
-      (state: RootState) => state.user.data?.id
+      (state: RootState) => state.users.currentUser?.id
     )
 
     if (!userId) {

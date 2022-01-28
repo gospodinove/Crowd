@@ -9,7 +9,7 @@ import Card from '../Card'
 import Text from '../Text'
 
 const connector = connect((state: RootState) => ({
-  user: state.user.data
+  user: state.users.currentUser
 }))
 
 type ReduxPropsT = ConnectedProps<typeof connector>

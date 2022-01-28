@@ -3,12 +3,12 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { loadersSlice } from '../reducers/loaders'
 import { nativeSlice } from '../reducers/native'
 import { plansSlice } from '../reducers/plans'
-import { userSlice } from '../reducers/user'
+import { usersSlice } from '../reducers/users'
 import rootSaga from '../sagas/root'
 
 export const slices = {
   native: nativeSlice,
-  user: userSlice,
+  users: usersSlice,
   loaders: loadersSlice,
   plans: plansSlice
 }

@@ -7,12 +7,12 @@ import {
 } from '@react-navigation/stack'
 import React, { memo, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { userSlice } from '../reducers/user'
+import { usersSlice } from '../reducers/users'
 import { RootState } from '../redux/store'
 import { RootStackParamsT } from '../types/RootStackParams'
 import AuthenticationScreen from './Screens/Authentication/AuthenticationScreen'
 import CreatePlanScreen from './Screens/Modals/CreatePlan/CreatePlanScreen'
-import InvitePlanMembersScreen from './Screens/Modals/InvitePlanMembers/InviteMembersScreen'
+import InvitePlanMembersScreen from './Screens/Modals/InvitePlanMembers/InvitePlanMembersScreen'
 import SplashScreen from './SplashScreen'
 import TabNavigator from './TabNavigator'
 import ThemeProvider from './ThemeProvider'
@@ -20,9 +20,11 @@ import ThemeProvider from './ThemeProvider'
 const RootStack = createStackNavigator<RootStackParamsT>()
 
 const connector = connect(
-  (state: RootState) => ({ isUserDataLoaded: state.user.data !== undefined }),
+  (state: RootState) => ({
+    isUserDataLoaded: state.users.currentUser !== undefined
+  }),
   {
-    loadUserData: userSlice.actions.loadUserData
+    loadUserData: usersSlice.actions.loadUserData
   }
 )
 

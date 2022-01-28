@@ -4,7 +4,7 @@ import PagerView from 'react-native-pager-view'
 import { connect, ConnectedProps } from 'react-redux'
 import { ConstStyles } from '../../../constants/style'
 import { useAppTheme } from '../../../hooks/useAppTheme'
-import { userSlice } from '../../../reducers/user'
+import { usersSlice } from '../../../reducers/users'
 import { RootState } from '../../../redux/store'
 import { loginLoader, signUpLoader } from '../../../utils/loaders'
 import Button from '../../Button'
@@ -19,8 +19,8 @@ const connector = connect(
     isSignUpLoading: state.loaders.runningLoaders[signUpLoader]
   }),
   {
-    onSignUpPress: userSlice.actions.signUp,
-    onLoginPress: userSlice.actions.login
+    onSignUpPress: usersSlice.actions.signUp,
+    onLoginPress: usersSlice.actions.login
   }
 )
 

@@ -36,6 +36,13 @@ export default function api(call: ApiCallT) {
       return () => firestore().collection('plans').add(call.params)
     case 'logout':
       return () => auth().signOut()
+    case 'searchUsers':
+      return () =>
+        firestore()
+          .collection('users')
+          // '>=' acts as a prefix check
+          .where('email', '>=', call.params.email)
+          .get()
     default:
       assertNever(call)
   }

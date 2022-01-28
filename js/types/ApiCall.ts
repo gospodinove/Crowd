@@ -31,4 +31,5 @@ type ApiCallT =
       params: PlanDataT
     }
   | { type: 'logout'; params: undefined }
+  | { type: 'searchUsers'; params: { email: string } }
 export default ApiCallT

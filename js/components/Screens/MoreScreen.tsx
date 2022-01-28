@@ -3,13 +3,13 @@ import React, { memo, useLayoutEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../hooks/useAppTheme'
-import { userSlice } from '../../reducers/user'
+import { usersSlice } from '../../reducers/users'
 import { MoreTabNavigatorPropsT } from '../../types/MoreTabNavigatorProps'
 import IconButton from '../IconButton'
 
 type NavigationPropsT = StackScreenProps<MoreTabNavigatorPropsT, 'more'>
 
-const connector = connect(null, { logout: userSlice.actions.logout })
+const connector = connect(null, { logout: usersSlice.actions.logout })
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
