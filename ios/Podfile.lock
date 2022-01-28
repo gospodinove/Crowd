@@ -835,11 +835,11 @@ PODS:
   - RNFBApp (14.2.3):
     - Firebase/CoreOnly (= 8.11.0)
     - React-Core
-  - RNFBAuth (12.9.3):
+  - RNFBAuth (14.2.3):
     - Firebase/Auth (= 8.11.0)
     - React-Core
     - RNFBApp
-  - RNFBFirestore (12.9.3):
+  - RNFBFirestore (14.2.3):
     - Firebase/Firestore (= 8.11.0)
     - React-Core
     - RNFBApp
@@ -1116,8 +1116,8 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 1dd15d7ed1ab7d999056bc77879a42920d139c12
   RNFBAnalytics: 2dbe78d2c4213ad68922b2a59148943a24d464ac
   RNFBApp: 0d0ffe0e3aacdf9fcad35f90b79bd8a3d3a99844
-  RNFBAuth: 6607d2302910b5d01ba702cbaf5e350a09b9e86b
-  RNFBFirestore: b68411a1145c04402692098ae6637f627e3c994c
+  RNFBAuth: e156e2afa8695023b7507f76080527bdd3e38cb7
+  RNFBFirestore: 1ba382d55702376493cf6b7f7c5f9d9389fd9a3a
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
   RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
