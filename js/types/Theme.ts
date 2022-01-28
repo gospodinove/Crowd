@@ -8,5 +8,6 @@ export type ThemeT = {
     icon: string
     black: '#000'
     white: '#fff'
+    grey: 'grey'
   }
 }

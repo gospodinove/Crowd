@@ -37,7 +37,6 @@ export const usersSlice = createSlice({
     },
     search: (_, __: PayloadAction<string>) => {},
     setSearchResults: (state, action: PayloadAction<UserT[]>) => {
-      console.log(action.payload)
       state.searchResults = action.payload
     }
   }

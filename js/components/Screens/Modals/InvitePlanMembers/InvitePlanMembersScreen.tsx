@@ -1,6 +1,6 @@
 import { debounce } from 'lodash'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, ListRenderItemInfo, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
 import { usersSlice } from '../../../../reducers/users'
@@ -9,6 +9,7 @@ import { UserT } from '../../../../types/User'
 import { inviteMembersSearch } from '../../../../utils/loaders'
 import LoaderOrChildren from '../../../LoaderOrChildren'
 import TextInput from '../../../TextInput'
+import InvitePlanMemberItem from './InvitePlanMemberItem'
 
 const connector = connect(
   (state: RootState) => ({
@@ -46,6 +47,18 @@ const InvitePlanMembersScreen = (props: PropsT) => {
     [props.search]
   )
 
+  const renderItem = useCallback(
+    (data: ListRenderItemInfo<UserT>) => (
+      <InvitePlanMemberItem user={data.item} />
+    ),
+    []
+  )
+
+  const renderSpacer = useCallback(
+    () => <View style={useMemo(() => ({ height: 5 }), [])} />,
+    []
+  )
+
   return (
     <View
       style={useMemo(
@@ -65,10 +78,16 @@ const InvitePlanMembersScreen = (props: PropsT) => {
         autoCorrect={false}
       />
 
-      <LoaderOrChildren isLoading={props.isLoading} color="grey" size="large">
+      <LoaderOrChildren
+        isLoading={props.isLoading}
+        color={theme.colors.grey}
+        size="large"
+        containerStyle={useMemo(() => ({ marginVertical: 20 }), [])}
+      >
         <FlatList
           data={props.searchResults}
-          renderItem={item => <Text>{item.item.email}</Text>}
+          renderItem={renderItem}
+          ItemSeparatorComponent={renderSpacer}
         />
       </LoaderOrChildren>
     </View>
