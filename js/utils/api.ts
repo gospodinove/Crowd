@@ -37,11 +37,20 @@ export default function api(call: ApiCallT) {
     case 'logout':
       return () => auth().signOut()
     case 'searchUsers':
+      /**
+       * This creates a query to select records by prefix-matching.
+       * Using a start and end values for the property, where the end key is
+       * equal to the start + a very high code point in the Unicode range.
+       * Because it is after most regular characters in Unicode,
+       * the query matches all values that have this prefix.
+       */
+
       return () =>
         firestore()
           .collection('users')
-          // '>=' acts as a prefix check
-          .where('email', '>=', call.params.email)
+          .orderBy('email')
+          .startAt(call.params.email)
+          .endAt(call.params.email + '\u{10ffff}')
           .get()
     default:
       assertNever(call)
