@@ -2,13 +2,13 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { useAppTheme } from '../../../hooks/useAppTheme'
+import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
 import { ModalScreensParamsT } from '../../../types/ModalScreensParams'
-import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
 import Button from '../../Button'
 
 type NavigationPropsT = StackScreenProps<
-  PlansTabNavigatorPropsT & ModalScreensParamsT,
-  'plan'
+  GroupPlanTabBarPropsT & ModalScreensParamsT,
+  'members'
 >
 
 type PropsT = NavigationPropsT
@@ -17,8 +17,11 @@ const MembersScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
   const onPress = useCallback(
-    () => props.navigation.navigate('inviteGroupPlanMembers'),
-    [props.navigation]
+    () =>
+      props.navigation.navigate('inviteGroupPlanMembers', {
+        plan: props.route.params.plan
+      }),
+    [props.navigation, props.route.params.plan]
   )
 
   return (

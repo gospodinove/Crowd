@@ -1,12 +1,16 @@
+import { StackScreenProps } from '@react-navigation/stack'
 import { debounce } from 'lodash'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { FlatList, ListRenderItemInfo, Pressable, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
+import { plansSlice } from '../../../../reducers/plans'
 import { usersSlice } from '../../../../reducers/users'
 import { RootState } from '../../../../redux/store'
+import { ModalScreensParamsT } from '../../../../types/ModalScreensParams'
 import { UserT } from '../../../../types/User'
-import { inviteMembersSearch } from '../../../../utils/loaders'
+import { inviteMembersSearch, setPlanMembers } from '../../../../utils/loaders'
+import Button from '../../../Button'
 import LoaderOrChildren from '../../../LoaderOrChildren'
 import ScrollContainer from '../../../ScrollContainer'
 import Text from '../../../Text'
@@ -18,17 +22,24 @@ import { invitePlanMembersScreenStyles } from './InvitePlanMembersScreen.styles'
 const connector = connect(
   (state: RootState) => ({
     searchResults: state.users.searchResults,
-    isLoading: state.loaders.runningLoaders[inviteMembersSearch]
+    isSearching: state.loaders.runningLoaders[inviteMembersSearch],
+    isSettingPlanMembers: state.loaders.runningLoaders[setPlanMembers]
   }),
   {
     search: usersSlice.actions.search,
-    setSearchResults: usersSlice.actions.setSearchResults
+    setSearchResults: usersSlice.actions.setSearchResults,
+    setPlanMembers: plansSlice.actions.setMembers
   }
 )
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type PropsT = ReduxPropsT
+type NavigationPropsT = StackScreenProps<
+  ModalScreensParamsT,
+  'inviteGroupPlanMembers'
+>
+
+type PropsT = ReduxPropsT & NavigationPropsT
 
 const InvitePlanMembersScreen = (props: PropsT) => {
   const theme = useAppTheme()
@@ -60,6 +71,26 @@ const InvitePlanMembersScreen = (props: PropsT) => {
       }
     },
     [selectedUsers]
+  )
+
+  const onAddButtonPress = useCallback(
+    () =>
+      props.setPlanMembers({
+        planId: props.route.params.plan.id,
+        userIds: [
+          // use the set to remove the duplicated values
+          ...new Set([
+            ...selectedUsers.map(u => u.id),
+            ...props.route.params.plan.userIds
+          ])
+        ]
+      }),
+    [
+      props.setPlanMembers,
+      props.route.params.plan.id,
+      props.route.params.plan.userIds,
+      selectedUsers
+    ]
   )
 
   const renderItem = useCallback(
@@ -152,7 +183,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
       </View>
 
       <LoaderOrChildren
-        isLoading={props.isLoading}
+        isLoading={props.isSearching}
         color={theme.colors.grey}
         size="large"
       >
@@ -163,6 +194,14 @@ const InvitePlanMembersScreen = (props: PropsT) => {
           contentContainerStyle={useMemo(() => ({ paddingVertical: 10 }), [])}
         />
       </LoaderOrChildren>
+
+      <Button
+        text="Add"
+        size="large"
+        type="primary"
+        onPress={onAddButtonPress}
+        isLoading={props.isSettingPlanMembers}
+      />
     </View>
   )
 }

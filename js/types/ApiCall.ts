@@ -32,4 +32,5 @@ type ApiCallT =
     }
   | { type: 'logout'; params: undefined }
   | { type: 'searchUsers'; params: { email: string } }
+  | { type: 'setPlanMembers'; params: { planId: string; userIds: string[] } }
 export default ApiCallT

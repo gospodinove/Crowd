@@ -52,6 +52,12 @@ export default function api(call: ApiCallT) {
           .startAt(call.params.email)
           .endAt(call.params.email + '\u{10ffff}')
           .get()
+    case 'setPlanMembers':
+      return () =>
+        firestore()
+          .collection('plans')
+          .doc(call.params.planId)
+          .update({ userIds: call.params.userIds })
     default:
       assertNever(call)
   }

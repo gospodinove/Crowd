@@ -5,7 +5,7 @@ import { plansSlice } from '../reducers/plans'
 import { RootState } from '../redux/store'
 import { PlanDataT, PlanT } from '../types/Plan'
 import api from '../utils/api'
-import { createPlanLoader, plansLoader } from '../utils/loaders'
+import { createPlanLoader, plansLoader, setPlanMembers } from '../utils/loaders'
 
 function* onFetch() {
   yield put(loadersSlice.actions.startLoader(plansLoader))
@@ -57,9 +57,24 @@ function* onCreate(action: ReturnType<typeof plansSlice.actions.create>) {
   }
 }
 
+function* onSetMembers(
+  action: ReturnType<typeof plansSlice.actions.setMembers>
+) {
+  yield put(loadersSlice.actions.startLoader(setPlanMembers))
+
+  try {
+    yield call(api({ type: 'setPlanMembers', params: action.payload }))
+  } catch (err) {
+    console.log(err)
+  } finally {
+    yield put(loadersSlice.actions.stopLoader(setPlanMembers))
+  }
+}
+
 export default function* plansSaga() {
   yield all([
     takeLatest(plansSlice.actions.fetch, onFetch),
-    takeLatest(plansSlice.actions.create, onCreate)
+    takeLatest(plansSlice.actions.create, onCreate),
+    takeLatest(plansSlice.actions.setMembers, onSetMembers)
   ])
 }

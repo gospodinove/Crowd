@@ -20,6 +20,10 @@ export const plansSlice = createSlice({
     create: (_, __: PayloadAction<PlanDataT>) => {},
     onCreate: (state, action: PayloadAction<PlanT>) => {
       state.data.push(action.payload)
-    }
+    },
+    setMembers: (
+      _,
+      __: PayloadAction<{ planId: string; userIds: string[] }>
+    ) => {}
   }
 })

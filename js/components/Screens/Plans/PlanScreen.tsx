@@ -3,7 +3,7 @@ import {
   MaterialTopTabBarProps
 } from '@react-navigation/material-top-tabs'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback, useLayoutEffect } from 'react'
+import React, { memo, useCallback, useLayoutEffect, useMemo } from 'react'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
 import TabBar from '../../TabBar'
@@ -49,7 +49,14 @@ const PlanScreen = (props: PropsT) => {
       <Tab.Screen name="overview" component={DashboardScreen} />
       <Tab.Screen name="schedule" component={NotificationsScreen} />
       <Tab.Screen name="payments" component={DashboardScreen} />
-      <Tab.Screen name="members" component={MembersScreen} />
+      <Tab.Screen
+        name="members"
+        component={MembersScreen}
+        initialParams={useMemo(
+          () => ({ plan: props.route.params }),
+          [props.route.params]
+        )}
+      />
       <Tab.Screen name="cars" component={NotificationsScreen} />
     </Tab.Navigator>
   )
