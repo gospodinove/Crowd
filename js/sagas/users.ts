@@ -181,21 +181,20 @@ function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
   yield put(loadersSlice.actions.startLoader(inviteMembersSearch))
 
   try {
+    if (action.payload.length === 0) {
+      yield put(usersSlice.actions.setSearchResults([]))
+      return
+    }
+
     const rawResults: FirebaseFirestoreTypes.QuerySnapshot<UserDataT> =
       yield call(
         api({ type: 'searchUsers', params: { email: action.payload } })
       )
 
-    const result: UserT[] = rawResults.docs.map(doc => {
-      const data = doc.data()
-
-      return {
-        id: doc.id,
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName
-      }
-    })
+    const result: UserT[] = rawResults.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
 
     yield put(usersSlice.actions.setSearchResults(result))
   } catch (err) {
