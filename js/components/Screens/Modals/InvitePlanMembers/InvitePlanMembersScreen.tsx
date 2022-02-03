@@ -4,6 +4,7 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { FlatList, ListRenderItemInfo, Pressable, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
+import usePrevious from '../../../../hooks/usePrevious'
 import { plansSlice } from '../../../../reducers/plans'
 import { usersSlice } from '../../../../reducers/users'
 import { RootState } from '../../../../redux/store'
@@ -23,7 +24,7 @@ const connector = connect(
   (state: RootState) => ({
     searchResults: state.users.searchResults,
     isSearching: state.loaders.runningLoaders[inviteMembersSearch],
-    isSettingPlanMembers: state.loaders.runningLoaders[setPlanMembers]
+    isLoading: state.loaders.runningLoaders[setPlanMembers]
   }),
   {
     search: usersSlice.actions.search,
@@ -47,6 +48,8 @@ const InvitePlanMembersScreen = (props: PropsT) => {
   const [searchResults, setSearchResults] = useState<UserT[]>([])
   const [selectedUsers, setSelectedUsers] = useState<UserT[]>([])
 
+  const prevIsLoading = usePrevious(props.isLoading)
+
   // filter the results to omit the users already in the group
   useEffect(() => {
     setSearchResults(
@@ -55,6 +58,13 @@ const InvitePlanMembersScreen = (props: PropsT) => {
       )
     )
   }, [props.searchResults, props.route.params.plan.userIds])
+
+  // detect when the loading state has changed
+  useEffect(() => {
+    if (prevIsLoading && !props.isLoading) {
+      props.navigation.goBack()
+    }
+  }, [prevIsLoading, props.isLoading])
 
   // clear search result at screen dismissal
   useEffect(() => {
@@ -204,7 +214,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
         size="large"
         type="primary"
         onPress={onAddButtonPress}
-        isLoading={props.isSettingPlanMembers}
+        isLoading={props.isLoading}
       />
     </View>
   )
