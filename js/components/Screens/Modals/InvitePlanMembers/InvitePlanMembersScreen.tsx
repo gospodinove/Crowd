@@ -86,14 +86,8 @@ const InvitePlanMembersScreen = (props: PropsT) => {
   const onAddButtonPress = useCallback(
     () =>
       props.setPlanMembers({
-        planId: props.route.params.plan.id,
-        userIds: [
-          // use the set to remove the duplicated values
-          ...new Set([
-            ...selectedUsers.map(u => u.id),
-            ...props.route.params.plan.userIds
-          ])
-        ]
+        plan: props.route.params.plan,
+        newUserIds: selectedUsers.map(u => u.id)
       }),
     [
       props.setPlanMembers,

@@ -63,7 +63,38 @@ function* onSetMembers(
   yield put(loadersSlice.actions.startLoader(setPlanMembers))
 
   try {
-    yield call(api({ type: 'setPlanMembers', params: action.payload }))
+    // use Set to remove the duplicated values
+    yield call(
+      api({
+        type: 'setPlanMembers',
+        params: {
+          planId: action.payload.plan.id,
+          userIds: [
+            ...new Set([
+              ...action.payload.newUserIds,
+              ...action.payload.plan.userIds
+            ])
+          ]
+        }
+      })
+    )
+
+    // create the notifications for each new member
+    yield call(
+      api({
+        type: 'createNotificationBatch',
+        params: {
+          userIds: action.payload.newUserIds,
+          title: `Added to ${action.payload.plan.name}`,
+          message: 'You have been added to a new plan',
+          isRead: false,
+          image: {
+            type: 'plan',
+            value: 'test'
+          }
+        }
+      })
+    )
   } catch (err) {
     console.log(err)
   } finally {

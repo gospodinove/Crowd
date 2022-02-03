@@ -3,6 +3,8 @@ import firestore from '@react-native-firebase/firestore'
 import ApiCallT from '../types/ApiCall'
 import { assertNever } from './assertNever'
 
+const db = firestore()
+
 export default function api(call: ApiCallT) {
   switch (call.type) {
     case 'signInWithEmailAndPassword':
@@ -19,21 +21,21 @@ export default function api(call: ApiCallT) {
         )
     case 'addUser':
       return () =>
-        firestore().collection('users').doc(call.params.uid).set({
+        db.collection('users').doc(call.params.uid).set({
           email: call.params.email,
           firstName: call.params.firstName,
           lastName: call.params.lastName
         })
     case 'fetchUserData':
-      return () => firestore().collection('users').doc(call.params.uid).get()
+      return () => db.collection('users').doc(call.params.uid).get()
     case 'fetchPlans':
       return () =>
-        firestore()
+        db
           .collection('plans')
           .where('userIds', 'array-contains', call.params.userId)
           .get()
     case 'createPlan':
-      return () => firestore().collection('plans').add(call.params)
+      return () => db.collection('plans').add(call.params)
     case 'logout':
       return () => auth().signOut()
     case 'searchUsers':
@@ -46,7 +48,7 @@ export default function api(call: ApiCallT) {
        */
 
       return () =>
-        firestore()
+        db
           .collection('users')
           .orderBy('email')
           .startAt(call.params.email)
@@ -54,10 +56,26 @@ export default function api(call: ApiCallT) {
           .get()
     case 'setPlanMembers':
       return () =>
-        firestore()
+        db
           .collection('plans')
           .doc(call.params.planId)
           .update({ userIds: call.params.userIds })
+    case 'createNotificationBatch':
+      const batch = db.batch()
+
+      call.params.userIds.forEach(id => {
+        const documentRef = db.collection('notifications').doc()
+
+        batch.set(documentRef, {
+          userId: id,
+          title: call.params.title,
+          message: call.params.message,
+          isRead: call.params.isRead,
+          image: call.params.image
+        })
+      })
+
+      return () => batch.commit()
     default:
       assertNever(call)
   }

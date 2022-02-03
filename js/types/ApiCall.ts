@@ -33,4 +33,14 @@ type ApiCallT =
   | { type: 'logout'; params: undefined }
   | { type: 'searchUsers'; params: { email: string } }
   | { type: 'setPlanMembers'; params: { planId: string; userIds: string[] } }
+  | {
+      type: 'createNotificationBatch'
+      params: {
+        userIds: string[]
+        title: string
+        message: string
+        image: { type: string; value: string }
+        isRead: false
+      }
+    }
 export default ApiCallT

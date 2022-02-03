@@ -23,7 +23,7 @@ export const plansSlice = createSlice({
     },
     setMembers: (
       _,
-      __: PayloadAction<{ planId: string; userIds: string[] }>
+      __: PayloadAction<{ plan: PlanT; newUserIds: string[] }>
     ) => {}
   }
 })
