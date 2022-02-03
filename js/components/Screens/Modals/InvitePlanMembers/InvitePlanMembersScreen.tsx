@@ -215,6 +215,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
         type="primary"
         onPress={onAddButtonPress}
         isLoading={props.isLoading}
+        disabled
       />
     </View>
   )
