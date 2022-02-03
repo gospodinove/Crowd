@@ -44,7 +44,17 @@ type PropsT = ReduxPropsT & NavigationPropsT
 const InvitePlanMembersScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
+  const [searchResults, setSearchResults] = useState<UserT[]>([])
   const [selectedUsers, setSelectedUsers] = useState<UserT[]>([])
+
+  // filter the results to omit the users already in the group
+  useEffect(() => {
+    setSearchResults(
+      props.searchResults.filter(
+        result => !props.route.params.plan.userIds.includes(result.id)
+      )
+    )
+  }, [props.searchResults, props.route.params.plan.userIds])
 
   // clear search result at screen dismissal
   useEffect(() => {
@@ -55,7 +65,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
 
       props.setSearchResults([])
     }
-  }, [])
+  }, [props.searchResults.length])
 
   const onChangeText = useCallback(
     debounce((text: string) => props.search(text), 500),
@@ -188,7 +198,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
         size="large"
       >
         <FlatList
-          data={props.searchResults}
+          data={searchResults}
           renderItem={renderItem}
           ItemSeparatorComponent={renderSpacer}
           contentContainerStyle={useMemo(() => ({ paddingVertical: 10 }), [])}
