@@ -66,13 +66,16 @@ const PlansScreen = (props: PropsT) => {
     props.fetchPlans()
   }, [props.fetchPlans])
 
-  const data = useMemo(() => {
-    console.log('updated plans basic info')
-
-    return Object.keys(props.plans)
-      .reduce<PlanT[]>((result, planId) => [...result, props.plans[planId]], [])
-      .sort((a, b) => a.startDate.seconds - b.startDate.seconds)
-  }, [props.plans])
+  const data = useMemo(
+    () =>
+      Object.keys(props.plans)
+        .reduce<PlanT[]>(
+          (result, planId) => [...result, props.plans[planId]],
+          []
+        )
+        .sort((a, b) => a.startDate.seconds - b.startDate.seconds),
+    [props.plans]
+  )
 
   const onPlanItemPress = useCallback(
     (planId: string) => {
