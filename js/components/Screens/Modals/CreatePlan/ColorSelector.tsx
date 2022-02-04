@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, ScrollView, View, ViewStyle } from 'react-native'
-import { planColors } from '../../constants/planColors'
-import { useAppTheme } from '../../hooks/useAppTheme'
+import { planColors } from '../../../../constants/planColors'
+import { useAppTheme } from '../../../../hooks/useAppTheme'
 
 type PropsT = {
   selectedColor: string

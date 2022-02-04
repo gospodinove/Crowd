@@ -7,21 +7,21 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
-import { planColors } from '../../constants/planColors'
-import { planIcons } from '../../constants/planIcons'
-import { useAppTheme } from '../../hooks/useAppTheme'
-import { plansSlice } from '../../reducers/plans'
-import { RootState } from '../../redux/store'
-import { IconNameT } from '../../types/IconName'
-import { ModalScreensParamsT } from '../../types/ModalScreensParams'
-import { assertNever } from '../../utils/assertNever'
-import { formatDate } from '../../utils/date'
-import { createPlanLoader } from '../../utils/loaders'
-import Button from '../Button'
-import Icon from '../Icon'
-import ScrollContainer from '../ScrollContainer'
-import TextInput from '../TextInput'
-import VerticalSeparator from '../VerticalSepartor'
+import { planColors } from '../../../../constants/planColors'
+import { planIcons } from '../../../../constants/planIcons'
+import { useAppTheme } from '../../../../hooks/useAppTheme'
+import { plansSlice } from '../../../../reducers/plans'
+import { RootState } from '../../../../redux/store'
+import { IconNameT } from '../../../../types/IconName'
+import { ModalScreensParamsT } from '../../../../types/ModalScreensParams'
+import { assertNever } from '../../../../utils/assertNever'
+import { formatDate } from '../../../../utils/date'
+import { createPlanLoader } from '../../../../utils/loaders'
+import Button from '../../../Button'
+import Icon from '../../../Icon'
+import ScrollContainer from '../../../ScrollContainer'
+import TextInput from '../../../TextInput'
+import VerticalSeparator from '../../../VerticalSepartor'
 import ColorSelector from './ColorSelector'
 import IconSelector from './IconSelector'
 
@@ -29,7 +29,7 @@ type DatePickerT = 'start-date' | 'end-date'
 
 const connector = connect(
   (state: RootState) => ({
-    userId: state.user.data?.id,
+    userId: state.users.currentUser?.id,
     isLoading: state.loaders.runningLoaders[createPlanLoader]
   }),
   { createPlan: plansSlice.actions.create }

@@ -16,6 +16,7 @@ type PropsT = Omit<TouchableOpacityProps, 'style'> & {
   text: string
   size: 'large' | 'medium' | 'small'
   type: 'primary' | 'secondary' | 'text'
+  disabled?: boolean
   isLoading?: boolean
   rounded?: boolean
   style?: Omit<ViewStyle, 'backgroundColor'>
@@ -27,6 +28,10 @@ const Button = (props: PropsT) => {
   const theme = useAppTheme()
 
   const getBackgroundColor = (): string => {
+    if (props.disabled) {
+      return theme.colors.grey
+    }
+
     switch (props.type) {
       case 'primary':
         return theme.colors.primary
@@ -40,6 +45,10 @@ const Button = (props: PropsT) => {
   }
 
   const getTextColor = (): string => {
+    if (props.disabled) {
+      return theme.colors.white
+    }
+
     switch (props.type) {
       case 'primary':
         return theme.colors.white
@@ -65,6 +74,10 @@ const Button = (props: PropsT) => {
   }
 
   const getLoaderColor = () => {
+    if (props.disabled) {
+      return theme.colors.white
+    }
+
     switch (props.type) {
       case 'primary':
         return theme.colors.white

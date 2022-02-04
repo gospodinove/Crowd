@@ -1,18 +1,17 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React, { memo, useMemo } from 'react'
 import { useAppTheme } from '../../hooks/useAppTheme'
-import { PlansTabNavigatorPropsT } from '../../types/PlansTabNavigatorProps'
-import PlanScreen from './PlanScreen'
-import PlansScreen from './PlansScreen'
+import { MoreTabNavigatorPropsT } from '../../types/MoreTabNavigatorProps'
+import MoreScreen from './MoreScreen'
 
-const Stack = createStackNavigator<PlansTabNavigatorPropsT>()
+const Stack = createStackNavigator<MoreTabNavigatorPropsT>()
 
-const PlansTabNavigator = () => {
+const MoreTabNavigator = () => {
   const theme = useAppTheme()
 
   return (
     <Stack.Navigator
-      initialRouteName="plans"
+      initialRouteName="more"
       screenOptions={useMemo(
         () => ({
           headerStyle: {
@@ -27,17 +26,17 @@ const PlansTabNavigator = () => {
       )}
     >
       <Stack.Screen
-        name="plans"
-        component={PlansScreen}
-        options={useMemo(() => ({ title: 'Plans' }), [])}
-      />
-      <Stack.Screen
-        name="plan"
-        component={PlanScreen}
-        options={useMemo(() => ({ title: 'Plan' }), [])}
+        name="more"
+        component={MoreScreen}
+        options={useMemo(
+          () => ({
+            title: 'More'
+          }),
+          []
+        )}
       />
     </Stack.Navigator>
   )
 }
 
-export default memo(PlansTabNavigator)
+export default memo(MoreTabNavigator)

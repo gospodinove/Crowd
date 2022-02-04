@@ -2,14 +2,14 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useMemo } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
-import { useAppTheme } from '../hooks/useAppTheme'
-import { RootState } from '../redux/store'
-import { DashboardTabNavigatorPropsT } from '../types/DashboardTabNavigatorProps'
-import Card from './Card'
-import Text from './Text'
+import { useAppTheme } from '../../hooks/useAppTheme'
+import { RootState } from '../../redux/store'
+import { DashboardTabNavigatorPropsT } from '../../types/DashboardTabNavigatorProps'
+import Card from '../Card'
+import Text from '../Text'
 
 const connector = connect((state: RootState) => ({
-  user: state.user.data
+  user: state.users.currentUser
 }))
 
 type ReduxPropsT = ConnectedProps<typeof connector>

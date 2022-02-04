@@ -8,15 +8,15 @@ import React, {
 } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
-import { useAppTheme } from '../../hooks/useAppTheme'
-import { plansSlice } from '../../reducers/plans'
-import { RootState } from '../../redux/store'
-import { ModalScreensParamsT } from '../../types/ModalScreensParams'
-import { PlanT } from '../../types/Plan'
-import { PlansTabNavigatorPropsT } from '../../types/PlansTabNavigatorProps'
-import { plansLoader } from '../../utils/loaders'
-import IconButton from '../IconButton'
-import ScreenWithLoader from '../ScreenWithLoader'
+import { useAppTheme } from '../../../hooks/useAppTheme'
+import { plansSlice } from '../../../reducers/plans'
+import { RootState } from '../../../redux/store'
+import { ModalScreensParamsT } from '../../../types/ModalScreensParams'
+import { PlanT } from '../../../types/Plan'
+import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
+import { plansLoader } from '../../../utils/loaders'
+import IconButton from '../../IconButton'
+import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanItem from './PlanItem'
 
 type NavigationPropsT = StackScreenProps<
@@ -87,7 +87,7 @@ const PlansScreen = (props: PropsT) => {
   )
 
   return (
-    <ScreenWithLoader
+    <LoaderOrChildren
       isLoading={props.isLoading}
       size="large"
       color={theme.colors.text}
@@ -97,7 +97,7 @@ const PlansScreen = (props: PropsT) => {
       )}
     >
       <FlatList<PlanT> data={props.plans} renderItem={renderItem} />
-    </ScreenWithLoader>
+    </LoaderOrChildren>
   )
 }
 

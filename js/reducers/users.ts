@@ -2,15 +2,17 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserT } from '../types/User'
 
 type StateT = {
-  data: UserT | undefined
+  currentUser: UserT | undefined
+  searchResults: UserT[]
 }
 
 const initialState: StateT = {
-  data: undefined
+  currentUser: undefined,
+  searchResults: []
 }
 
-export const userSlice = createSlice({
-  name: 'user',
+export const usersSlice = createSlice({
+  name: 'users',
   initialState,
   reducers: {
     login: (_, __: PayloadAction<{ email: string; password: string }>) => {},
@@ -24,14 +26,18 @@ export const userSlice = createSlice({
       }>
     ) => {},
     setUserData: (state, action: PayloadAction<UserT>) => {
-      state.data = action.payload
+      state.currentUser = action.payload
     },
     loadUserData: (_, __: PayloadAction<string>) => {},
     storeUserLocally: () => {},
     logout: () => {},
     onLogout: state => {
       // clear user specific data
-      state.data = undefined
+      state.currentUser = undefined
+    },
+    search: (_, __: PayloadAction<string>) => {},
+    setSearchResults: (state, action: PayloadAction<UserT[]>) => {
+      state.searchResults = action.payload
     }
   }
 })

@@ -2,13 +2,13 @@ import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { connect, ConnectedProps } from 'react-redux'
-import { ConstStyles } from '../../constants/style'
-import { useAppTheme } from '../../hooks/useAppTheme'
-import { userSlice } from '../../reducers/user'
-import { RootState } from '../../redux/store'
-import { loginLoader, signUpLoader } from '../../utils/loaders'
-import Button from '../Button'
-import Text from '../Text'
+import { ConstStyles } from '../../../constants/style'
+import { useAppTheme } from '../../../hooks/useAppTheme'
+import { usersSlice } from '../../../reducers/users'
+import { RootState } from '../../../redux/store'
+import { loginLoader, signUpLoader } from '../../../utils/loaders'
+import Button from '../../Button'
+import Text from '../../Text'
 import { authStyles } from './AuthenticationScreen.styles'
 import LoginCard from './LoginCard'
 import SignUpCard from './SignUpCard'
@@ -19,8 +19,8 @@ const connector = connect(
     isSignUpLoading: state.loaders.runningLoaders[signUpLoader]
   }),
   {
-    onSignUpPress: userSlice.actions.signUp,
-    onLoginPress: userSlice.actions.login
+    onSignUpPress: usersSlice.actions.signUp,
+    onLoginPress: usersSlice.actions.login
   }
 )
 

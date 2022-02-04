@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useState } from 'react'
-import Button from '../Button'
-import Card from '../Card'
-import Text from '../Text'
-import TextInput from '../TextInput'
+import Button from '../../Button'
+import Card from '../../Card'
+import Text from '../../Text'
+import TextInput from '../../TextInput'
 import { loginCardStyles } from './LoginCard.styles'
 
 type PropsT = {

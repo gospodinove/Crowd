@@ -9,6 +9,7 @@ export const LightTheme: ThemeT = {
     border: '#6f6f6f',
     icon: '#6f6f6f',
     black: '#000',
-    white: '#fff'
+    white: '#fff',
+    grey: 'grey'
   }
 }

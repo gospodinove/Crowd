@@ -1,9 +1,9 @@
 import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
-import { planIcons } from '../../constants/planIcons'
-import { useAppTheme } from '../../hooks/useAppTheme'
-import { IconNameT } from '../../types/IconName'
-import Icon from '../Icon'
+import { planIcons } from '../../../../constants/planIcons'
+import { useAppTheme } from '../../../../hooks/useAppTheme'
+import { IconNameT } from '../../../../types/IconName'
+import Icon from '../../../Icon'
 
 type PropsT = {
   selectedIcon: IconNameT

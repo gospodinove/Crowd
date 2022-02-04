@@ -9,6 +9,7 @@ export const DarkTheme: ThemeT = {
     border: '#2c3549',
     icon: '#2c3549',
     black: '#000',
-    white: '#fff'
+    white: '#fff',
+    grey: 'grey'
   }
 }

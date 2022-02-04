@@ -2,14 +2,18 @@ import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { all, call, put, select, takeLatest } from '@redux-saga/core/effects'
 import { loadersSlice } from '../reducers/loaders'
-import { userSlice } from '../reducers/user'
+import { usersSlice } from '../reducers/users'
 import { RootState } from '../redux/store'
 import { UserDataT, UserT } from '../types/User'
 import api from '../utils/api'
-import { loginLoader, signUpLoader } from '../utils/loaders'
+import {
+  inviteMembersSearch,
+  loginLoader,
+  signUpLoader
+} from '../utils/loaders'
 import { loadUserData, storeUserData } from '../utils/localData'
 
-function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
+function* onLogin(action: ReturnType<typeof usersSlice.actions.login>) {
   yield put(loadersSlice.actions.startLoader(loginLoader))
 
   try {
@@ -46,7 +50,7 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
 
     yield call(storeUserData, user)
 
-    yield put(userSlice.actions.setUserData(user))
+    yield put(usersSlice.actions.setUserData(user))
   } catch (err) {
     console.log(err)
   } finally {
@@ -54,7 +58,7 @@ function* onLogin(action: ReturnType<typeof userSlice.actions.login>) {
   }
 }
 
-function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
+function* onSignUp(action: ReturnType<typeof usersSlice.actions.signUp>) {
   yield put(loadersSlice.actions.startLoader(signUpLoader))
 
   try {
@@ -91,7 +95,7 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
 
     yield call(storeUserData, user)
 
-    yield put(userSlice.actions.setUserData(user))
+    yield put(usersSlice.actions.setUserData(user))
   } catch (err) {
     console.log(err)
   } finally {
@@ -125,13 +129,13 @@ function* fetchUserData(userId: string) {
 }
 
 function* onLoadUserData(
-  action: ReturnType<typeof userSlice.actions.loadUserData>
+  action: ReturnType<typeof usersSlice.actions.loadUserData>
 ) {
   try {
     let userData: UserT | undefined = yield call(loadUserData)
 
     if (userData) {
-      yield put(userSlice.actions.setUserData(userData))
+      yield put(usersSlice.actions.setUserData(userData))
     } else {
       userData = yield call(fetchUserData, action.payload)
 
@@ -139,10 +143,10 @@ function* onLoadUserData(
         throw new Error('[onLoadUserData] no user data fetched')
       }
 
-      yield put(userSlice.actions.setUserData(userData))
+      yield put(usersSlice.actions.setUserData(userData))
     }
 
-    yield put(userSlice.actions.storeUserLocally())
+    yield put(usersSlice.actions.storeUserLocally())
   } catch (err) {
     console.log(err)
   }
@@ -150,7 +154,9 @@ function* onLoadUserData(
 
 function* onStoreUserLocally() {
   try {
-    const userData: UserT = yield select((state: RootState) => state.user.data)
+    const userData: UserT = yield select(
+      (state: RootState) => state.users.currentUser
+    )
 
     if (!userData) {
       return
@@ -165,18 +171,46 @@ function* onStoreUserLocally() {
 function* onLogout() {
   try {
     yield call(api({ type: 'logout', params: undefined }))
-    yield put(userSlice.actions.onLogout())
+    yield put(usersSlice.actions.onLogout())
   } catch (err) {
     console.log(err)
   }
 }
 
+function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
+  yield put(loadersSlice.actions.startLoader(inviteMembersSearch))
+
+  try {
+    if (action.payload.length === 0) {
+      yield put(usersSlice.actions.setSearchResults([]))
+      return
+    }
+
+    const rawResults: FirebaseFirestoreTypes.QuerySnapshot<UserDataT> =
+      yield call(
+        api({ type: 'searchUsers', params: { email: action.payload } })
+      )
+
+    const result: UserT[] = rawResults.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+
+    yield put(usersSlice.actions.setSearchResults(result))
+  } catch (err) {
+    console.log(err)
+  } finally {
+    yield put(loadersSlice.actions.stopLoader(inviteMembersSearch))
+  }
+}
+
 export default function* userSaga() {
   yield all([
-    takeLatest(userSlice.actions.signUp, onSignUp),
-    takeLatest(userSlice.actions.login, onLogin),
-    takeLatest(userSlice.actions.loadUserData, onLoadUserData),
-    takeLatest(userSlice.actions.storeUserLocally, onStoreUserLocally),
-    takeLatest(userSlice.actions.logout, onLogout)
+    takeLatest(usersSlice.actions.signUp, onSignUp),
+    takeLatest(usersSlice.actions.login, onLogin),
+    takeLatest(usersSlice.actions.loadUserData, onLoadUserData),
+    takeLatest(usersSlice.actions.storeUserLocally, onStoreUserLocally),
+    takeLatest(usersSlice.actions.logout, onLogout),
+    takeLatest(usersSlice.actions.search, onSearch)
   ])
 }

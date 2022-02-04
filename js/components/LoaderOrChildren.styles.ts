@@ -1,6 +1,7 @@
-import { StyleSheet, ViewStyle } from 'react-native'
+import { ColorValue, StyleSheet, ViewStyle } from 'react-native'
 
 type PropsT = {
+  loaderContainerBackground: ColorValue
   container?: ViewStyle
 }
 
@@ -14,6 +15,7 @@ export const styles = (props: PropsT) =>
       right: 0,
       bottom: 0,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor: props.loaderContainerBackground
     }
   })

@@ -19,7 +19,14 @@ const Text = (props: TextPropsT) => {
           },
           props.style
         ],
-        [theme, props.weight, props.size, props.color, props.lineHeight]
+        [
+          theme,
+          props.weight,
+          props.size,
+          props.color,
+          props.lineHeight,
+          props.style
+        ]
       )}
     >
       {props.children}

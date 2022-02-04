@@ -1,6 +1,7 @@
 import React, { memo, useMemo } from 'react'
 import { ActivityIndicator, View, ViewStyle } from 'react-native'
-import { styles } from './ScreenWithLoader.styles'
+import { useAppTheme } from '../hooks/useAppTheme'
+import { styles } from './LoaderOrChildren.styles'
 
 type PropsT = {
   isLoading: boolean
@@ -10,9 +11,15 @@ type PropsT = {
   containerStyle?: ViewStyle
 }
 
-const ScreenWithLoader = (props: PropsT) => {
+const LoaderOrChildren = (props: PropsT) => {
+  const theme = useAppTheme()
+
   const style = useMemo(
-    () => styles({ container: props.containerStyle }),
+    () =>
+      styles({
+        container: props.containerStyle,
+        loaderContainerBackground: theme.colors.background
+      }),
     [props.containerStyle]
   )
 
@@ -29,4 +36,4 @@ const ScreenWithLoader = (props: PropsT) => {
   )
 }
 
-export default memo(ScreenWithLoader)
+export default memo(LoaderOrChildren)

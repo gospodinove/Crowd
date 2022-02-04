@@ -1,11 +1,11 @@
 import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View } from 'react-native'
-import { useAppTheme } from '../../hooks/useAppTheme'
-import { PlanT } from '../../types/Plan'
-import { formatDate } from '../../utils/date'
-import Icon from '../Icon'
-import Text from '../Text'
-import VerticalSeparator from '../VerticalSepartor'
+import { useAppTheme } from '../../../hooks/useAppTheme'
+import { PlanT } from '../../../types/Plan'
+import { formatDate } from '../../../utils/date'
+import Icon from '../../Icon'
+import Text from '../../Text'
+import VerticalSeparator from '../../VerticalSepartor'
 import { planItemStyles } from './PlanItem.styles'
 
 type PropsT = { data: PlanT; onPress: (planId: string) => void }
@@ -34,7 +34,7 @@ const PlanItem = (props: PropsT) => {
 
   const renderPeopleCount = () => (
     <>
-      <Icon name="user" size={11} color="grey" />
+      <Icon name="user" size={11} color={theme.colors.grey} />
       <Text size={11} weight="regular" lineHeight={20}>
         {props.data.userIds.length}
       </Text>
@@ -53,7 +53,12 @@ const PlanItem = (props: PropsT) => {
         <View style={style.detailsRow}>
           {renderPeopleCount()}
 
-          <VerticalSeparator type="circle" size={3} spacing={5} color="grey" />
+          <VerticalSeparator
+            type="circle"
+            size={3}
+            spacing={5}
+            color={theme.colors.grey}
+          />
 
           <Text size={11} weight="regular" lineHeight={20}>
             {formatDate(props.data.startDate.toDate())}
@@ -62,7 +67,7 @@ const PlanItem = (props: PropsT) => {
             type="arrow-right"
             size={11}
             spacing={2}
-            color="grey"
+            color={theme.colors.grey}
           />
           <Text size={11} weight="regular" lineHeight={20}>
             {formatDate(props.data.endDate.toDate())}

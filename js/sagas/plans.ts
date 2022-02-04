@@ -5,14 +5,14 @@ import { plansSlice } from '../reducers/plans'
 import { RootState } from '../redux/store'
 import { PlanDataT, PlanT } from '../types/Plan'
 import api from '../utils/api'
-import { createPlanLoader, plansLoader } from '../utils/loaders'
+import { createPlanLoader, plansLoader, setPlanMembers } from '../utils/loaders'
 
 function* onFetch() {
   yield put(loadersSlice.actions.startLoader(plansLoader))
 
   try {
     const userId: string = yield select(
-      (state: RootState) => state.user.data?.id
+      (state: RootState) => state.users.currentUser?.id
     )
 
     if (!userId) {
@@ -57,9 +57,55 @@ function* onCreate(action: ReturnType<typeof plansSlice.actions.create>) {
   }
 }
 
+function* onSetMembers(
+  action: ReturnType<typeof plansSlice.actions.setMembers>
+) {
+  yield put(loadersSlice.actions.startLoader(setPlanMembers))
+
+  try {
+    // use Set to remove the duplicated values
+    yield call(
+      api({
+        type: 'setPlanMembers',
+        params: {
+          planId: action.payload.plan.id,
+          userIds: [
+            ...new Set([
+              ...action.payload.newUserIds,
+              ...action.payload.plan.userIds
+            ])
+          ]
+        }
+      })
+    )
+
+    // create the notifications for each new member
+    yield call(
+      api({
+        type: 'createNotificationBatch',
+        params: {
+          userIds: action.payload.newUserIds,
+          title: `Added to ${action.payload.plan.name}`,
+          message: 'You have been added to a new plan',
+          isRead: false,
+          image: {
+            type: 'plan',
+            value: 'test'
+          }
+        }
+      })
+    )
+  } catch (err) {
+    console.log(err)
+  } finally {
+    yield put(loadersSlice.actions.stopLoader(setPlanMembers))
+  }
+}
+
 export default function* plansSaga() {
   yield all([
     takeLatest(plansSlice.actions.fetch, onFetch),
-    takeLatest(plansSlice.actions.create, onCreate)
+    takeLatest(plansSlice.actions.create, onCreate),
+    takeLatest(plansSlice.actions.setMembers, onSetMembers)
   ])
 }
