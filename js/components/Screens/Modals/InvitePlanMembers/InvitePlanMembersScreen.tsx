@@ -123,6 +123,52 @@ const InvitePlanMembersScreen = (props: PropsT) => {
     []
   )
 
+  const renderSelectedUsers = useMemo(
+    () => (
+      <>
+        <Text
+          weight="regular"
+          size={11}
+          lineHeight={15}
+          style={invitePlanMembersScreenStyles.selectedUsersCaption}
+        >
+          {selectedUsers.length + ' selected - tap to remove'}
+        </Text>
+        <ScrollContainer
+          horizontal
+          style={invitePlanMembersScreenStyles.selectedUsersContainer}
+        >
+          {selectedUsers.map(user => (
+            <View key={user.email}>
+              <Pressable
+                onPress={() =>
+                  setSelectedUsers(selectedUsers.filter(u => u.id !== user.id))
+                }
+              >
+                <UserInitials
+                  user={user}
+                  textColor={theme.colors.white}
+                  backgroundColor={theme.colors.primary}
+                  containerStyle={
+                    invitePlanMembersScreenStyles.selectedUserInitials
+                  }
+                />
+              </Pressable>
+            </View>
+          ))}
+        </ScrollContainer>
+      </>
+    ),
+    [
+      invitePlanMembersScreenStyles.selectedUsersCaption,
+      invitePlanMembersScreenStyles.selectedUsersContainer,
+      selectedUsers,
+      setSelectedUsers,
+      theme.colors,
+      invitePlanMembersScreenStyles.selectedUserInitials
+    ]
+  )
+
   return (
     <View
       style={useMemo(
@@ -141,42 +187,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
         )}
       >
         {selectedUsers.length > 0 ? (
-          <>
-            <Text
-              weight="regular"
-              size={11}
-              lineHeight={15}
-              style={invitePlanMembersScreenStyles.selectedUsersCaption}
-            >
-              {selectedUsers.length + ' selected - tap to remove'}
-            </Text>
-            <ScrollContainer
-              horizontal
-              style={invitePlanMembersScreenStyles.selectedUsersContainer}
-            >
-              {selectedUsers.map(user => (
-                <View key={user.email}>
-                  <Pressable
-                    // TODO: figure out how to memoize this
-                    onPress={() =>
-                      setSelectedUsers(
-                        selectedUsers.filter(u => u.id !== user.id)
-                      )
-                    }
-                  >
-                    <UserInitials
-                      user={user}
-                      textColor={theme.colors.white}
-                      backgroundColor={theme.colors.primary}
-                      containerStyle={
-                        invitePlanMembersScreenStyles.selectedUserInitials
-                      }
-                    />
-                  </Pressable>
-                </View>
-              ))}
-            </ScrollContainer>
-          </>
+          renderSelectedUsers
         ) : (
           <View
             style={invitePlanMembersScreenStyles.emptyUserSelectionContainer}

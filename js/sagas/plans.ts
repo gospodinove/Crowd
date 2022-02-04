@@ -1,12 +1,5 @@
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
-import {
-  all,
-  call,
-  delay,
-  put,
-  select,
-  takeLatest
-} from '@redux-saga/core/effects'
+import { all, call, put, select, takeLatest } from '@redux-saga/core/effects'
 import { loadersSlice } from '../reducers/loaders'
 import { plansSlice } from '../reducers/plans'
 import { RootState } from '../redux/store'
@@ -70,7 +63,6 @@ function* onSetMembers(
   yield put(loadersSlice.actions.startLoader(setPlanMembers))
 
   try {
-    yield delay(10000)
     // use Set to remove the duplicated values
     yield call(
       api({
