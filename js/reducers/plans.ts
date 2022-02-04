@@ -1,29 +1,35 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PlanDataT, PlanT } from '../types/Plan'
 
-type StateT = {
-  data: PlanT[]
-}
+type StateT = Record<string, PlanT>
 
-const initialState: StateT = {
-  data: []
-}
+const initialState: StateT = {}
 
 export const plansSlice = createSlice({
   name: 'plans',
   initialState,
   reducers: {
     fetch: () => {},
-    onFetch: (state, action: PayloadAction<PlanT[]>) => {
-      state.data = action.payload
-    },
+    onFetch: (_, action: PayloadAction<Record<string, PlanT>>) =>
+      action.payload,
     create: (_, __: PayloadAction<PlanDataT>) => {},
     onCreate: (state, action: PayloadAction<PlanT>) => {
-      state.data.push(action.payload)
+      state[action.payload.id] = action.payload
     },
-    setMembers: (
+    updateMembers: (
       _,
-      __: PayloadAction<{ plan: PlanT; newUserIds: string[] }>
-    ) => {}
+      __: PayloadAction<{ planId: string; newUserIds: string[] }>
+    ) => {},
+    onMembersUpdate: (
+      state,
+      action: PayloadAction<{ planId: string; newUserIds: string[] }>
+    ) => {
+      const plan = state[action.payload.planId]
+
+      state[action.payload.planId] = {
+        ...plan,
+        userIds: [...new Set([...plan.userIds, ...action.payload.newUserIds])]
+      }
+    }
   }
 })

@@ -6,7 +6,7 @@ import ScrollContainer from './ScrollContainer'
 import { tabBarStyles } from './TabBar.styles'
 
 type PropsT = MaterialTopTabBarProps & {
-  backgroundColor: ColorValue
+  backgroundColor: ColorValue | undefined
   titles: string[]
 }
 

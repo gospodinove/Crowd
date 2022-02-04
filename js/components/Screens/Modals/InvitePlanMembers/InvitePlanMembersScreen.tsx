@@ -29,7 +29,7 @@ const connector = connect(
   {
     search: usersSlice.actions.search,
     setSearchResults: usersSlice.actions.setSearchResults,
-    setPlanMembers: plansSlice.actions.setMembers
+    updatePlanMembers: plansSlice.actions.updateMembers
   }
 )
 
@@ -54,10 +54,10 @@ const InvitePlanMembersScreen = (props: PropsT) => {
   useEffect(() => {
     setSearchResults(
       props.searchResults.filter(
-        result => !props.route.params.plan.userIds.includes(result.id)
+        result => !props.route.params.userIds.includes(result.id)
       )
     )
-  }, [props.searchResults, props.route.params.plan.userIds])
+  }, [props.searchResults, props.route.params.userIds])
 
   // detect when the loading state has changed
   useEffect(() => {
@@ -95,14 +95,14 @@ const InvitePlanMembersScreen = (props: PropsT) => {
 
   const onAddButtonPress = useCallback(
     () =>
-      props.setPlanMembers({
-        plan: props.route.params.plan,
+      props.updatePlanMembers({
+        planId: props.route.params.planId,
         newUserIds: selectedUsers.map(u => u.id)
       }),
     [
-      props.setPlanMembers,
-      props.route.params.plan.id,
-      props.route.params.plan.userIds,
+      props.updatePlanMembers,
+      props.route.params.planId,
+      props.route.params.userIds,
       selectedUsers
     ]
   )
@@ -226,7 +226,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
         type="primary"
         onPress={onAddButtonPress}
         isLoading={props.isLoading}
-        disabled
+        disabled={selectedUsers.length === 0}
       />
     </View>
   )
