@@ -1,7 +1,9 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useCallback, useMemo } from 'react'
 import { View } from 'react-native'
+import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
+import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
 import { ModalScreensParamsT } from '../../../types/ModalScreensParams'
 import Button from '../../Button'
@@ -11,7 +13,13 @@ type NavigationPropsT = StackScreenProps<
   'members'
 >
 
-type PropsT = NavigationPropsT
+const connector = connect((status: RootState, props: NavigationPropsT) => ({
+  userIds: status.plans[props.route.params.planId].userIds
+}))
+
+type ReduxPropsT = ConnectedProps<typeof connector>
+
+type PropsT = NavigationPropsT & ReduxPropsT
 
 const MembersScreen = (props: PropsT) => {
   const theme = useAppTheme()
@@ -20,9 +28,9 @@ const MembersScreen = (props: PropsT) => {
     () =>
       props.navigation.navigate('inviteGroupPlanMembers', {
         planId: props.route.params.planId,
-        userIds: props.route.params.userIds
+        userIds: props.userIds
       }),
-    [props.navigation, props.route.params.planId, props.route.params.userIds]
+    [props.navigation, props.route.params.planId, props.userIds]
   )
 
   return (
@@ -47,4 +55,4 @@ const MembersScreen = (props: PropsT) => {
   )
 }
 
-export default memo(MembersScreen)
+export default memo(connector(MembersScreen))

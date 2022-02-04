@@ -26,7 +26,7 @@ type NavigationPropsT = StackScreenProps<
 
 const connector = connect(
   (state: RootState) => ({
-    plans: state.plans.basicInfo,
+    plans: state.plans,
     isLoading: state.loaders.runningLoaders[plansLoader]
   }),
   { fetchPlans: plansSlice.actions.fetch }

@@ -69,7 +69,7 @@ function* onUpdateMembers(
 
   try {
     const plan: PlanT = yield select(
-      (state: RootState) => state.plans.basicInfo[action.payload.planId]
+      (state: RootState) => state.plans[action.payload.planId]
     )
 
     // use Set to remove the duplicated values
