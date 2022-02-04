@@ -1,12 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PlanDataT, PlanT } from '../types/Plan'
+import { UserT } from '../types/User'
 
+/**
+ * store the big pieces of data as Records
+ * this way we don't have to rerender the connected components on every update
+ */
 type StateT = {
-  data: PlanT[]
+  basicInfo: Record<string, PlanT>
+  members: Record<string, UserT[]>
 }
 
 const initialState: StateT = {
-  data: []
+  basicInfo: {},
+  members: {}
 }
 
 export const plansSlice = createSlice({
@@ -14,12 +21,12 @@ export const plansSlice = createSlice({
   initialState,
   reducers: {
     fetch: () => {},
-    onFetch: (state, action: PayloadAction<PlanT[]>) => {
-      state.data = action.payload
+    onFetch: (state, action: PayloadAction<Record<string, PlanT>>) => {
+      state.basicInfo = action.payload
     },
     create: (_, __: PayloadAction<PlanDataT>) => {},
     onCreate: (state, action: PayloadAction<PlanT>) => {
-      state.data.push(action.payload)
+      state.basicInfo[action.payload.id] = action.payload
     },
     updateMembers: (
       _,
@@ -29,16 +36,12 @@ export const plansSlice = createSlice({
       state,
       action: PayloadAction<{ planId: string; newUserIds: string[] }>
     ) => {
-      state.data = state.data.map(plan => {
-        if (plan.id !== action.payload.planId) {
-          return plan
-        }
+      const plan = state.basicInfo[action.payload.planId]
 
-        return {
-          ...plan,
-          userIds: [...new Set([...plan.userIds, ...action.payload.newUserIds])]
-        }
-      })
+      state.basicInfo[action.payload.planId] = {
+        ...plan,
+        userIds: [...new Set([...plan.userIds, ...action.payload.newUserIds])]
+      }
     }
   }
 })

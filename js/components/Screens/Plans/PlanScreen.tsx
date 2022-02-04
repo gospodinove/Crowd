@@ -16,7 +16,7 @@ import MembersScreen from './MembersScreen'
 type NavigationPropsT = StackScreenProps<PlansTabNavigatorPropsT, 'plan'>
 
 const connector = connect((state: RootState, props: NavigationPropsT) => ({
-  plan: state.plans.data.find(p => p.id === props.route.params.planId)
+  plan: state.plans.basicInfo[props.route.params.planId]
 }))
 
 type ReduxPropsT = ConnectedProps<typeof connector>

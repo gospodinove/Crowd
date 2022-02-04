@@ -27,9 +27,14 @@ function* onFetch() {
       ...doc.data()
     }))
 
-    plans.sort((p1, p2) => p1.startDate.seconds - p2.startDate.seconds)
-
-    yield put(plansSlice.actions.onFetch(plans))
+    yield put(
+      plansSlice.actions.onFetch(
+        plans.reduce(
+          (result, item) => ((result[item.id] = item), result),
+          {} as Record<string, PlanT>
+        )
+      )
+    )
   } catch (err) {
     console.log(err)
   } finally {
@@ -63,8 +68,8 @@ function* onUpdateMembers(
   yield put(loadersSlice.actions.startLoader(setPlanMembers))
 
   try {
-    const plan: PlanT = yield select((state: RootState) =>
-      state.plans.data.find(p => p.id === action.payload.planId)
+    const plan: PlanT = yield select(
+      (state: RootState) => state.plans.basicInfo[action.payload.planId]
     )
 
     // use Set to remove the duplicated values

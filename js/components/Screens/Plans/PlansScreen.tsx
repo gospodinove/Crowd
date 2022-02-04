@@ -26,7 +26,7 @@ type NavigationPropsT = StackScreenProps<
 
 const connector = connect(
   (state: RootState) => ({
-    plans: state.plans.data,
+    plans: state.plans.basicInfo,
     isLoading: state.loaders.runningLoaders[plansLoader]
   }),
   { fetchPlans: plansSlice.actions.fetch }
@@ -66,9 +66,17 @@ const PlansScreen = (props: PropsT) => {
     props.fetchPlans()
   }, [props.fetchPlans])
 
+  const data = useMemo(() => {
+    console.log('updated plans basic info')
+
+    return Object.keys(props.plans)
+      .reduce<PlanT[]>((result, planId) => [...result, props.plans[planId]], [])
+      .sort((a, b) => a.startDate.seconds - b.startDate.seconds)
+  }, [props.plans])
+
   const onPlanItemPress = useCallback(
     (planId: string) => {
-      const plan = props.plans.find(item => item.id === planId)
+      const plan = props.plans[planId]
 
       if (!plan) {
         return
@@ -96,7 +104,7 @@ const PlansScreen = (props: PropsT) => {
         [theme]
       )}
     >
-      <FlatList<PlanT> data={props.plans} renderItem={renderItem} />
+      <FlatList<PlanT> data={data} renderItem={renderItem} />
     </LoaderOrChildren>
   )
 }
