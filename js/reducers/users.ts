@@ -42,6 +42,9 @@ export const usersSlice = createSlice({
       state.searchResults = action.payload
     },
     // fetch only those users that are not already cached
-    fetchUsers: (_, __: PayloadAction<string[]>) => {}
+    fetchUsers: (_, __: PayloadAction<string[]>) => {},
+    cacheUsers: (state, action: PayloadAction<UserT[]>) => {
+      action.payload.forEach(user => (state.users[user.id] = user))
+    }
   }
 })

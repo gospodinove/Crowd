@@ -13,6 +13,23 @@ import {
 } from '../utils/loaders'
 import { loadUserData, storeUserData } from '../utils/localData'
 
+// Helpers
+function* fetchUsers(userIds: string[]) {
+  try {
+    const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<UserDataT[]> =
+      yield call(
+        api({
+          type: 'fetchUsers',
+          params: { userIds }
+        })
+      )
+
+    return documentSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 function* onLogin(action: ReturnType<typeof usersSlice.actions.login>) {
   yield put(loadersSlice.actions.startLoader(loginLoader))
 
@@ -36,6 +53,7 @@ function* onLogin(action: ReturnType<typeof usersSlice.actions.login>) {
     yield call(storeUserData, users[0])
 
     yield put(usersSlice.actions.setUserData(users[0]))
+    yield put(usersSlice.actions.cacheUsers(users))
   } catch (err) {
     console.log(err)
   } finally {
@@ -88,22 +106,6 @@ function* onSignUp(action: ReturnType<typeof usersSlice.actions.signUp>) {
   }
 }
 
-function* fetchUsers(userIds: string[]) {
-  try {
-    const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<UserDataT[]> =
-      yield call(
-        api({
-          type: 'fetchUsers',
-          params: { userIds }
-        })
-      )
-
-    return documentSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-  } catch (err) {
-    console.log(err)
-  }
-}
-
 function* onLoadUserData(
   action: ReturnType<typeof usersSlice.actions.loadUserData>
 ) {
@@ -120,6 +122,7 @@ function* onLoadUserData(
       }
 
       yield put(usersSlice.actions.setUserData(users[0]))
+      yield put(usersSlice.actions.cacheUsers(users))
     }
 
     yield put(usersSlice.actions.storeUserLocally())
@@ -196,7 +199,9 @@ function* onFetchUsers(
       return
     }
 
-    const result: UserT[] = yield call(fetchUsers, unloadedUserIds)
+    const users: UserT[] = yield call(fetchUsers, unloadedUserIds)
+
+    yield put(usersSlice.actions.cacheUsers(users))
   } catch (err) {
     console.log(err)
   }
