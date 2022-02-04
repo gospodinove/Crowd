@@ -1,8 +1,9 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
+import { usersSlice } from '../../../reducers/users'
 import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
 import { ModalScreensParamsT } from '../../../types/ModalScreensParams'
@@ -13,9 +14,12 @@ type NavigationPropsT = StackScreenProps<
   'members'
 >
 
-const connector = connect((status: RootState, props: NavigationPropsT) => ({
-  userIds: status.plans[props.route.params.planId].userIds
-}))
+const connector = connect(
+  (status: RootState, props: NavigationPropsT) => ({
+    userIds: status.plans[props.route.params.planId].userIds
+  }),
+  { fetchMembers: usersSlice.actions.fetchUsers }
+)
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
@@ -23,6 +27,10 @@ type PropsT = NavigationPropsT & ReduxPropsT
 
 const MembersScreen = (props: PropsT) => {
   const theme = useAppTheme()
+
+  useEffect(() => {
+    props.fetchMembers(props.userIds)
+  }, [])
 
   const onPress = useCallback(
     () =>

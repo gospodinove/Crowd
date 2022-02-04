@@ -27,30 +27,15 @@ function* onLogin(action: ReturnType<typeof usersSlice.actions.login>) {
       })
     )
 
-    const documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot<UserDataT> =
-      yield call(
-        api({
-          type: 'fetchUserData',
-          params: { uid: userCredential.user.uid }
-        })
-      )
+    const users: UserT[] = yield call(fetchUsers, [userCredential.user.uid])
 
-    const userData = documentSnapshot.data()
-
-    if (!userData) {
+    if (users.length !== 1) {
       throw new Error('[onLogin]: user data does not exist')
     }
 
-    const user: UserT = {
-      email: userData.email,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      id: documentSnapshot.id
-    }
+    yield call(storeUserData, users[0])
 
-    yield call(storeUserData, user)
-
-    yield put(usersSlice.actions.setUserData(user))
+    yield put(usersSlice.actions.setUserData(users[0]))
   } catch (err) {
     console.log(err)
   } finally {
@@ -103,26 +88,17 @@ function* onSignUp(action: ReturnType<typeof usersSlice.actions.signUp>) {
   }
 }
 
-function* fetchUserData(userId: string) {
+function* fetchUsers(userIds: string[]) {
   try {
-    const documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot<UserDataT> =
+    const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<UserDataT[]> =
       yield call(
         api({
-          type: 'fetchUserData',
-          params: { uid: userId }
+          type: 'fetchUsers',
+          params: { userIds }
         })
       )
 
-    const userData = documentSnapshot.data()
-
-    if (!userData) {
-      throw new Error('[fetchUserData] no user data fetched')
-    }
-
-    return {
-      ...userData,
-      id: userId
-    }
+    return documentSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
   } catch (err) {
     console.log(err)
   }
@@ -132,18 +108,18 @@ function* onLoadUserData(
   action: ReturnType<typeof usersSlice.actions.loadUserData>
 ) {
   try {
-    let userData: UserT | undefined = yield call(loadUserData)
+    let user: UserT | undefined = yield call(loadUserData)
 
-    if (userData) {
-      yield put(usersSlice.actions.setUserData(userData))
+    if (user) {
+      yield put(usersSlice.actions.setUserData(user))
     } else {
-      userData = yield call(fetchUserData, action.payload)
+      const users: UserT[] = yield call(fetchUsers, [action.payload])
 
-      if (!userData) {
+      if (users.length !== 1) {
         throw new Error('[onLoadUserData] no user data fetched')
       }
 
-      yield put(usersSlice.actions.setUserData(userData))
+      yield put(usersSlice.actions.setUserData(users[0]))
     }
 
     yield put(usersSlice.actions.storeUserLocally())
@@ -204,6 +180,28 @@ function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
   }
 }
 
+function* onFetchUsers(
+  action: ReturnType<typeof usersSlice.actions.fetchUsers>
+) {
+  try {
+    const loadedUserIds: string[] = yield select((state: RootState) =>
+      Object.keys(state.users.users)
+    )
+
+    const unloadedUserIds = action.payload.filter(
+      id => !loadedUserIds.includes(id)
+    )
+
+    if (unloadedUserIds.length === 0) {
+      return
+    }
+
+    const result: UserT[] = yield call(fetchUsers, unloadedUserIds)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export default function* userSaga() {
   yield all([
     takeLatest(usersSlice.actions.signUp, onSignUp),
@@ -211,6 +209,7 @@ export default function* userSaga() {
     takeLatest(usersSlice.actions.loadUserData, onLoadUserData),
     takeLatest(usersSlice.actions.storeUserLocally, onStoreUserLocally),
     takeLatest(usersSlice.actions.logout, onLogout),
-    takeLatest(usersSlice.actions.search, onSearch)
+    takeLatest(usersSlice.actions.search, onSearch),
+    takeLatest(usersSlice.actions.fetchUsers, onFetchUsers)
   ])
 }

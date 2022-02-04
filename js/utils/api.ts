@@ -26,8 +26,12 @@ export default function api(call: ApiCallT) {
           firstName: call.params.firstName,
           lastName: call.params.lastName
         })
-    case 'fetchUserData':
-      return () => db.collection('users').doc(call.params.uid).get()
+    case 'fetchUsers':
+      return () =>
+        db
+          .collection('users')
+          .where(firestore.FieldPath.documentId(), 'in', call.params.userIds)
+          .get()
     case 'fetchPlans':
       return () =>
         db
