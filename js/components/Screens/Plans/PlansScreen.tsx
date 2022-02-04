@@ -74,7 +74,7 @@ const PlansScreen = (props: PropsT) => {
         return
       }
 
-      props.navigation.push('plan', plan)
+      props.navigation.push('plan', { planId: plan.id })
     },
     [props.plans, props.navigation]
   )

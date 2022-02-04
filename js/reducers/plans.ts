@@ -21,9 +21,24 @@ export const plansSlice = createSlice({
     onCreate: (state, action: PayloadAction<PlanT>) => {
       state.data.push(action.payload)
     },
-    setMembers: (
+    updateMembers: (
       _,
-      __: PayloadAction<{ plan: PlanT; newUserIds: string[] }>
-    ) => {}
+      __: PayloadAction<{ planId: string; newUserIds: string[] }>
+    ) => {},
+    onMembersUpdate: (
+      state,
+      action: PayloadAction<{ planId: string; newUserIds: string[] }>
+    ) => {
+      state.data = state.data.map(plan => {
+        if (plan.id !== action.payload.planId) {
+          return plan
+        }
+
+        return {
+          ...plan,
+          userIds: [...new Set([...plan.userIds, ...action.payload.newUserIds])]
+        }
+      })
+    }
   }
 })

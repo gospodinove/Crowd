@@ -1,9 +1,7 @@
-import { PlanT } from './Plan'
-
 export type GroupPlanTabBarPropsT = {
   overview: undefined
   schedule: undefined
   payments: undefined
-  members: { plan: PlanT }
+  members: { planId: string; userIds: string[] }
   cars: undefined
 }

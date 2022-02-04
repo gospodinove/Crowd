@@ -19,9 +19,10 @@ const MembersScreen = (props: PropsT) => {
   const onPress = useCallback(
     () =>
       props.navigation.navigate('inviteGroupPlanMembers', {
-        plan: props.route.params.plan
+        planId: props.route.params.planId,
+        userIds: props.route.params.userIds
       }),
-    [props.navigation, props.route.params.plan]
+    [props.navigation, props.route.params.planId, props.route.params.userIds]
   )
 
   return (

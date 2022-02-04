@@ -57,24 +57,23 @@ function* onCreate(action: ReturnType<typeof plansSlice.actions.create>) {
   }
 }
 
-function* onSetMembers(
-  action: ReturnType<typeof plansSlice.actions.setMembers>
+function* onUpdateMembers(
+  action: ReturnType<typeof plansSlice.actions.updateMembers>
 ) {
   yield put(loadersSlice.actions.startLoader(setPlanMembers))
 
   try {
+    const plan: PlanT = yield select((state: RootState) =>
+      state.plans.data.find(p => p.id === action.payload.planId)
+    )
+
     // use Set to remove the duplicated values
     yield call(
       api({
         type: 'setPlanMembers',
         params: {
-          planId: action.payload.plan.id,
-          userIds: [
-            ...new Set([
-              ...action.payload.newUserIds,
-              ...action.payload.plan.userIds
-            ])
-          ]
+          planId: plan.id,
+          userIds: [...new Set([...action.payload.newUserIds, ...plan.userIds])]
         }
       })
     )
@@ -85,7 +84,7 @@ function* onSetMembers(
         type: 'createNotificationBatch',
         params: {
           userIds: action.payload.newUserIds,
-          title: `Added to ${action.payload.plan.name}`,
+          title: `Added to ${plan.name}`,
           message: 'You have been added to a new plan',
           isRead: false,
           image: {
@@ -95,6 +94,8 @@ function* onSetMembers(
         }
       })
     )
+
+    yield put(plansSlice.actions.onMembersUpdate(action.payload))
   } catch (err) {
     console.log(err)
   } finally {
@@ -106,6 +107,6 @@ export default function* plansSaga() {
   yield all([
     takeLatest(plansSlice.actions.fetch, onFetch),
     takeLatest(plansSlice.actions.create, onCreate),
-    takeLatest(plansSlice.actions.setMembers, onSetMembers)
+    takeLatest(plansSlice.actions.updateMembers, onUpdateMembers)
   ])
 }
