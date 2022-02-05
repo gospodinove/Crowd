@@ -8,7 +8,7 @@ import { UserDataT, UserT } from '../types/User'
 import api from '../utils/api'
 import fetchUsers from '../utils/fetchUsers'
 import {
-  inviteMembersSearch,
+  inviteMembersSearchLoader,
   loginLoader,
   signUpLoader
 } from '../utils/loaders'
@@ -139,7 +139,7 @@ function* onLogout() {
 }
 
 function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
-  yield put(loadersSlice.actions.startLoader(inviteMembersSearch))
+  yield put(loadersSlice.actions.startLoader(inviteMembersSearchLoader))
 
   try {
     if (action.payload.length === 0) {
@@ -161,7 +161,7 @@ function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
   } catch (err) {
     console.log(err)
   } finally {
-    yield put(loadersSlice.actions.stopLoader(inviteMembersSearch))
+    yield put(loadersSlice.actions.stopLoader(inviteMembersSearchLoader))
   }
 }
 

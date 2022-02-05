@@ -7,7 +7,12 @@ import { PlanDataT, PlanT } from '../types/Plan'
 import { UserT } from '../types/User'
 import api from '../utils/api'
 import fetchUsers from '../utils/fetchUsers'
-import { createPlanLoader, plansLoader, setPlanMembers } from '../utils/loaders'
+import {
+  createPlanLoader,
+  fetchPlanMembersLoader,
+  plansLoader,
+  updatePlanMembersLoader
+} from '../utils/loaders'
 
 function* onFetch() {
   yield put(loadersSlice.actions.startLoader(plansLoader))
@@ -67,7 +72,7 @@ function* onCreate(action: ReturnType<typeof plansSlice.actions.create>) {
 function* onUpdateMembersForPlanId(
   action: ReturnType<typeof plansSlice.actions.updateMembersForPlanId>
 ) {
-  yield put(loadersSlice.actions.startLoader(setPlanMembers))
+  yield put(loadersSlice.actions.startLoader(updatePlanMembersLoader))
 
   try {
     const {
@@ -127,16 +132,20 @@ function* onUpdateMembersForPlanId(
   } catch (err) {
     console.log(err)
   } finally {
-    yield put(loadersSlice.actions.stopLoader(setPlanMembers))
+    yield put(loadersSlice.actions.stopLoader(updatePlanMembersLoader))
   }
 }
 
 function* onFetchMembersForPlanId(
   action: ReturnType<typeof plansSlice.actions.fetchMembersForPlanId>
 ) {
+  const loader = action.payload.loader ?? fetchPlanMembersLoader
+
+  yield put(loadersSlice.actions.startLoader(loader))
+
   try {
     const memberIds: string[] | undefined = yield select(
-      (state: RootState) => state.plans.data[action.payload]?.userIds
+      (state: RootState) => state.plans.data[action.payload.planId]?.userIds
     )
 
     if (!memberIds) {
@@ -147,12 +156,14 @@ function* onFetchMembersForPlanId(
 
     yield put(
       plansSlice.actions.setMembersForPlanId({
-        planId: action.payload,
+        planId: action.payload.planId,
         members
       })
     )
   } catch (err) {
     console.log(err)
+  } finally {
+    yield put(loadersSlice.actions.stopLoader(loader))
   }
 }
 

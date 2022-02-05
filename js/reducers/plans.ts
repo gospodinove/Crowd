@@ -21,7 +21,10 @@ export const plansSlice = createSlice({
     onCreate: (state, action: PayloadAction<PlanT>) => {
       state.data[action.payload.id] = action.payload
     },
-    fetchMembersForPlanId: (_, __: PayloadAction<string>) => {},
+    fetchMembersForPlanId: (
+      _,
+      __: PayloadAction<{ planId: string; loader?: string }>
+    ) => {},
     updateMembersForPlanId: (
       _,
       __: PayloadAction<{ planId: string; newMembers: UserT[] }>

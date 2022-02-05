@@ -10,7 +10,10 @@ import { usersSlice } from '../../../../reducers/users'
 import { RootState } from '../../../../redux/store'
 import { ModalScreensParamsT } from '../../../../types/ModalScreensParams'
 import { UserT } from '../../../../types/User'
-import { inviteMembersSearch, setPlanMembers } from '../../../../utils/loaders'
+import {
+  inviteMembersSearchLoader,
+  updatePlanMembersLoader
+} from '../../../../utils/loaders'
 import Button from '../../../Button'
 import LoaderOrChildren from '../../../LoaderOrChildren'
 import PlanMemberItem from '../../../PlanMemberItem'
@@ -23,8 +26,8 @@ import { invitePlanMembersScreenStyles } from './InvitePlanMembersScreen.styles'
 const connector = connect(
   (state: RootState) => ({
     searchResults: state.users.searchResults,
-    isSearching: state.loaders.runningLoaders[inviteMembersSearch],
-    isLoading: state.loaders.runningLoaders[setPlanMembers]
+    isSearching: state.loaders.runningLoaders[inviteMembersSearchLoader],
+    isLoading: state.loaders.runningLoaders[updatePlanMembersLoader]
   }),
   {
     search: usersSlice.actions.search,
