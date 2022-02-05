@@ -16,7 +16,7 @@ import MembersScreen from './MembersScreen'
 type NavigationPropsT = StackScreenProps<PlansTabNavigatorPropsT, 'plan'>
 
 const connector = connect((state: RootState, props: NavigationPropsT) => ({
-  plan: state.plans[props.route.params.planId]
+  plan: state.plans.data[props.route.params.planId]
 }))
 
 type ReduxPropsT = ConnectedProps<typeof connector>
@@ -30,16 +30,16 @@ const tabNames = ['Overview', 'Schedule', 'Payments', 'Members', 'Cars']
 const PlanScreen = (props: PropsT) => {
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      title: props.plan.name,
+      title: props.plan?.name,
       headerStyle: {
-        backgroundColor: props.plan.color,
+        backgroundColor: props.plan?.color,
         shadowColor: 'transparent',
         elevation: 0
       },
       headerTintColor: '#fff',
       headerBackTitleVisible: false
     })
-  }, [props.navigation, props.plan.name, props.plan.color])
+  }, [props.navigation, props.plan?.name, props.plan?.color])
 
   const renderTabBar = useCallback(
     (tabBarProps: MaterialTopTabBarProps) => (
@@ -49,7 +49,7 @@ const PlanScreen = (props: PropsT) => {
         titles={tabNames}
       />
     ),
-    [props.plan.color, tabNames]
+    [props.plan?.color, tabNames]
   )
 
   return (
@@ -61,8 +61,8 @@ const PlanScreen = (props: PropsT) => {
         name="members"
         component={MembersScreen}
         initialParams={useMemo(
-          () => ({ planId: props.plan.id, userIds: props.plan.userIds }),
-          [props.plan.id, props.plan.userIds]
+          () => ({ planId: props.plan?.id }),
+          [props.plan?.id]
         )}
       />
       <Tab.Screen name="cars" component={NotificationsScreen} />

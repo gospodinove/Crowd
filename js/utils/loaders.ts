@@ -6,6 +6,8 @@ export const plansLoader = 'plansLoader'
 
 export const createPlanLoader = 'createPlanLoader'
 
-export const inviteMembersSearch = 'inviteMembersSearch'
-
-export const setPlanMembers = 'setPlanMembers'
+// PLAN MEMBERS
+export const inviteMembersSearchLoader = 'inviteMembersSearchLoader'
+export const updatePlanMembersLoader = 'updatePlanMembersLoader'
+export const fetchPlanMembersLoader = 'fetchPlanMembersLoader'
+export const refreshPlanMembersLoader = 'refreshPlanMembersLoader'

@@ -23,8 +23,8 @@ type ApiCallT =
       params: { userId: string }
     }
   | {
-      type: 'fetchUserData'
-      params: { uid: string }
+      type: 'fetchUsers'
+      params: { userIds: string[] }
     }
   | {
       type: 'createPlan'

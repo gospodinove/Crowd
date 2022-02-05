@@ -10,26 +10,29 @@ import { usersSlice } from '../../../../reducers/users'
 import { RootState } from '../../../../redux/store'
 import { ModalScreensParamsT } from '../../../../types/ModalScreensParams'
 import { UserT } from '../../../../types/User'
-import { inviteMembersSearch, setPlanMembers } from '../../../../utils/loaders'
+import {
+  inviteMembersSearchLoader,
+  updatePlanMembersLoader
+} from '../../../../utils/loaders'
 import Button from '../../../Button'
 import LoaderOrChildren from '../../../LoaderOrChildren'
+import PlanMemberItem from '../../../PlanMemberItem'
 import ScrollContainer from '../../../ScrollContainer'
 import Text from '../../../Text'
 import TextInput from '../../../TextInput'
 import UserInitials from '../../../UserInitials'
-import InvitePlanMemberItem from './InvitePlanMemberItem'
 import { invitePlanMembersScreenStyles } from './InvitePlanMembersScreen.styles'
 
 const connector = connect(
   (state: RootState) => ({
     searchResults: state.users.searchResults,
-    isSearching: state.loaders.runningLoaders[inviteMembersSearch],
-    isLoading: state.loaders.runningLoaders[setPlanMembers]
+    isSearching: state.loaders.runningLoaders[inviteMembersSearchLoader],
+    isLoading: state.loaders.runningLoaders[updatePlanMembersLoader]
   }),
   {
     search: usersSlice.actions.search,
     setSearchResults: usersSlice.actions.setSearchResults,
-    updatePlanMembers: plansSlice.actions.updateMembers
+    updatePlanMembers: plansSlice.actions.updateMembersForPlanId
   }
 )
 
@@ -97,7 +100,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
     () =>
       props.updatePlanMembers({
         planId: props.route.params.planId,
-        newUserIds: selectedUsers.map(u => u.id)
+        newMembers: selectedUsers
       }),
     [
       props.updatePlanMembers,
@@ -109,7 +112,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
 
   const renderItem = useCallback(
     (data: ListRenderItemInfo<UserT>) => (
-      <InvitePlanMemberItem
+      <PlanMemberItem
         user={data.item}
         isSelected={selectedUsers.map(u => u.id).includes(data.item.id)}
         onPress={onItemPress}

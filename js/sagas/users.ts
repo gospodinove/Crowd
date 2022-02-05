@@ -6,8 +6,9 @@ import { usersSlice } from '../reducers/users'
 import { RootState } from '../redux/store'
 import { UserDataT, UserT } from '../types/User'
 import api from '../utils/api'
+import fetchUsers from '../utils/fetchUsers'
 import {
-  inviteMembersSearch,
+  inviteMembersSearchLoader,
   loginLoader,
   signUpLoader
 } from '../utils/loaders'
@@ -27,30 +28,15 @@ function* onLogin(action: ReturnType<typeof usersSlice.actions.login>) {
       })
     )
 
-    const documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot<UserDataT> =
-      yield call(
-        api({
-          type: 'fetchUserData',
-          params: { uid: userCredential.user.uid }
-        })
-      )
+    const users: UserT[] = yield call(fetchUsers, [userCredential.user.uid])
 
-    const userData = documentSnapshot.data()
-
-    if (!userData) {
+    if (users.length !== 1) {
       throw new Error('[onLogin]: user data does not exist')
     }
 
-    const user: UserT = {
-      email: userData.email,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      id: documentSnapshot.id
-    }
+    yield call(storeUserData, users[0])
 
-    yield call(storeUserData, user)
-
-    yield put(usersSlice.actions.setUserData(user))
+    yield put(usersSlice.actions.setUserData(users[0]))
   } catch (err) {
     console.log(err)
   } finally {
@@ -103,47 +89,22 @@ function* onSignUp(action: ReturnType<typeof usersSlice.actions.signUp>) {
   }
 }
 
-function* fetchUserData(userId: string) {
-  try {
-    const documentSnapshot: FirebaseFirestoreTypes.DocumentSnapshot<UserDataT> =
-      yield call(
-        api({
-          type: 'fetchUserData',
-          params: { uid: userId }
-        })
-      )
-
-    const userData = documentSnapshot.data()
-
-    if (!userData) {
-      throw new Error('[fetchUserData] no user data fetched')
-    }
-
-    return {
-      ...userData,
-      id: userId
-    }
-  } catch (err) {
-    console.log(err)
-  }
-}
-
 function* onLoadUserData(
   action: ReturnType<typeof usersSlice.actions.loadUserData>
 ) {
   try {
-    let userData: UserT | undefined = yield call(loadUserData)
+    let user: UserT | undefined = yield call(loadUserData)
 
-    if (userData) {
-      yield put(usersSlice.actions.setUserData(userData))
+    if (user) {
+      yield put(usersSlice.actions.setUserData(user))
     } else {
-      userData = yield call(fetchUserData, action.payload)
+      const users: UserT[] = yield call(fetchUsers, [action.payload])
 
-      if (!userData) {
+      if (users.length !== 1) {
         throw new Error('[onLoadUserData] no user data fetched')
       }
 
-      yield put(usersSlice.actions.setUserData(userData))
+      yield put(usersSlice.actions.setUserData(users[0]))
     }
 
     yield put(usersSlice.actions.storeUserLocally())
@@ -154,7 +115,7 @@ function* onLoadUserData(
 
 function* onStoreUserLocally() {
   try {
-    const userData: UserT = yield select(
+    const userData: UserT | undefined = yield select(
       (state: RootState) => state.users.currentUser
     )
 
@@ -178,7 +139,7 @@ function* onLogout() {
 }
 
 function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
-  yield put(loadersSlice.actions.startLoader(inviteMembersSearch))
+  yield put(loadersSlice.actions.startLoader(inviteMembersSearchLoader))
 
   try {
     if (action.payload.length === 0) {
@@ -200,7 +161,7 @@ function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
   } catch (err) {
     console.log(err)
   } finally {
-    yield put(loadersSlice.actions.stopLoader(inviteMembersSearch))
+    yield put(loadersSlice.actions.stopLoader(inviteMembersSearchLoader))
   }
 }
 
