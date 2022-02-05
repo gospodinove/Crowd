@@ -9,3 +9,7 @@ export const createPlanLoader = 'createPlanLoader'
 export const inviteMembersSearch = 'inviteMembersSearch'
 
 export const setPlanMembers = 'setPlanMembers'
+
+export const fetchPlanMembers = 'fetchPlanMembers'
+
+export const refreshPlanMembers = 'refreshPlanMembers'

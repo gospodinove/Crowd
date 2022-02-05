@@ -13,11 +13,11 @@ import { UserT } from '../../../../types/User'
 import { inviteMembersSearch, setPlanMembers } from '../../../../utils/loaders'
 import Button from '../../../Button'
 import LoaderOrChildren from '../../../LoaderOrChildren'
+import PlanMemberItem from '../../../PlanMemberItem'
 import ScrollContainer from '../../../ScrollContainer'
 import Text from '../../../Text'
 import TextInput from '../../../TextInput'
 import UserInitials from '../../../UserInitials'
-import InvitePlanMemberItem from './InvitePlanMemberItem'
 import { invitePlanMembersScreenStyles } from './InvitePlanMembersScreen.styles'
 
 const connector = connect(
@@ -109,7 +109,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
 
   const renderItem = useCallback(
     (data: ListRenderItemInfo<UserT>) => (
-      <InvitePlanMemberItem
+      <PlanMemberItem
         user={data.item}
         isSelected={selectedUsers.map(u => u.id).includes(data.item.id)}
         onPress={onItemPress}

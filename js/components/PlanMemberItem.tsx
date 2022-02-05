@@ -1,17 +1,17 @@
 import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, View } from 'react-native'
-import { useAppTheme } from '../../../../hooks/useAppTheme'
-import { UserT } from '../../../../types/User'
-import Text from '../../../Text'
-import UserInitials from '../../../UserInitials'
+import { useAppTheme } from '../hooks/useAppTheme'
+import { UserT } from '../types/User'
+import Text from './Text'
+import UserInitials from './UserInitials'
 
 type PropsT = {
   user: UserT
-  isSelected: boolean
-  onPress: (user: UserT) => void
+  isSelected?: boolean
+  onPress?: (user: UserT) => void
 }
 
-const InvitePlanMemberItem = (props: PropsT) => {
+const PlanMemberItem = (props: PropsT) => {
   const theme = useAppTheme()
 
   return (
@@ -24,7 +24,7 @@ const InvitePlanMemberItem = (props: PropsT) => {
         []
       )}
       onPress={useCallback(
-        () => props.onPress(props.user),
+        () => props.onPress?.(props.user),
         [props.onPress, props.user]
       )}
     >
@@ -53,4 +53,4 @@ const InvitePlanMemberItem = (props: PropsT) => {
   )
 }
 
-export default memo(InvitePlanMemberItem)
+export default memo(PlanMemberItem)

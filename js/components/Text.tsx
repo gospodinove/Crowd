@@ -9,6 +9,7 @@ const Text = (props: TextPropsT) => {
   return (
     <RNText
       {...props}
+      numberOfLines={props.numberOfLines ?? 1}
       style={useMemo(
         () => [
           {
