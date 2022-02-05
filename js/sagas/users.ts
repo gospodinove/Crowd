@@ -6,29 +6,13 @@ import { usersSlice } from '../reducers/users'
 import { RootState } from '../redux/store'
 import { UserDataT, UserT } from '../types/User'
 import api from '../utils/api'
+import fetchUsers from '../utils/fetchUsers'
 import {
   inviteMembersSearch,
   loginLoader,
   signUpLoader
 } from '../utils/loaders'
 import { loadUserData, storeUserData } from '../utils/localData'
-
-// Helpers
-function* fetchUsers(userIds: string[]) {
-  try {
-    const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<UserDataT[]> =
-      yield call(
-        api({
-          type: 'fetchUsers',
-          params: { userIds }
-        })
-      )
-
-    return documentSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-  } catch (err) {
-    console.log(err)
-  }
-}
 
 function* onLogin(action: ReturnType<typeof usersSlice.actions.login>) {
   yield put(loadersSlice.actions.startLoader(loginLoader))
@@ -53,7 +37,6 @@ function* onLogin(action: ReturnType<typeof usersSlice.actions.login>) {
     yield call(storeUserData, users[0])
 
     yield put(usersSlice.actions.setUserData(users[0]))
-    yield put(usersSlice.actions.cacheUsers(users))
   } catch (err) {
     console.log(err)
   } finally {
@@ -122,7 +105,6 @@ function* onLoadUserData(
       }
 
       yield put(usersSlice.actions.setUserData(users[0]))
-      yield put(usersSlice.actions.cacheUsers(users))
     }
 
     yield put(usersSlice.actions.storeUserLocally())
@@ -133,7 +115,7 @@ function* onLoadUserData(
 
 function* onStoreUserLocally() {
   try {
-    const userData: UserT = yield select(
+    const userData: UserT | undefined = yield select(
       (state: RootState) => state.users.currentUser
     )
 
@@ -183,30 +165,6 @@ function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
   }
 }
 
-function* onFetchUsers(
-  action: ReturnType<typeof usersSlice.actions.fetchUsers>
-) {
-  try {
-    const loadedUserIds: string[] = yield select((state: RootState) =>
-      Object.keys(state.users.users)
-    )
-
-    const unloadedUserIds = action.payload.filter(
-      id => !loadedUserIds.includes(id)
-    )
-
-    if (unloadedUserIds.length === 0) {
-      return
-    }
-
-    const users: UserT[] = yield call(fetchUsers, unloadedUserIds)
-
-    yield put(usersSlice.actions.cacheUsers(users))
-  } catch (err) {
-    console.log(err)
-  }
-}
-
 export default function* userSaga() {
   yield all([
     takeLatest(usersSlice.actions.signUp, onSignUp),
@@ -214,7 +172,6 @@ export default function* userSaga() {
     takeLatest(usersSlice.actions.loadUserData, onLoadUserData),
     takeLatest(usersSlice.actions.storeUserLocally, onStoreUserLocally),
     takeLatest(usersSlice.actions.logout, onLogout),
-    takeLatest(usersSlice.actions.search, onSearch),
-    takeLatest(usersSlice.actions.fetchUsers, onFetchUsers)
+    takeLatest(usersSlice.actions.search, onSearch)
   ])
 }

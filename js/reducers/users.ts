@@ -4,13 +4,11 @@ import { UserT } from '../types/User'
 type StateT = {
   currentUser: UserT | undefined
   searchResults: UserT[]
-  users: Record<string, UserT>
 }
 
 const initialState: StateT = {
   currentUser: undefined,
-  searchResults: [],
-  users: {}
+  searchResults: []
 }
 
 export const usersSlice = createSlice({
@@ -40,11 +38,6 @@ export const usersSlice = createSlice({
     search: (_, __: PayloadAction<string>) => {},
     setSearchResults: (state, action: PayloadAction<UserT[]>) => {
       state.searchResults = action.payload
-    },
-    // fetch only those users that are not already cached
-    fetchUsers: (_, __: PayloadAction<string[]>) => {},
-    cacheUsers: (state, action: PayloadAction<UserT[]>) => {
-      action.payload.forEach(user => (state.users[user.id] = user))
     }
   }
 })

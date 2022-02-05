@@ -4,14 +4,16 @@ import { loadersSlice } from '../reducers/loaders'
 import { plansSlice } from '../reducers/plans'
 import { RootState } from '../redux/store'
 import { PlanDataT, PlanT } from '../types/Plan'
+import { UserT } from '../types/User'
 import api from '../utils/api'
+import fetchUsers from '../utils/fetchUsers'
 import { createPlanLoader, plansLoader, setPlanMembers } from '../utils/loaders'
 
 function* onFetch() {
   yield put(loadersSlice.actions.startLoader(plansLoader))
 
   try {
-    const userId: string = yield select(
+    const userId: string | undefined = yield select(
       (state: RootState) => state.users.currentUser?.id
     )
 
@@ -62,15 +64,24 @@ function* onCreate(action: ReturnType<typeof plansSlice.actions.create>) {
   }
 }
 
-function* onUpdateMembers(
-  action: ReturnType<typeof plansSlice.actions.updateMembers>
+function* onUpdateMembersForPlanId(
+  action: ReturnType<typeof plansSlice.actions.updateMembersForPlanId>
 ) {
   yield put(loadersSlice.actions.startLoader(setPlanMembers))
 
   try {
-    const plan: PlanT = yield select(
-      (state: RootState) => state.plans[action.payload.planId]
-    )
+    const {
+      plan,
+      oldMembers
+    }: { plan: PlanT | undefined; oldMembers: UserT[] | undefined } =
+      yield select((state: RootState) => ({
+        plan: state.plans.data[action.payload.planId],
+        oldMembers: state.plans.membersForPlanId[action.payload.planId]
+      }))
+
+    if (!plan) {
+      throw new Error('[onUpdateMembersForPlanId] - no plan')
+    }
 
     // use Set to remove the duplicated values
     yield call(
@@ -78,7 +89,12 @@ function* onUpdateMembers(
         type: 'setPlanMembers',
         params: {
           planId: plan.id,
-          userIds: [...new Set([...action.payload.newUserIds, ...plan.userIds])]
+          userIds: [
+            ...new Set([
+              ...action.payload.newMembers.map(m => m.id),
+              ...plan.userIds
+            ])
+          ]
         }
       })
     )
@@ -88,7 +104,7 @@ function* onUpdateMembers(
       api({
         type: 'createNotificationBatch',
         params: {
-          userIds: action.payload.newUserIds,
+          userIds: action.payload.newMembers.map(m => m.id),
           title: `Added to ${plan.name}`,
           message: 'You have been added to a new plan',
           isRead: false,
@@ -100,7 +116,14 @@ function* onUpdateMembers(
       })
     )
 
-    yield put(plansSlice.actions.onMembersUpdate(action.payload))
+    yield put(
+      plansSlice.actions.setMembersForPlanId({
+        planId: action.payload.planId,
+        members: [
+          ...new Set([...action.payload.newMembers, ...(oldMembers ?? [])])
+        ]
+      })
+    )
   } catch (err) {
     console.log(err)
   } finally {
@@ -108,10 +131,42 @@ function* onUpdateMembers(
   }
 }
 
+function* onFetchMembersForPlanId(
+  action: ReturnType<typeof plansSlice.actions.fetchMembersForPlanId>
+) {
+  try {
+    const memberIds: string[] | undefined = yield select(
+      (state: RootState) => state.plans.data[action.payload]?.userIds
+    )
+
+    if (!memberIds) {
+      throw new Error('[onFetchMembersForPlanId] - no member IDs')
+    }
+
+    const members: UserT[] = yield call(fetchUsers, memberIds)
+
+    yield put(
+      plansSlice.actions.setMembersForPlanId({
+        planId: action.payload,
+        members
+      })
+    )
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export default function* plansSaga() {
   yield all([
     takeLatest(plansSlice.actions.fetch, onFetch),
     takeLatest(plansSlice.actions.create, onCreate),
-    takeLatest(plansSlice.actions.updateMembers, onUpdateMembers)
+    takeLatest(
+      plansSlice.actions.updateMembersForPlanId,
+      onUpdateMembersForPlanId
+    ),
+    takeLatest(
+      plansSlice.actions.fetchMembersForPlanId,
+      onFetchMembersForPlanId
+    )
   ])
 }

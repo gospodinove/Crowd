@@ -29,7 +29,7 @@ const connector = connect(
   {
     search: usersSlice.actions.search,
     setSearchResults: usersSlice.actions.setSearchResults,
-    updatePlanMembers: plansSlice.actions.updateMembers
+    updatePlanMembers: plansSlice.actions.updateMembersForPlanId
   }
 )
 
@@ -97,7 +97,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
     () =>
       props.updatePlanMembers({
         planId: props.route.params.planId,
-        newUserIds: selectedUsers.map(u => u.id)
+        newMembers: selectedUsers
       }),
     [
       props.updatePlanMembers,

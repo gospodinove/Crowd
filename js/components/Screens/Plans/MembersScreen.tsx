@@ -3,7 +3,7 @@ import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
-import { usersSlice } from '../../../reducers/users'
+import { plansSlice } from '../../../reducers/plans'
 import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
 import { ModalScreensParamsT } from '../../../types/ModalScreensParams'
@@ -15,10 +15,10 @@ type NavigationPropsT = StackScreenProps<
 >
 
 const connector = connect(
-  (status: RootState, props: NavigationPropsT) => ({
-    userIds: status.plans[props.route.params.planId].userIds
+  (state: RootState, props: NavigationPropsT) => ({
+    members: state.plans.membersForPlanId[props.route.params.planId]
   }),
-  { fetchMembers: usersSlice.actions.fetchUsers }
+  { fetchMembers: plansSlice.actions.fetchMembersForPlanId }
 )
 
 type ReduxPropsT = ConnectedProps<typeof connector>
@@ -29,16 +29,18 @@ const MembersScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
   useEffect(() => {
-    props.fetchMembers(props.userIds)
+    if (!props.members) {
+      props.fetchMembers(props.route.params.planId)
+    }
   }, [])
 
   const onPress = useCallback(
     () =>
       props.navigation.navigate('inviteGroupPlanMembers', {
         planId: props.route.params.planId,
-        userIds: props.userIds
+        userIds: props.members?.map(m => m.id) ?? []
       }),
-    [props.navigation, props.route.params.planId, props.userIds]
+    [props.navigation, props.route.params.planId, props.members]
   )
 
   return (
