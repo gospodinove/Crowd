@@ -1,3 +1,5 @@
+import { CompositeScreenProps } from '@react-navigation/core'
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { FlatList, ListRenderItemInfo, View } from 'react-native'
@@ -17,9 +19,9 @@ import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanMemberItem from '../../PlanMemberItem'
 import Text from '../../Text'
 
-type NavigationPropsT = StackScreenProps<
-  GroupPlanTabBarPropsT & ModalScreensParamsT,
-  'members'
+type NavigationPropsT = CompositeScreenProps<
+  MaterialTopTabScreenProps<GroupPlanTabBarPropsT, 'members'>,
+  StackScreenProps<ModalScreensParamsT>
 >
 
 const connector = connect(
@@ -72,14 +74,17 @@ const MembersScreen = (props: PropsT) => {
     []
   )
 
-  const onPress = useCallback(
-    () =>
-      props.navigation.navigate('inviteGroupPlanMembers', {
+  const onAddButtonPress = useCallback(() => {
+    console.log(props.members?.length)
+
+    props.navigation.navigate('invitePlanMembersStack', {
+      screen: 'inviteMembers',
+      params: {
         planId: props.route.params.planId,
         userIds: props.members?.map(m => m.id) ?? []
-      }),
-    [props.navigation, props.route.params.planId, props.members]
-  )
+      }
+    })
+  }, [props.navigation, props.route.params.planId, props.members])
 
   return (
     <LoaderOrChildren
@@ -117,7 +122,7 @@ const MembersScreen = (props: PropsT) => {
             size="medium"
             leftIcon="plus"
             rounded
-            onPress={onPress}
+            onPress={onAddButtonPress}
           />
         </View>
         <FlatList

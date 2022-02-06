@@ -51,7 +51,9 @@ const PlansScreen = (props: PropsT) => {
           size={32}
           color={theme.colors.icon}
           onPress={() => {
-            props.navigation.navigate('createPlan')
+            props.navigation.navigate('createPlanStack', {
+              screen: 'createPlan'
+            })
           }}
         />
       )

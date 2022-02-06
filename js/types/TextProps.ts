@@ -1,7 +1,8 @@
+import { ReactNode } from 'react'
 import { TextProps as RNTextProps } from 'react-native'
 
 export type TextPropsT = Omit<RNTextProps, 'style' | 'numberOfLines'> & {
-  children: string | number
+  children: ReactNode
   weight: 'regular' | 'semibold'
   size: number
   lineHeight: number

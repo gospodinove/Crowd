@@ -1,6 +1,13 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import { debounce } from 'lodash'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState
+} from 'react'
 import { FlatList, ListRenderItemInfo, Pressable, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
@@ -40,7 +47,7 @@ type ReduxPropsT = ConnectedProps<typeof connector>
 
 type NavigationPropsT = StackScreenProps<
   ModalScreensParamsT,
-  'inviteGroupPlanMembers'
+  'invitePlanMembersStack'
 >
 
 type PropsT = ReduxPropsT & NavigationPropsT
@@ -53,14 +60,32 @@ const InvitePlanMembersScreen = (props: PropsT) => {
 
   const prevIsLoading = usePrevious(props.isLoading)
 
+  useLayoutEffect(
+    () =>
+      props.navigation.setOptions({
+        headerRight: () => (
+          <Button
+            text="Done"
+            type="text"
+            size="medium"
+            style={{ marginRight: 15 }}
+            onPress={() => props.navigation.goBack()}
+          />
+        )
+      }),
+    [props.navigation]
+  )
+
+  useEffect(() => console.log(props.route.params.params?.userIds.length))
+
   // filter the results to omit the users already in the group
   useEffect(() => {
     setSearchResults(
       props.searchResults.filter(
-        result => !props.route.params.userIds.includes(result.id)
+        result => !props.route.params.params?.userIds.includes(result.id)
       )
     )
-  }, [props.searchResults, props.route.params.userIds])
+  }, [props.searchResults, props.route.params.params?.userIds])
 
   // detect when the loading state has changed
   useEffect(() => {
@@ -96,19 +121,21 @@ const InvitePlanMembersScreen = (props: PropsT) => {
     [selectedUsers]
   )
 
-  const onAddButtonPress = useCallback(
-    () =>
-      props.updatePlanMembers({
-        planId: props.route.params.planId,
-        newMembers: selectedUsers
-      }),
-    [
-      props.updatePlanMembers,
-      props.route.params.planId,
-      props.route.params.userIds,
-      selectedUsers
-    ]
-  )
+  const onAddButtonPress = useCallback(() => {
+    if (!props.route.params.params?.planId) {
+      return
+    }
+
+    props.updatePlanMembers({
+      planId: props.route.params.params?.planId,
+      newMembers: selectedUsers
+    })
+  }, [
+    props.updatePlanMembers,
+    props.route.params.params?.planId,
+    props.route.params.params?.userIds,
+    selectedUsers
+  ])
 
   const renderItem = useCallback(
     (data: ListRenderItemInfo<UserT>) => (

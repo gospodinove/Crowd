@@ -1,9 +1,10 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { NavigationContainer } from '@react-navigation/native'
 import {
+  CardStyleInterpolators,
   createStackNavigator,
-  StackNavigationOptions,
-  TransitionPresets
+  HeaderStyleInterpolators,
+  StackNavigationOptions
 } from '@react-navigation/stack'
 import React, { memo, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
@@ -11,8 +12,8 @@ import { usersSlice } from '../reducers/users'
 import { RootState } from '../redux/store'
 import { RootStackParamsT } from '../types/RootStackParams'
 import AuthenticationScreen from './Screens/Authentication/AuthenticationScreen'
-import CreatePlanScreen from './Screens/Modals/CreatePlan/CreatePlanScreen'
-import InvitePlanMembersScreen from './Screens/Modals/InvitePlanMembers/InvitePlanMembersScreen'
+import { CreatePlanNavigator } from './Screens/Modals/CreatePlan/CreatePlanNavigator'
+import { InvitePlanMembersNavigator } from './Screens/Modals/InvitePlanMembers/InvitePlanMembersNavigator'
 import SplashScreen from './SplashScreen'
 import TabNavigator from './TabNavigator'
 import ThemeProvider from './ThemeProvider'
@@ -66,21 +67,22 @@ const Root = (props: ReduxPropsT) => {
   }
 
   const rootOptions: StackNavigationOptions = {
-    presentation: 'modal',
-    headerShown: false,
-    gestureEnabled: true,
-    cardOverlayEnabled: true,
-    ...TransitionPresets.ModalPresentationIOS
+    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+    headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+    headerShown: false
   }
 
   return (
     <ThemeProvider>
       <NavigationContainer>
         <RootStack.Navigator initialRouteName="tab" screenOptions={rootOptions}>
-          <RootStack.Screen name="createPlan" component={CreatePlanScreen} />
           <RootStack.Screen
-            name="inviteGroupPlanMembers"
-            component={InvitePlanMembersScreen}
+            name="createPlanStack"
+            component={CreatePlanNavigator}
+          />
+          <RootStack.Screen
+            name="invitePlanMembersStack"
+            component={InvitePlanMembersNavigator}
           />
           <RootStack.Screen name="tab" component={TabNavigator} />
         </RootStack.Navigator>
