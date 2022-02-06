@@ -1,6 +1,14 @@
+import { CompositeScreenProps } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
 import { debounce } from 'lodash'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState
+} from 'react'
 import { FlatList, ListRenderItemInfo, Pressable, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
@@ -8,7 +16,8 @@ import usePrevious from '../../../../hooks/usePrevious'
 import { plansSlice } from '../../../../reducers/plans'
 import { usersSlice } from '../../../../reducers/users'
 import { RootState } from '../../../../redux/store'
-import { ModalScreensParamsT } from '../../../../types/ModalScreensParams'
+import { ModalsNavigatorPropsT } from '../../../../types/ModalsNavigatorProps'
+import { RootStackPropsT } from '../../../../types/RootStackProps'
 import { UserT } from '../../../../types/User'
 import {
   inviteMembersSearchLoader,
@@ -38,9 +47,9 @@ const connector = connect(
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type NavigationPropsT = StackScreenProps<
-  ModalScreensParamsT,
-  'inviteGroupPlanMembers'
+type NavigationPropsT = CompositeScreenProps<
+  StackScreenProps<ModalsNavigatorPropsT, 'inviteMembers'>,
+  StackScreenProps<RootStackPropsT, 'modals'>
 >
 
 type PropsT = ReduxPropsT & NavigationPropsT
@@ -52,6 +61,22 @@ const InvitePlanMembersScreen = (props: PropsT) => {
   const [selectedUsers, setSelectedUsers] = useState<UserT[]>([])
 
   const prevIsLoading = usePrevious(props.isLoading)
+
+  useLayoutEffect(
+    () =>
+      props.navigation.setOptions({
+        headerRight: () => (
+          <Button
+            text="Done"
+            type="text"
+            size="medium"
+            style={{ marginRight: 15 }}
+            onPress={() => props.navigation.goBack()}
+          />
+        )
+      }),
+    [props.navigation]
+  )
 
   // filter the results to omit the users already in the group
   useEffect(() => {
@@ -96,19 +121,21 @@ const InvitePlanMembersScreen = (props: PropsT) => {
     [selectedUsers]
   )
 
-  const onAddButtonPress = useCallback(
-    () =>
-      props.updatePlanMembers({
-        planId: props.route.params.planId,
-        newMembers: selectedUsers
-      }),
-    [
-      props.updatePlanMembers,
-      props.route.params.planId,
-      props.route.params.userIds,
-      selectedUsers
-    ]
-  )
+  const onAddButtonPress = useCallback(() => {
+    if (!props.route.params.planId) {
+      return
+    }
+
+    props.updatePlanMembers({
+      planId: props.route.params.planId,
+      newMembers: selectedUsers
+    })
+  }, [
+    props.updatePlanMembers,
+    props.route.params.planId,
+    props.route.params.userIds,
+    selectedUsers
+  ])
 
   const renderItem = useCallback(
     (data: ListRenderItemInfo<UserT>) => (

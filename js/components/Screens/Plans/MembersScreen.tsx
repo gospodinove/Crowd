@@ -1,3 +1,6 @@
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { CompositeScreenProps } from '@react-navigation/core'
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { FlatList, ListRenderItemInfo, View } from 'react-native'
@@ -6,7 +9,9 @@ import { useAppTheme } from '../../../hooks/useAppTheme'
 import { plansSlice } from '../../../reducers/plans'
 import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
-import { ModalScreensParamsT } from '../../../types/ModalScreensParams'
+import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
+import { RootStackPropsT } from '../../../types/RootStackProps'
+import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
 import { UserT } from '../../../types/User'
 import {
   fetchPlanMembersLoader,
@@ -17,14 +22,20 @@ import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanMemberItem from '../../PlanMemberItem'
 import Text from '../../Text'
 
-type NavigationPropsT = StackScreenProps<
-  GroupPlanTabBarPropsT & ModalScreensParamsT,
-  'members'
+type NavigationPropsT = CompositeScreenProps<
+  MaterialTopTabScreenProps<GroupPlanTabBarPropsT, 'members'>,
+  CompositeScreenProps<
+    StackScreenProps<PlansTabNavigatorPropsT, 'plans'>,
+    CompositeScreenProps<
+      BottomTabScreenProps<TabNavigatorPropsT, 'plansTab'>,
+      StackScreenProps<RootStackPropsT, 'tab'>
+    >
+  >
 >
 
 const connector = connect(
   (state: RootState, props: NavigationPropsT) => ({
-    members: state.plans.membersForPlanId[props.route.params.planId],
+    members: state.plans.membersForPlanId[props.route.params?.planId],
     isLoading: state.loaders.runningLoaders[fetchPlanMembersLoader],
     isRefreshing:
       state.loaders.runningLoaders[refreshPlanMembersLoader] ?? false
@@ -72,11 +83,14 @@ const MembersScreen = (props: PropsT) => {
     []
   )
 
-  const onPress = useCallback(
+  const onAddButtonPress = useCallback(
     () =>
-      props.navigation.navigate('inviteGroupPlanMembers', {
-        planId: props.route.params.planId,
-        userIds: props.members?.map(m => m.id) ?? []
+      props.navigation.push('modals', {
+        screen: 'inviteMembers',
+        params: {
+          planId: props.route.params.planId,
+          userIds: props.members?.map(m => m.id) ?? []
+        }
       }),
     [props.navigation, props.route.params.planId, props.members]
   )
@@ -117,7 +131,7 @@ const MembersScreen = (props: PropsT) => {
             size="medium"
             leftIcon="plus"
             rounded
-            onPress={onPress}
+            onPress={onAddButtonPress}
           />
         </View>
         <FlatList

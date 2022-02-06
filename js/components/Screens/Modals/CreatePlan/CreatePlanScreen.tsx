@@ -3,8 +3,15 @@ import DateTimePicker, {
   WindowsDatePickerChangeEvent
 } from '@react-native-community/datetimepicker'
 import firestore from '@react-native-firebase/firestore'
+import { CompositeScreenProps } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback, useMemo, useState } from 'react'
+import React, {
+  memo,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useState
+} from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { planColors } from '../../../../constants/planColors'
@@ -13,7 +20,8 @@ import { useAppTheme } from '../../../../hooks/useAppTheme'
 import { plansSlice } from '../../../../reducers/plans'
 import { RootState } from '../../../../redux/store'
 import { IconNameT } from '../../../../types/IconName'
-import { ModalScreensParamsT } from '../../../../types/ModalScreensParams'
+import { ModalsNavigatorPropsT } from '../../../../types/ModalsNavigatorProps'
+import { RootStackPropsT } from '../../../../types/RootStackProps'
 import { assertNever } from '../../../../utils/assertNever'
 import { formatDate } from '../../../../utils/date'
 import { createPlanLoader } from '../../../../utils/loaders'
@@ -37,7 +45,10 @@ const connector = connect(
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type NavigationPropsT = StackScreenProps<ModalScreensParamsT, 'createPlan'>
+type NavigationPropsT = CompositeScreenProps<
+  StackScreenProps<ModalsNavigatorPropsT, 'createPlan'>,
+  StackScreenProps<RootStackPropsT, 'modals'>
+>
 
 type PropsT = ReduxPropsT & NavigationPropsT
 
@@ -59,6 +70,22 @@ const CreatePlanScreen = (props: PropsT) => {
 
   const [datePickerMinDate, setDatePickerMinDate] = useState(new Date())
   const [datePickerValue, setDatePickerValue] = useState(new Date())
+
+  useLayoutEffect(
+    () =>
+      props.navigation.setOptions({
+        headerRight: () => (
+          <Button
+            text="Done"
+            type="text"
+            size="medium"
+            style={{ marginRight: 15 }}
+            onPress={() => props.navigation.goBack()}
+          />
+        )
+      }),
+    [props.navigation]
+  )
 
   const onStartDatePress = () => {
     if (openDatePickerType === 'start-date') {

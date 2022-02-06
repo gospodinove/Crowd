@@ -1,3 +1,5 @@
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { CompositeScreenProps } from '@react-navigation/core'
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBarProps
@@ -8,12 +10,20 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
+import { RootStackPropsT } from '../../../types/RootStackProps'
+import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
 import TabBar from '../../TabBar'
 import DashboardScreen from '../DashboardScreen'
 import NotificationsScreen from '../NotificationsScreen'
 import MembersScreen from './MembersScreen'
 
-type NavigationPropsT = StackScreenProps<PlansTabNavigatorPropsT, 'plan'>
+type NavigationPropsT = CompositeScreenProps<
+  StackScreenProps<PlansTabNavigatorPropsT, 'plan'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabNavigatorPropsT, 'plansTab'>,
+    StackScreenProps<RootStackPropsT, 'tab'>
+  >
+>
 
 const connector = connect((state: RootState, props: NavigationPropsT) => ({
   plan: state.plans.data[props.route.params.planId]

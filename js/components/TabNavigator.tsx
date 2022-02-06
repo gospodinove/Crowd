@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { memo, useMemo } from 'react'
 import { useAppTheme } from '../hooks/useAppTheme'
-import { TabNavigatorParamsT } from '../types/TabNavigatorParams'
+import { TabNavigatorPropsT } from '../types/TabNavigatorProps'
 import { getIconForTab } from '../utils/navigator'
 import Icon from './Icon'
 import DashboardTabNavigator from './Screens/DashboardTabNavigator'
@@ -9,14 +9,14 @@ import MoreTabNavigator from './Screens/MoreTabNavigator'
 import NotificationsTabNavigator from './Screens/NotificationsTabNavigator'
 import PlansTabNavigator from './Screens/Plans/PlansTabNavigator'
 
-const Tab = createBottomTabNavigator<TabNavigatorParamsT>()
+const Tab = createBottomTabNavigator<TabNavigatorPropsT>()
 
 const TabNavigator = () => {
   const theme = useAppTheme()
 
   return (
     <Tab.Navigator
-      initialRouteName="dashboardStack"
+      initialRouteName="dashboardTab"
       screenOptions={useMemo(
         () =>
           ({ route }) => ({
@@ -40,22 +40,22 @@ const TabNavigator = () => {
       )}
     >
       <Tab.Screen
-        name="dashboardStack"
+        name="dashboardTab"
         component={DashboardTabNavigator}
         options={useMemo(() => ({ title: 'Dashboard' }), [])}
       />
       <Tab.Screen
-        name="plansStack"
+        name="plansTab"
         component={PlansTabNavigator}
         options={useMemo(() => ({ title: 'Plans' }), [])}
       />
       <Tab.Screen
-        name="notificationsStack"
+        name="notificationsTab"
         component={NotificationsTabNavigator}
         options={useMemo(() => ({ title: 'Notifications' }), [])}
       />
       <Tab.Screen
-        name="moreStack"
+        name="moreTab"
         component={MoreTabNavigator}
         options={useMemo(() => ({ title: 'More' }), [])}
       />
