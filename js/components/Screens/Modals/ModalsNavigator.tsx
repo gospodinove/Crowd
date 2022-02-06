@@ -7,6 +7,11 @@ import InvitePlanMembersScreen from './InvitePlanMembers/InvitePlanMembersScreen
 
 const Stack = createStackNavigator<ModalsNavigatorPropsT>()
 
+/**
+ * All modals will be contained here.
+ * They will be grouped based on their utility.
+ */
+
 export const ModalsNavigator = () => {
   const theme = useAppTheme()
 
@@ -14,6 +19,7 @@ export const ModalsNavigator = () => {
     <Stack.Navigator
       screenOptions={useMemo(
         () => ({
+          // left and right header buttons will be added from the screens
           headerLeft: _ => undefined,
           headerRight: _ => undefined,
           headerStyle: {
@@ -25,16 +31,23 @@ export const ModalsNavigator = () => {
         [theme]
       )}
     >
-      <Stack.Screen
-        name="inviteMembers"
-        component={InvitePlanMembersScreen}
-        options={useMemo(() => ({ title: 'Invite members' }), [])}
-      />
-      <Stack.Screen
-        name="createPlan"
-        component={CreatePlanScreen}
-        options={useMemo(() => ({ title: 'Create plan' }), [])}
-      />
+      {/* Invite members group */}
+      <Stack.Group>
+        <Stack.Screen
+          name="inviteMembers"
+          component={InvitePlanMembersScreen}
+          options={useMemo(() => ({ title: 'Invite members' }), [])}
+        />
+      </Stack.Group>
+
+      {/* Create plan group */}
+      <Stack.Group>
+        <Stack.Screen
+          name="createPlan"
+          component={CreatePlanScreen}
+          options={useMemo(() => ({ title: 'Create plan' }), [])}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   )
 }
