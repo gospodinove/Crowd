@@ -1,3 +1,5 @@
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { CompositeScreenProps } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useLayoutEffect, useMemo } from 'react'
 import { View } from 'react-native'
@@ -5,9 +7,17 @@ import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../hooks/useAppTheme'
 import { usersSlice } from '../../reducers/users'
 import { MoreTabNavigatorPropsT } from '../../types/MoreTabNavigatorProps'
+import { RootStackPropsT } from '../../types/RootStackProps'
+import { TabNavigatorPropsT } from '../../types/TabNavigatorProps'
 import IconButton from '../IconButton'
 
-type NavigationPropsT = StackScreenProps<MoreTabNavigatorPropsT, 'more'>
+type NavigationPropsT = CompositeScreenProps<
+  StackScreenProps<MoreTabNavigatorPropsT, 'more'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabNavigatorPropsT, 'moreTab'>,
+    StackScreenProps<RootStackPropsT, 'tab'>
+  >
+>
 
 const connector = connect(null, { logout: usersSlice.actions.logout })
 

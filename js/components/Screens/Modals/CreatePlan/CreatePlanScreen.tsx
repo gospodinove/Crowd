@@ -3,6 +3,7 @@ import DateTimePicker, {
   WindowsDatePickerChangeEvent
 } from '@react-native-community/datetimepicker'
 import firestore from '@react-native-firebase/firestore'
+import { CompositeScreenProps } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, {
   memo,
@@ -20,6 +21,7 @@ import { plansSlice } from '../../../../reducers/plans'
 import { RootState } from '../../../../redux/store'
 import { IconNameT } from '../../../../types/IconName'
 import { ModalsNavigatorPropsT } from '../../../../types/ModalsNavigatorProps'
+import { RootStackPropsT } from '../../../../types/RootStackProps'
 import { assertNever } from '../../../../utils/assertNever'
 import { formatDate } from '../../../../utils/date'
 import { createPlanLoader } from '../../../../utils/loaders'
@@ -43,7 +45,10 @@ const connector = connect(
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type NavigationPropsT = StackScreenProps<ModalsNavigatorPropsT, 'createPlan'>
+type NavigationPropsT = CompositeScreenProps<
+  StackScreenProps<ModalsNavigatorPropsT, 'createPlan'>,
+  StackScreenProps<RootStackPropsT, 'modals'>
+>
 
 type PropsT = ReduxPropsT & NavigationPropsT
 

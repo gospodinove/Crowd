@@ -1,3 +1,5 @@
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { CompositeScreenProps } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, {
   memo,
@@ -14,14 +16,18 @@ import { RootState } from '../../../redux/store'
 import { PlanT } from '../../../types/Plan'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
 import { RootStackPropsT } from '../../../types/RootStackProps'
+import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
 import { plansLoader } from '../../../utils/loaders'
 import IconButton from '../../IconButton'
 import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanItem from './PlanItem'
 
-type NavigationPropsT = StackScreenProps<
-  PlansTabNavigatorPropsT & RootStackPropsT,
-  'plans'
+type NavigationPropsT = CompositeScreenProps<
+  StackScreenProps<PlansTabNavigatorPropsT, 'plans'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabNavigatorPropsT, 'plansTab'>,
+    StackScreenProps<RootStackPropsT, 'tab'>
+  >
 >
 
 const connector = connect(
@@ -51,7 +57,7 @@ const PlansScreen = (props: PropsT) => {
           size={32}
           color={theme.colors.icon}
           onPress={() => {
-            props.navigation.navigate('modals', {
+            props.navigation.push('modals', {
               screen: 'createPlan'
             })
           }}

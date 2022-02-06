@@ -5,13 +5,13 @@ export const getIconForTab = (
   routeName: keyof TabNavigatorPropsT
 ): IconNameT => {
   switch (routeName) {
-    case 'dashboardStack':
+    case 'dashboardTab':
       return 'tachometer-alt'
-    case 'plansStack':
+    case 'plansTab':
       return 'plane-departure'
-    case 'notificationsStack':
+    case 'notificationsTab':
       return 'bell'
-    case 'moreStack':
+    case 'moreTab':
       return 'bars'
   }
 }

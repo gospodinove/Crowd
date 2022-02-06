@@ -1,3 +1,5 @@
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { CompositeScreenProps } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useMemo } from 'react'
 import { View } from 'react-native'
@@ -5,6 +7,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../hooks/useAppTheme'
 import { RootState } from '../../redux/store'
 import { DashboardTabNavigatorPropsT } from '../../types/DashboardTabNavigatorProps'
+import { RootStackPropsT } from '../../types/RootStackProps'
+import { TabNavigatorPropsT } from '../../types/TabNavigatorProps'
 import Card from '../Card'
 import Text from '../Text'
 
@@ -14,7 +18,13 @@ const connector = connect((state: RootState) => ({
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type NavigationPropsT = StackScreenProps<DashboardTabNavigatorPropsT, 'user'>
+type NavigationPropsT = CompositeScreenProps<
+  StackScreenProps<DashboardTabNavigatorPropsT, 'user'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabNavigatorPropsT, 'dashboardTab'>,
+    StackScreenProps<RootStackPropsT, 'tab'>
+  >
+>
 
 type PropsT = ReduxPropsT & NavigationPropsT
 

@@ -16,7 +16,7 @@ const TabNavigator = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="dashboardStack"
+      initialRouteName="dashboardTab"
       screenOptions={useMemo(
         () =>
           ({ route }) => ({
@@ -40,22 +40,22 @@ const TabNavigator = () => {
       )}
     >
       <Tab.Screen
-        name="dashboardStack"
+        name="dashboardTab"
         component={DashboardTabNavigator}
         options={useMemo(() => ({ title: 'Dashboard' }), [])}
       />
       <Tab.Screen
-        name="plansStack"
+        name="plansTab"
         component={PlansTabNavigator}
         options={useMemo(() => ({ title: 'Plans' }), [])}
       />
       <Tab.Screen
-        name="notificationsStack"
+        name="notificationsTab"
         component={NotificationsTabNavigator}
         options={useMemo(() => ({ title: 'Notifications' }), [])}
       />
       <Tab.Screen
-        name="moreStack"
+        name="moreTab"
         component={MoreTabNavigator}
         options={useMemo(() => ({ title: 'More' }), [])}
       />

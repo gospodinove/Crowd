@@ -1,3 +1,6 @@
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { CompositeScreenProps } from '@react-navigation/core'
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { FlatList, ListRenderItemInfo, View } from 'react-native'
@@ -6,7 +9,9 @@ import { useAppTheme } from '../../../hooks/useAppTheme'
 import { plansSlice } from '../../../reducers/plans'
 import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
+import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
 import { RootStackPropsT } from '../../../types/RootStackProps'
+import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
 import { UserT } from '../../../types/User'
 import {
   fetchPlanMembersLoader,
@@ -17,9 +22,15 @@ import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanMemberItem from '../../PlanMemberItem'
 import Text from '../../Text'
 
-type NavigationPropsT = StackScreenProps<
-  GroupPlanTabBarPropsT & RootStackPropsT,
-  'members'
+type NavigationPropsT = CompositeScreenProps<
+  MaterialTopTabScreenProps<GroupPlanTabBarPropsT, 'members'>,
+  CompositeScreenProps<
+    StackScreenProps<PlansTabNavigatorPropsT, 'plans'>,
+    CompositeScreenProps<
+      BottomTabScreenProps<TabNavigatorPropsT, 'plansTab'>,
+      StackScreenProps<RootStackPropsT, 'tab'>
+    >
+  >
 >
 
 const connector = connect(
@@ -74,7 +85,7 @@ const MembersScreen = (props: PropsT) => {
 
   const onAddButtonPress = useCallback(
     () =>
-      props.navigation.navigate('modals', {
+      props.navigation.push('modals', {
         screen: 'inviteMembers',
         params: {
           planId: props.route.params.planId,

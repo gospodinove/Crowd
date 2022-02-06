@@ -1,3 +1,4 @@
+import { CompositeScreenProps } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
 import { debounce } from 'lodash'
 import React, {
@@ -16,6 +17,7 @@ import { plansSlice } from '../../../../reducers/plans'
 import { usersSlice } from '../../../../reducers/users'
 import { RootState } from '../../../../redux/store'
 import { ModalsNavigatorPropsT } from '../../../../types/ModalsNavigatorProps'
+import { RootStackPropsT } from '../../../../types/RootStackProps'
 import { UserT } from '../../../../types/User'
 import {
   inviteMembersSearchLoader,
@@ -45,7 +47,10 @@ const connector = connect(
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type NavigationPropsT = StackScreenProps<ModalsNavigatorPropsT, 'inviteMembers'>
+type NavigationPropsT = CompositeScreenProps<
+  StackScreenProps<ModalsNavigatorPropsT, 'inviteMembers'>,
+  StackScreenProps<RootStackPropsT, 'modals'>
+>
 
 type PropsT = ReduxPropsT & NavigationPropsT
 
