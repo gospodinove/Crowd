@@ -12,8 +12,7 @@ import { usersSlice } from '../reducers/users'
 import { RootState } from '../redux/store'
 import { RootStackParamsT } from '../types/RootStackParams'
 import AuthenticationScreen from './Screens/Authentication/AuthenticationScreen'
-import { CreatePlanNavigator } from './Screens/Modals/CreatePlan/CreatePlanNavigator'
-import { InvitePlanMembersNavigator } from './Screens/Modals/InvitePlanMembers/InvitePlanMembersNavigator'
+import { ModalsNavigator } from './Screens/Modals/ModalsNavigator'
 import SplashScreen from './SplashScreen'
 import TabNavigator from './TabNavigator'
 import ThemeProvider from './ThemeProvider'
@@ -76,14 +75,7 @@ const Root = (props: ReduxPropsT) => {
     <ThemeProvider>
       <NavigationContainer>
         <RootStack.Navigator initialRouteName="tab" screenOptions={rootOptions}>
-          <RootStack.Screen
-            name="createPlanStack"
-            component={CreatePlanNavigator}
-          />
-          <RootStack.Screen
-            name="invitePlanMembersStack"
-            component={InvitePlanMembersNavigator}
-          />
+          <RootStack.Screen name="modals" component={ModalsNavigator} />
           <RootStack.Screen name="tab" component={TabNavigator} />
         </RootStack.Navigator>
       </NavigationContainer>

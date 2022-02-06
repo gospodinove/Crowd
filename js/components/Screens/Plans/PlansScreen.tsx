@@ -11,16 +11,16 @@ import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
 import { plansSlice } from '../../../reducers/plans'
 import { RootState } from '../../../redux/store'
-import { ModalScreensParamsT } from '../../../types/ModalScreensParams'
 import { PlanT } from '../../../types/Plan'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
+import { RootStackParamsT } from '../../../types/RootStackParams'
 import { plansLoader } from '../../../utils/loaders'
 import IconButton from '../../IconButton'
 import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanItem from './PlanItem'
 
 type NavigationPropsT = StackScreenProps<
-  PlansTabNavigatorPropsT & ModalScreensParamsT,
+  PlansTabNavigatorPropsT & RootStackParamsT,
   'plans'
 >
 
@@ -51,7 +51,7 @@ const PlansScreen = (props: PropsT) => {
           size={32}
           color={theme.colors.icon}
           onPress={() => {
-            props.navigation.navigate('createPlanStack', {
+            props.navigation.navigate('modals', {
               screen: 'createPlan'
             })
           }}
