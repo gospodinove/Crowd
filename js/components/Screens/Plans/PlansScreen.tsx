@@ -13,14 +13,14 @@ import { plansSlice } from '../../../reducers/plans'
 import { RootState } from '../../../redux/store'
 import { PlanT } from '../../../types/Plan'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
-import { RootStackParamsT } from '../../../types/RootStackParams'
+import { RootStackPropsT } from '../../../types/RootStackProps'
 import { plansLoader } from '../../../utils/loaders'
 import IconButton from '../../IconButton'
 import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanItem from './PlanItem'
 
 type NavigationPropsT = StackScreenProps<
-  PlansTabNavigatorPropsT & RootStackParamsT,
+  PlansTabNavigatorPropsT & RootStackPropsT,
   'plans'
 >
 

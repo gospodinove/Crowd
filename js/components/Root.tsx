@@ -10,14 +10,14 @@ import React, { memo, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { usersSlice } from '../reducers/users'
 import { RootState } from '../redux/store'
-import { RootStackParamsT } from '../types/RootStackParams'
+import { RootStackPropsT } from '../types/RootStackProps'
 import AuthenticationScreen from './Screens/Authentication/AuthenticationScreen'
 import { ModalsNavigator } from './Screens/Modals/ModalsNavigator'
 import SplashScreen from './SplashScreen'
 import TabNavigator from './TabNavigator'
 import ThemeProvider from './ThemeProvider'
 
-const RootStack = createStackNavigator<RootStackParamsT>()
+const RootStack = createStackNavigator<RootStackPropsT>()
 
 const connector = connect(
   (state: RootState) => ({

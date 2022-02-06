@@ -6,7 +6,7 @@ import { useAppTheme } from '../../../hooks/useAppTheme'
 import { plansSlice } from '../../../reducers/plans'
 import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
-import { RootStackParamsT } from '../../../types/RootStackParams'
+import { RootStackPropsT } from '../../../types/RootStackProps'
 import { UserT } from '../../../types/User'
 import {
   fetchPlanMembersLoader,
@@ -18,7 +18,7 @@ import PlanMemberItem from '../../PlanMemberItem'
 import Text from '../../Text'
 
 type NavigationPropsT = StackScreenProps<
-  GroupPlanTabBarPropsT & RootStackParamsT,
+  GroupPlanTabBarPropsT & RootStackPropsT,
   'members'
 >
 
@@ -72,17 +72,17 @@ const MembersScreen = (props: PropsT) => {
     []
   )
 
-  const onAddButtonPress = useCallback(() => {
-    console.log(props.members?.length)
-
-    props.navigation.navigate('modals', {
-      screen: 'inviteMembers',
-      params: {
-        planId: props.route.params.planId,
-        userIds: props.members?.map(m => m.id) ?? []
-      }
-    })
-  }, [props.navigation, props.route.params.planId, props.members])
+  const onAddButtonPress = useCallback(
+    () =>
+      props.navigation.navigate('modals', {
+        screen: 'inviteMembers',
+        params: {
+          planId: props.route.params.planId,
+          userIds: props.members?.map(m => m.id) ?? []
+        }
+      }),
+    [props.navigation, props.route.params.planId, props.members]
+  )
 
   return (
     <LoaderOrChildren

@@ -1,15 +1,11 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React, { useMemo } from 'react'
 import { useAppTheme } from '../../../hooks/useAppTheme'
+import { ModalsNavigatorPropsT } from '../../../types/ModalsNavigatorProps'
 import CreatePlanScreen from './CreatePlan/CreatePlanScreen'
 import InvitePlanMembersScreen from './InvitePlanMembers/InvitePlanMembersScreen'
 
-export type ModalsNavigatorParamsT = {
-  createPlan: undefined
-  inviteMembers: { planId: string; userIds: string[] }
-}
-
-const Stack = createStackNavigator<ModalsNavigatorParamsT>()
+const Stack = createStackNavigator<ModalsNavigatorPropsT>()
 
 export const ModalsNavigator = () => {
   const theme = useAppTheme()

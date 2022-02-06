@@ -15,7 +15,7 @@ import usePrevious from '../../../../hooks/usePrevious'
 import { plansSlice } from '../../../../reducers/plans'
 import { usersSlice } from '../../../../reducers/users'
 import { RootState } from '../../../../redux/store'
-import { ModalScreensParamsT } from '../../../../types/ModalScreensParams'
+import { ModalsNavigatorPropsT } from '../../../../types/ModalsNavigatorProps'
 import { UserT } from '../../../../types/User'
 import {
   inviteMembersSearchLoader,
@@ -45,10 +45,7 @@ const connector = connect(
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type NavigationPropsT = StackScreenProps<
-  ModalScreensParamsT,
-  'invitePlanMembersStack'
->
+type NavigationPropsT = StackScreenProps<ModalsNavigatorPropsT, 'inviteMembers'>
 
 type PropsT = ReduxPropsT & NavigationPropsT
 
@@ -76,16 +73,14 @@ const InvitePlanMembersScreen = (props: PropsT) => {
     [props.navigation]
   )
 
-  useEffect(() => console.log(props.route.params.params?.userIds.length))
-
   // filter the results to omit the users already in the group
   useEffect(() => {
     setSearchResults(
       props.searchResults.filter(
-        result => !props.route.params.params?.userIds.includes(result.id)
+        result => !props.route.params.userIds.includes(result.id)
       )
     )
-  }, [props.searchResults, props.route.params.params?.userIds])
+  }, [props.searchResults, props.route.params.userIds])
 
   // detect when the loading state has changed
   useEffect(() => {
@@ -122,18 +117,18 @@ const InvitePlanMembersScreen = (props: PropsT) => {
   )
 
   const onAddButtonPress = useCallback(() => {
-    if (!props.route.params.params?.planId) {
+    if (!props.route.params.planId) {
       return
     }
 
     props.updatePlanMembers({
-      planId: props.route.params.params?.planId,
+      planId: props.route.params.planId,
       newMembers: selectedUsers
     })
   }, [
     props.updatePlanMembers,
-    props.route.params.params?.planId,
-    props.route.params.params?.userIds,
+    props.route.params.planId,
+    props.route.params.userIds,
     selectedUsers
   ])
 

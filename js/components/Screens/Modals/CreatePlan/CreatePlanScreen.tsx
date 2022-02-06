@@ -19,7 +19,7 @@ import { useAppTheme } from '../../../../hooks/useAppTheme'
 import { plansSlice } from '../../../../reducers/plans'
 import { RootState } from '../../../../redux/store'
 import { IconNameT } from '../../../../types/IconName'
-import { ModalScreensParamsT } from '../../../../types/ModalScreensParams'
+import { ModalsNavigatorPropsT } from '../../../../types/ModalsNavigatorProps'
 import { assertNever } from '../../../../utils/assertNever'
 import { formatDate } from '../../../../utils/date'
 import { createPlanLoader } from '../../../../utils/loaders'
@@ -43,7 +43,7 @@ const connector = connect(
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
-type NavigationPropsT = StackScreenProps<ModalScreensParamsT, 'createPlanStack'>
+type NavigationPropsT = StackScreenProps<ModalsNavigatorPropsT, 'createPlan'>
 
 type PropsT = ReduxPropsT & NavigationPropsT
 
