@@ -17,7 +17,10 @@ import { PlanT } from '../../../types/Plan'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
 import { RootStackPropsT } from '../../../types/RootStackProps'
 import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
-import { plansLoader } from '../../../utils/loaders'
+import {
+  fetchPlansLoader,
+  refreshPlanMembersLoader
+} from '../../../utils/loaders'
 import IconButton from '../../IconButton'
 import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanItem from './PlanItem'
@@ -33,9 +36,14 @@ type NavigationPropsT = CompositeScreenProps<
 const connector = connect(
   (state: RootState) => ({
     plans: state.plans.data,
-    isLoading: state.loaders.runningLoaders[plansLoader]
+    isLoading: state.loaders.runningLoaders[fetchPlansLoader],
+    isRefreshing:
+      state.loaders.runningLoaders[refreshPlanMembersLoader] ?? false
   }),
-  { fetchPlans: plansSlice.actions.fetch }
+  {
+    fetchPlans: plansSlice.actions.fetch,
+    cleanPlanData: plansSlice.actions.clear
+  }
 )
 
 type ReduxPropsT = ConnectedProps<typeof connector>
@@ -46,8 +54,12 @@ const PlansScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
   useEffect(() => {
-    maybeFetchPlans()
-  }, [])
+    if (props.plans.length) {
+      return
+    }
+
+    props.fetchPlans({ loader: fetchPlansLoader })
+  }, [props.fetchPlans])
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -65,14 +77,6 @@ const PlansScreen = (props: PropsT) => {
       )
     })
   }, [props.navigation, theme])
-
-  const maybeFetchPlans = useCallback(() => {
-    if (props.plans.length) {
-      return
-    }
-
-    props.fetchPlans()
-  }, [props.fetchPlans])
 
   const data = useMemo(() => {
     if (!props.plans) {
@@ -112,6 +116,11 @@ const PlansScreen = (props: PropsT) => {
     [onPlanItemPress]
   )
 
+  const onRefresh = useCallback(() => {
+    props.cleanPlanData({ clearRelatedDataOnly: true })
+    props.fetchPlans({ loader: refreshPlanMembersLoader })
+  }, [])
+
   return (
     <LoaderOrChildren
       isLoading={props.isLoading}
@@ -122,7 +131,12 @@ const PlansScreen = (props: PropsT) => {
         [theme]
       )}
     >
-      <FlatList<PlanT> data={data} renderItem={renderItem} />
+      <FlatList<PlanT>
+        data={data}
+        renderItem={renderItem}
+        refreshing={props.isRefreshing}
+        onRefresh={onRefresh}
+      />
     </LoaderOrChildren>
   )
 }

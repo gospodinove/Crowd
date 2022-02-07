@@ -13,7 +13,7 @@ export const plansSlice = createSlice({
   name: 'plans',
   initialState,
   reducers: {
-    fetch: () => {},
+    fetch: (_, __: PayloadAction<{ loader: string }>) => {},
     onFetch: (state, action: PayloadAction<Record<string, PlanT>>) => {
       state.data = action.payload
     },
@@ -44,6 +44,17 @@ export const plansSlice = createSlice({
         userIds: action.payload.members.map(m => m.id)
       }
       state.membersForPlanId[action.payload.planId] = action.payload.members
+    },
+    clear: (
+      state,
+      action: PayloadAction<{ clearRelatedDataOnly: boolean }>
+    ) => {
+      if (!action.payload.clearRelatedDataOnly) {
+        return initialState
+      }
+
+      // clear only plan-related data
+      state.membersForPlanId = initialState.membersForPlanId
     }
   }
 })
