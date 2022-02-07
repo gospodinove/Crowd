@@ -2,7 +2,9 @@ export const loginLoader = 'loginLoader'
 
 export const signUpLoader = 'signUpLoader'
 
-export const plansLoader = 'plansLoader'
+// PLANS TAB
+export const fetchPlansLoader = 'fetchPlansLoader'
+export const refreshPlansLoader = 'refreshPlansLoader'
 
 export const createPlanLoader = 'createPlanLoader'
 

@@ -10,12 +10,11 @@ import fetchUsers from '../utils/fetchUsers'
 import {
   createPlanLoader,
   fetchPlanMembersLoader,
-  plansLoader,
   updatePlanMembersLoader
 } from '../utils/loaders'
 
-function* onFetch() {
-  yield put(loadersSlice.actions.startLoader(plansLoader))
+function* onFetch(action: ReturnType<typeof plansSlice.actions.fetch>) {
+  yield put(loadersSlice.actions.startLoader(action.payload.loader))
 
   try {
     const userId: string | undefined = yield select(
@@ -45,7 +44,7 @@ function* onFetch() {
   } catch (err) {
     console.log(err)
   } finally {
-    yield put(loadersSlice.actions.stopLoader(plansLoader))
+    yield put(loadersSlice.actions.stopLoader(action.payload.loader))
   }
 }
 
