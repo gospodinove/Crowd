@@ -14,7 +14,7 @@ import { RootStackPropsT } from '../../../types/RootStackProps'
 import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
 import TabBar from '../../TabBar'
 import DashboardScreen from '../DashboardScreen'
-import NotificationsScreen from '../NotificationsScreen'
+import NotificationsScreen from '../Notifications/NotificationsScreen'
 import MembersScreen from './MembersScreen'
 
 type NavigationPropsT = CompositeScreenProps<

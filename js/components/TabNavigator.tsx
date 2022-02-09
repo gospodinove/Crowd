@@ -6,7 +6,7 @@ import { getIconForTab } from '../utils/navigator'
 import Icon from './Icon'
 import DashboardTabNavigator from './Screens/DashboardTabNavigator'
 import MoreTabNavigator from './Screens/MoreTabNavigator'
-import NotificationsTabNavigator from './Screens/NotificationsTabNavigator'
+import NotificationsTabNavigator from './Screens/Notifications/NotificationsTabNavigator'
 import PlansTabNavigator from './Screens/Plans/PlansTabNavigator'
 
 const Tab = createBottomTabNavigator<TabNavigatorPropsT>()
