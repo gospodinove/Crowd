@@ -43,4 +43,5 @@ type ApiCallT =
         isRead: false
       }
     }
+  | { type: 'fetchNotifications'; params: { userId: string } }
 export default ApiCallT

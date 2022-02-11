@@ -1,12 +1,17 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { CompositeScreenProps } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
+import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
+import { notificationsSlice } from '../../../reducers/notifications'
+import { RootState } from '../../../redux/store'
+import { NotificationT } from '../../../types/Notification'
 import { NotificationsTabNavigatorPropsT } from '../../../types/NotificationsTabNavigatorProps'
 import { RootStackPropsT } from '../../../types/RootStackProps'
 import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
+import { fetchNotificationsLoader } from '../../../utils/loaders'
 import LoaderOrChildren from '../../LoaderOrChildren'
 import Text from '../../Text'
 
@@ -18,28 +23,46 @@ type NavigationPropsT = CompositeScreenProps<
   >
 >
 
-type PropsT = NavigationPropsT
+const connector = connect(
+  (state: RootState) => ({
+    notifications: state.notifications,
+    isLoading: state.loaders.runningLoaders[fetchNotificationsLoader]
+  }),
+  { fetch: notificationsSlice.actions.fetch }
+)
+
+type ReduxPropsT = ConnectedProps<typeof connector>
+
+type PropsT = ReduxPropsT & NavigationPropsT
 
 const NotificationsScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
+  useEffect(() => {
+    props.fetch()
+  }, [])
+
   const renderItem = useCallback(
-    (info: ListRenderItemInfo<string>) => (
+    (info: ListRenderItemInfo<NotificationT>) => (
       <Text weight="regular" size={15} lineHeight={15}>
-        {info.item}
+        {info.item.title}
       </Text>
     ),
     []
   )
 
   return (
-    <LoaderOrChildren isLoading={false} size="large" color={theme.colors.text}>
-      <FlatList
-        data={['n', 'o', 't', 'i', 'f', 'i', 'c', 'a', 't', 'i', 'o', 'n', 's']}
+    <LoaderOrChildren
+      isLoading={props.isLoading}
+      size="large"
+      color={theme.colors.text}
+    >
+      <FlatList<NotificationT>
+        data={props.notifications ?? []}
         renderItem={renderItem}
       />
     </LoaderOrChildren>
   )
 }
 
-export default memo(NotificationsScreen)
+export default memo(connector(NotificationsScreen))

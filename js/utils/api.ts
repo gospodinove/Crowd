@@ -80,6 +80,12 @@ export default function api(call: ApiCallT) {
       })
 
       return () => batch.commit()
+    case 'fetchNotifications':
+      return () =>
+        db
+          .collection('notifications')
+          .where('userId', '==', call.params.userId)
+          .get()
     default:
       assertNever(call)
   }

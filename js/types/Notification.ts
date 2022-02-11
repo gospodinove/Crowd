@@ -1,6 +1,6 @@
 type NotificationImageType = 'plan'
 
-export type NotificationData = {
+export type NotificationDataT = {
   userId: string
   isRead: boolean
   title: string
@@ -11,4 +11,4 @@ export type NotificationData = {
   }
 }
 
-export type Notification = NotificationData & { id: string }
+export type NotificationT = NotificationDataT & { id: string }
