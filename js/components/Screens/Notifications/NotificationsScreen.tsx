@@ -11,7 +11,10 @@ import { NotificationT } from '../../../types/Notification'
 import { NotificationsTabNavigatorPropsT } from '../../../types/NotificationsTabNavigatorProps'
 import { RootStackPropsT } from '../../../types/RootStackProps'
 import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
-import { fetchNotificationsLoader } from '../../../utils/loaders'
+import {
+  fetchNotificationsLoader,
+  refreshNotificationsLoader
+} from '../../../utils/loaders'
 import LoaderOrChildren from '../../LoaderOrChildren'
 import Text from '../../Text'
 
@@ -26,7 +29,9 @@ type NavigationPropsT = CompositeScreenProps<
 const connector = connect(
   (state: RootState) => ({
     notifications: state.notifications,
-    isLoading: state.loaders.runningLoaders[fetchNotificationsLoader]
+    isLoading: state.loaders.runningLoaders[fetchNotificationsLoader],
+    isRefreshing:
+      state.loaders.runningLoaders[refreshNotificationsLoader] ?? false
   }),
   { fetch: notificationsSlice.actions.fetch }
 )
@@ -39,8 +44,13 @@ const NotificationsScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
   useEffect(() => {
-    props.fetch()
+    props.fetch({ loader: fetchNotificationsLoader })
   }, [])
+
+  const onRefresh = useCallback(
+    () => props.fetch({ loader: refreshNotificationsLoader }),
+    []
+  )
 
   const renderItem = useCallback(
     (info: ListRenderItemInfo<NotificationT>) => (
@@ -60,6 +70,8 @@ const NotificationsScreen = (props: PropsT) => {
       <FlatList<NotificationT>
         data={props.notifications ?? []}
         renderItem={renderItem}
+        onRefresh={onRefresh}
+        refreshing={props.isRefreshing}
       />
     </LoaderOrChildren>
   )

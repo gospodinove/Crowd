@@ -9,7 +9,7 @@ export const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
   reducers: {
-    fetch: () => {},
+    fetch: (_, __: PayloadAction<{ loader: string }>) => {},
     set: (_, action: PayloadAction<NotificationT[]>) => action.payload
   }
 })
