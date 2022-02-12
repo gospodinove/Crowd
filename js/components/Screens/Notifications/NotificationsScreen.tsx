@@ -1,7 +1,7 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { CompositeScreenProps } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback, useEffect } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
@@ -16,7 +16,7 @@ import {
   refreshNotificationsLoader
 } from '../../../utils/loaders'
 import LoaderOrChildren from '../../LoaderOrChildren'
-import Text from '../../Text'
+import NotificationItem from './NotificationItem'
 
 type NavigationPropsT = CompositeScreenProps<
   StackScreenProps<NotificationsTabNavigatorPropsT, 'notifications'>,
@@ -54,9 +54,7 @@ const NotificationsScreen = (props: PropsT) => {
 
   const renderItem = useCallback(
     (info: ListRenderItemInfo<NotificationT>) => (
-      <Text weight="regular" size={15} lineHeight={15}>
-        {info.item.title}
-      </Text>
+      <NotificationItem data={info.item} />
     ),
     []
   )
@@ -66,12 +64,22 @@ const NotificationsScreen = (props: PropsT) => {
       isLoading={props.isLoading}
       size="large"
       color={theme.colors.text}
+      containerStyle={useMemo(
+        () => ({ backgroundColor: theme.colors.background }),
+        [theme]
+      )}
     >
       <FlatList<NotificationT>
         data={props.notifications ?? []}
         renderItem={renderItem}
         onRefresh={onRefresh}
         refreshing={props.isRefreshing}
+        contentContainerStyle={useMemo(
+          () => ({
+            padding: 20
+          }),
+          []
+        )}
       />
     </LoaderOrChildren>
   )
