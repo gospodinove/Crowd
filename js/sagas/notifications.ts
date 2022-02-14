@@ -15,7 +15,7 @@ function* onFetch(action: ReturnType<typeof notificationsSlice.actions.fetch>) {
     )
 
     if (!userId) {
-      throw new Error('[onFetch] - no user id')
+      throw new Error('[notificationsSaga onFetch] - no user id')
     }
 
     const querySnapshot: FirebaseFirestoreTypes.QuerySnapshot<NotificationDataT> =

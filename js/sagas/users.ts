@@ -31,7 +31,7 @@ function* onLogin(action: ReturnType<typeof usersSlice.actions.login>) {
     const users: UserT[] = yield call(fetchUsers, [userCredential.user.uid])
 
     if (users.length !== 1) {
-      throw new Error('[onLogin]: user data does not exist')
+      throw new Error('[usersSaga onLogin]: user data does not exist')
     }
 
     yield call(storeUserData, users[0])
@@ -101,7 +101,7 @@ function* onLoadUserData(
       const users: UserT[] = yield call(fetchUsers, [action.payload])
 
       if (users.length !== 1) {
-        throw new Error('[onLoadUserData] no user data fetched')
+        throw new Error('[usersSaga onLoadUserData] no user data fetched')
       }
 
       yield put(usersSlice.actions.setUserData(users[0]))
@@ -165,7 +165,7 @@ function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
   }
 }
 
-export default function* userSaga() {
+export default function* usersSaga() {
   yield all([
     takeLatest(usersSlice.actions.signUp, onSignUp),
     takeLatest(usersSlice.actions.login, onLogin),
