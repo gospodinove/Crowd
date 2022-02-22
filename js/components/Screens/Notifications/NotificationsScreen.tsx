@@ -63,7 +63,7 @@ const NotificationsScreen = (props: PropsT) => {
   )
 
   const maybeRenderEmptyView = useCallback((): ReactElement | null => {
-    if (!props.notifications.length) {
+    if (props.notifications.length) {
       return null
     }
 
