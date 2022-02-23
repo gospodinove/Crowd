@@ -22,7 +22,7 @@ function* onFetch(action: ReturnType<typeof plansSlice.actions.fetch>) {
     )
 
     if (!userId) {
-      throw new Error('[onFetchPlanIds] - No user id')
+      throw new Error('[plansSaga onFetchPlanIds] - No user id')
     }
 
     const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<PlanDataT> =
@@ -84,7 +84,7 @@ function* onUpdateMembersForPlanId(
       }))
 
     if (!plan) {
-      throw new Error('[onUpdateMembersForPlanId] - no plan')
+      throw new Error('[plansSaga onUpdateMembersForPlanId] - no plan')
     }
 
     // use Set to remove the duplicated values
@@ -148,7 +148,7 @@ function* onFetchMembersForPlanId(
     )
 
     if (!memberIds) {
-      throw new Error('[onFetchMembersForPlanId] - no member IDs')
+      throw new Error('[plansSaga onFetchMembersForPlanId] - no member IDs')
     }
 
     const members: UserT[] = yield call(fetchUsers, memberIds)

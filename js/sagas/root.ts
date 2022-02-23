@@ -1,10 +1,11 @@
 import { all, call, spawn } from '@redux-saga/core/effects'
 import nativeSaga from './native'
+import notificationsSaga from './notifications'
 import plansSaga from './plans'
-import userSaga from './users'
+import usersSaga from './users'
 
 export default function* rootSaga() {
-  const sagas = [nativeSaga, userSaga, plansSaga]
+  const sagas = [nativeSaga, usersSaga, plansSaga, notificationsSaga]
 
   yield all(
     sagas.map(saga =>

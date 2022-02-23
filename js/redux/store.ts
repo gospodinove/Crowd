@@ -2,6 +2,7 @@ import createSagaMiddleware from '@redux-saga/core'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { loadersSlice } from '../reducers/loaders'
 import { nativeSlice } from '../reducers/native'
+import { notificationsSlice } from '../reducers/notifications'
 import { plansSlice } from '../reducers/plans'
 import { usersSlice } from '../reducers/users'
 import rootSaga from '../sagas/root'
@@ -10,7 +11,8 @@ export const slices = {
   native: nativeSlice,
   users: usersSlice,
   loaders: loadersSlice,
-  plans: plansSlice
+  plans: plansSlice,
+  notifications: notificationsSlice
 }
 
 const reducers: { [K in keyof typeof slices]: typeof slices[K]['reducer'] } =
