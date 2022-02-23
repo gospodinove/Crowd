@@ -1,4 +1,5 @@
-import React, { memo, useMemo } from 'react'
+import React, { memo } from 'react'
+import { StyleSheet } from 'react-native'
 import { useAppTheme } from '../../../hooks/useAppTheme'
 import { NotificationT } from '../../../types/Notification'
 import Card from '../../Card'
@@ -13,12 +14,12 @@ const NotificationItem = (props: PropsT) => {
   const theme = useAppTheme()
 
   return (
-    <Card style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <Card style={style.card}>
       <Icon
         name="bell"
         size={15}
         color={theme.colors.icon}
-        style={useMemo(() => ({ marginRight: 15 }), [])}
+        style={style.icon}
       />
       <Text weight="semibold" size={15} lineHeight={15}>
         {props.data.title}
@@ -26,5 +27,10 @@ const NotificationItem = (props: PropsT) => {
     </Card>
   )
 }
+
+const style = StyleSheet.create({
+  card: { flexDirection: 'row', alignItems: 'center' },
+  icon: { marginRight: 15 }
+})
 
 export default memo(NotificationItem)
