@@ -7,11 +7,13 @@ import {
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { memo, useCallback, useLayoutEffect, useMemo } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { useAppTheme } from '../../../hooks/useAppTheme'
 import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
 import { RootStackPropsT } from '../../../types/RootStackProps'
 import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
+import IconButton from '../../IconButton'
 import TabBar from '../../TabBar'
 import DashboardScreen from '../DashboardScreen'
 import NotificationsScreen from '../Notifications/NotificationsScreen'
@@ -39,6 +41,56 @@ const Tab = createMaterialTopTabNavigator<GroupPlanTabBarPropsT>()
 const tabNames = ['Overview', 'Schedule', 'Payments', 'Members', 'Cars']
 
 const PlanScreen = (props: PropsT) => {
+  const theme = useAppTheme()
+
+  const onNavBarButtonPress = useCallback(() => {
+    switch (
+      props.navigation.getState().routes.find(route => route.name === 'plan')
+        ?.state?.index
+    ) {
+      case 1:
+      // TODO: new event
+      case 2:
+      // TODO: new expense
+      case 3:
+        props.navigation.push('modals', {
+          screen: 'inviteMembers',
+          params: {
+            planId: props.route.params.planId,
+            userIds: props.plan?.userIds ?? []
+          }
+        })
+      default:
+        return null
+    }
+  }, [props.navigation, props.route.params.planId, props.plan?.userIds])
+
+  const renderHeaderRight = useCallback(() => {
+    const state = props.navigation
+      .getState()
+      .routes.find(route => route.name === 'plan')?.state
+
+    if (!state) {
+      return null
+    }
+
+    switch (state.index) {
+      case 1:
+      case 2:
+      case 3:
+        return (
+          <IconButton
+            iconName="plus"
+            size={32}
+            color={theme.colors.white}
+            onPress={onNavBarButtonPress}
+          />
+        )
+      default:
+        return null
+    }
+  }, [props.navigation, theme, onNavBarButtonPress])
+
   useLayoutEffect(() => {
     props.navigation.setOptions({
       title: props.plan?.name,
@@ -47,10 +99,17 @@ const PlanScreen = (props: PropsT) => {
         shadowColor: 'transparent',
         elevation: 0
       },
+      headerRight: renderHeaderRight,
       headerTintColor: '#fff',
       headerBackTitleVisible: false
     })
-  }, [props.navigation, props.plan?.name, props.plan?.color])
+  }, [
+    props.navigation,
+    props.plan?.name,
+    props.plan?.color,
+    theme,
+    renderHeaderRight
+  ])
 
   const renderTabBar = useCallback(
     (tabBarProps: MaterialTopTabBarProps) => (
