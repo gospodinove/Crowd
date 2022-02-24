@@ -16,6 +16,7 @@ import TabBar from '../../TabBar'
 import DashboardScreen from '../DashboardScreen'
 import NotificationsScreen from '../Notifications/NotificationsScreen'
 import MembersScreen from './MembersScreen'
+import ScheduleScreen from './ScheduleScreen'
 
 type NavigationPropsT = CompositeScreenProps<
   StackScreenProps<PlansTabNavigatorPropsT, 'plan'>,
@@ -65,7 +66,7 @@ const PlanScreen = (props: PropsT) => {
   return (
     <Tab.Navigator tabBar={renderTabBar}>
       <Tab.Screen name="overview" component={DashboardScreen} />
-      <Tab.Screen name="schedule" component={NotificationsScreen} />
+      <Tab.Screen name="schedule" component={ScheduleScreen} />
       <Tab.Screen name="payments" component={DashboardScreen} />
       <Tab.Screen
         name="members"
