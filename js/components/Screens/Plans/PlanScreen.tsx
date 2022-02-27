@@ -82,7 +82,7 @@ const PlanScreen = (props: PropsT) => {
           <IconButton
             iconName="plus"
             size={32}
-            color={theme.colors.white}
+            color="white"
             onPress={onNavBarButtonPress}
           />
         )
