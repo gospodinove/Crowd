@@ -11,4 +11,4 @@ export const planColors = [
   'pink',
   'purple',
   'bisque'
-]
+] as const

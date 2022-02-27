@@ -69,12 +69,7 @@ const NotificationsScreen = (props: PropsT) => {
 
     return (
       <View style={style.emptyViewContainer}>
-        <Text
-          weight="regular"
-          lineHeight={30}
-          color={theme.colors.text}
-          size={20}
-        >
+        <Text weight="regular" lineHeight={30} color="text" size={20}>
           No notifications
         </Text>
       </View>
@@ -85,7 +80,7 @@ const NotificationsScreen = (props: PropsT) => {
     <LoaderOrChildren
       isLoading={props.isLoading}
       size="large"
-      color={theme.colors.text}
+      color="text"
       containerStyle={style.loaderContainerStyle}
     >
       <>

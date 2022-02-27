@@ -2,11 +2,12 @@ import React, { memo, useCallback, useMemo } from 'react'
 import { Pressable, ScrollView, View, ViewStyle } from 'react-native'
 import { planColors } from '../../../../constants/planColors'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
+import { PlanColorT } from '../../../../types/PlanColorName'
 
 type PropsT = {
-  selectedColor: string
+  selectedColor: PlanColorT
   containerStyle?: ViewStyle
-  onColorPress: (color: string) => void
+  onColorPress: (color: PlanColorT) => void
 }
 
 const ColorSelector = (props: PropsT) => {

@@ -85,7 +85,7 @@ const MembersScreen = (props: PropsT) => {
   return (
     <LoaderOrChildren
       isLoading={props.isLoading}
-      color={theme.colors.text}
+      color="text"
       size="large"
       containerStyle={useMemo(
         () => ({

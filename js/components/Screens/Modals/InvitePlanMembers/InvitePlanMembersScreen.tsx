@@ -177,8 +177,8 @@ const InvitePlanMembersScreen = (props: PropsT) => {
               >
                 <UserInitials
                   user={user}
-                  textColor={theme.colors.white}
-                  backgroundColor={theme.colors.primary}
+                  textColor="white"
+                  backgroundColor="primary"
                   containerStyle={
                     invitePlanMembersScreenStyles.selectedUserInitials
                   }
@@ -237,11 +237,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
         />
       </View>
 
-      <LoaderOrChildren
-        isLoading={props.isSearching}
-        color={theme.colors.grey}
-        size="large"
-      >
+      <LoaderOrChildren isLoading={props.isSearching} color="grey" size="large">
         <FlatList
           data={searchResults}
           renderItem={renderItem}

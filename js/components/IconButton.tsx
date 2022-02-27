@@ -1,12 +1,13 @@
 import React, { memo, useMemo } from 'react'
 import { Pressable } from 'react-native'
+import { ColorNameT } from '../types/ColorName'
 import { IconNameT } from '../types/IconName'
 import Icon from './Icon'
 
 type PropsT = {
   iconName: IconNameT
   size: number
-  color: string
+  color: ColorNameT
   onPress: () => void
 }
 

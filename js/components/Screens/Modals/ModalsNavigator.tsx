@@ -26,7 +26,8 @@ export const ModalsNavigator = () => {
             backgroundColor: theme.colors.background,
             borderBottomWidth: 0.2,
             borderBottomColor: theme.colors.border
-          }
+          },
+          headerTintColor: theme.colors.text
         }),
         [theme]
       )}

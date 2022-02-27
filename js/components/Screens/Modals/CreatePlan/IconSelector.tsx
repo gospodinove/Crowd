@@ -55,7 +55,7 @@ const IconSelector = (props: PropsT) => {
             )}
             onPress={useCallback(() => props.onIconPress(i), [i])}
           >
-            <Icon name={i} size={30} color={theme.colors.icon} />
+            <Icon name={i} size={30} color="icon" />
           </Pressable>
         </View>
       ))}
