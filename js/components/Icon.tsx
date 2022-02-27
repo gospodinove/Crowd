@@ -1,23 +1,31 @@
 import React, { memo } from 'react'
-import { ColorValue, ViewStyle } from 'react-native'
+import { ViewStyle } from 'react-native'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
+import { useAppTheme } from '../hooks/useAppTheme'
 import { IconNameT } from '../types/IconName'
+import { ColorNameT } from '../types/Theme'
+import { isColorName } from '../utils/theme'
 
 type PropsT = {
   name: IconNameT
   size: number
-  color: ColorValue
+  // string is used only due to TabBarNavigator
+  color: ColorNameT | string
   style?: ViewStyle
 }
 
 const Icon = (props: PropsT) => {
+  const theme = useAppTheme()
+
   switch (props.name) {
     default:
       return (
         <FontAwesomeIcon
           name={props.name}
           size={props.size}
-          color={props.color}
+          color={
+            isColorName(props.color) ? theme.colors[props.color] : props.color
+          }
           style={props.style}
         />
       )

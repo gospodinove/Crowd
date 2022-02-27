@@ -1,13 +1,16 @@
+export type ColorNameT =
+  | 'primary'
+  | 'background'
+  | 'secondaryBackground'
+  | 'text'
+  | 'border'
+  | 'icon'
+  | 'black'
+  | 'white'
+  | 'grey'
+
 export type ThemeT = {
   colors: {
-    primary: string
-    background: string
-    secondaryBackground: string
-    text: string
-    border: string
-    icon: string
-    black: '#000'
-    white: '#fff'
-    grey: 'grey'
+    [Key in ColorNameT]: string
   }
 }

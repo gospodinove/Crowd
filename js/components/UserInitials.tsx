@@ -1,17 +1,21 @@
 import { capitalize } from 'lodash'
 import React, { memo, useMemo } from 'react'
 import { View, ViewStyle } from 'react-native'
+import { useAppTheme } from '../hooks/useAppTheme'
+import { ColorNameT } from '../types/Theme'
 import { UserT } from '../types/User'
 import Text from './Text'
 
 type PropsT = {
   user: UserT
-  backgroundColor: string
-  textColor: string
+  backgroundColor: ColorNameT
+  textColor: ColorNameT
   containerStyle?: Omit<ViewStyle, 'backgroundColor'>
 }
 
 const UserInitials = (props: PropsT) => {
+  const theme = useAppTheme()
+
   return (
     <View
       style={useMemo(
@@ -21,12 +25,12 @@ const UserInitials = (props: PropsT) => {
             width: 40,
             height: 40,
             borderRadius: 25,
-            backgroundColor: props.backgroundColor,
+            backgroundColor: theme.colors[props.backgroundColor],
             justifyContent: 'center',
             alignItems: 'center'
           }
         ],
-        [props.containerStyle, props.backgroundColor]
+        [props.containerStyle, props.backgroundColor, theme]
       )}
     >
       <Text weight="semibold" size={20} lineHeight={25} color={props.textColor}>

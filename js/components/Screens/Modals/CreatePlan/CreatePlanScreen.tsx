@@ -200,7 +200,7 @@ const CreatePlanScreen = (props: PropsT) => {
               [selectedColor]
             )}
           >
-            <Icon name={selectedIcon} size={35} color={theme.colors.black} />
+            <Icon name={selectedIcon} size={35} color="black" />
           </View>
           <View
             style={useMemo(
@@ -233,7 +233,7 @@ const CreatePlanScreen = (props: PropsT) => {
                 type="arrow-right"
                 size={12}
                 spacing={5}
-                color={theme.colors.text}
+                color="text"
               />
               <Button
                 text={endDate ? formatDate(endDate) : 'End date'}

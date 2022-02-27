@@ -1,12 +1,13 @@
 import React, { memo, useMemo } from 'react'
 import { ActivityIndicator, View, ViewStyle } from 'react-native'
 import { useAppTheme } from '../hooks/useAppTheme'
+import { ColorNameT } from '../types/Theme'
 import { styles } from './LoaderOrChildren.styles'
 
 type PropsT = {
   isLoading: boolean
   size: 'large' | 'small'
-  color: string
+  color: ColorNameT
   children: JSX.Element
   containerStyle?: ViewStyle
 }
@@ -29,7 +30,11 @@ const LoaderOrChildren = (props: PropsT) => {
 
       {props.isLoading ? (
         <View style={style.loaderContainer}>
-          <ActivityIndicator animating size={props.size} color={props.color} />
+          <ActivityIndicator
+            animating
+            size={props.size}
+            color={theme.colors[props.color]}
+          />
         </View>
       ) : null}
     </View>

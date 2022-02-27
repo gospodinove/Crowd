@@ -67,7 +67,7 @@ const PlansScreen = (props: PropsT) => {
         <IconButton
           iconName="plus"
           size={32}
-          color={theme.colors.icon}
+          color="icon"
           onPress={() => {
             props.navigation.push('modals', {
               screen: 'createPlan'
@@ -125,7 +125,7 @@ const PlansScreen = (props: PropsT) => {
     <LoaderOrChildren
       isLoading={props.isLoading}
       size="large"
-      color={theme.colors.text}
+      color="text"
       containerStyle={useMemo(
         () => ({ backgroundColor: theme.colors.background }),
         [theme]

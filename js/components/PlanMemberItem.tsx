@@ -30,22 +30,15 @@ const PlanMemberItem = (props: PropsT) => {
     >
       <UserInitials
         user={props.user}
-        backgroundColor={
-          props.isSelected ? theme.colors.primary : theme.colors.grey
-        }
-        textColor={theme.colors.white}
+        backgroundColor={props.isSelected ? 'primary' : 'grey'}
+        textColor="white"
         containerStyle={useMemo(() => ({ marginRight: 10 }), [])}
       />
       <View>
         <Text weight="regular" size={15} lineHeight={20}>
           {props.user.firstName + ' ' + props.user.lastName}
         </Text>
-        <Text
-          weight="regular"
-          size={12}
-          lineHeight={15}
-          color={theme.colors.grey}
-        >
+        <Text weight="regular" size={12} lineHeight={15} color="grey">
           {props.user.email}
         </Text>
       </View>

@@ -1,11 +1,13 @@
 import React, { memo, useMemo } from 'react'
 import { View } from 'react-native'
+import { useAppTheme } from '../hooks/useAppTheme'
+import { ColorNameT } from '../types/Theme'
 import { assertNever } from '../utils/assertNever'
 import Text from './Text'
 
 type CharacterSeparatorsT = 'dash' | 'long-dash' | 'arrow-left' | 'arrow-right'
 
-type PropsT = { color: string; spacing: number } & (
+type PropsT = { color: ColorNameT; spacing: number } & (
   | {
       type: 'circle'
       size: number
@@ -57,10 +59,11 @@ const getCharater = (characterType: CharacterSeparatorsT) => {
       assertNever(characterType)
   }
 }
+
 const renderCharacter = (
   characterType: CharacterSeparatorsT,
   size: number,
-  color: string
+  color: ColorNameT
 ) => (
   <Text size={size} color={color} lineHeight={20} weight="regular">
     {getCharater(characterType)}
@@ -68,12 +71,14 @@ const renderCharacter = (
 )
 
 const VerticalSeparator = (props: PropsT) => {
+  const theme = useAppTheme()
+
   const renderSeparator = () => {
     switch (props.type) {
       case 'circle':
-        return renderCircle(props.size, props.color)
+        return renderCircle(props.size, theme.colors[props.color])
       case 'line':
-        return renderLine(props.width, props.color)
+        return renderLine(props.width, theme.colors[props.color])
       case 'dash':
       case 'long-dash':
       case 'arrow-left':

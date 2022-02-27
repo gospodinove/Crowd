@@ -34,7 +34,7 @@ const PlanItem = (props: PropsT) => {
 
   const renderPeopleCount = () => (
     <>
-      <Icon name="user" size={11} color={theme.colors.grey} />
+      <Icon name="user" size={11} color="grey" />
       <Text size={11} weight="regular" lineHeight={20}>
         {props.data.userIds.length}
       </Text>
@@ -53,12 +53,7 @@ const PlanItem = (props: PropsT) => {
         <View style={style.detailsRow}>
           {renderPeopleCount()}
 
-          <VerticalSeparator
-            type="circle"
-            size={3}
-            spacing={5}
-            color={theme.colors.grey}
-          />
+          <VerticalSeparator type="circle" size={3} spacing={5} color="grey" />
 
           <Text size={11} weight="regular" lineHeight={20}>
             {formatDate(props.data.startDate.toDate())}
@@ -67,7 +62,7 @@ const PlanItem = (props: PropsT) => {
             type="arrow-right"
             size={11}
             spacing={2}
-            color={theme.colors.grey}
+            color="grey"
           />
           <Text size={11} weight="regular" lineHeight={20}>
             {formatDate(props.data.endDate.toDate())}

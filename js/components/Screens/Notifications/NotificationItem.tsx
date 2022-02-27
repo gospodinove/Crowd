@@ -15,12 +15,7 @@ const NotificationItem = (props: PropsT) => {
 
   return (
     <Card style={style.card}>
-      <Icon
-        name="bell"
-        size={15}
-        color={theme.colors.icon}
-        style={style.icon}
-      />
+      <Icon name="bell" size={15} color="icon" style={style.icon} />
       <Text weight="semibold" size={15} lineHeight={15}>
         {props.data.title}
       </Text>

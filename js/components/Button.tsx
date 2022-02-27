@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import { useAppTheme } from '../hooks/useAppTheme'
 import { IconNameT } from '../types/IconName'
+import { ColorNameT } from '../types/Theme'
 import { assertNever } from '../utils/assertNever'
 import { buttonStyles } from './Button.styles'
 import Icon from './Icon'
@@ -44,18 +45,18 @@ const Button = (props: PropsT) => {
     }
   }
 
-  const getTextColor = (): string => {
+  const getTextColor = (): ColorNameT => {
     if (props.disabled) {
-      return theme.colors.white
+      return 'white'
     }
 
     switch (props.type) {
       case 'primary':
-        return theme.colors.white
+        return 'white'
       case 'secondary':
-        return theme.colors.text
+        return 'text'
       case 'text':
-        return theme.colors.text
+        return 'text'
       default:
         assertNever(props.type)
     }
