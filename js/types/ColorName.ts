@@ -1,0 +1,10 @@
+export type ColorNameT =
+  | 'primary'
+  | 'background'
+  | 'secondaryBackground'
+  | 'text'
+  | 'border'
+  | 'icon'
+  | 'black'
+  | 'white'
+  | 'grey'

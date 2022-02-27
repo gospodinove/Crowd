@@ -1,4 +1,4 @@
-import { ColorNameT } from '../types/Theme'
+import { ColorNameT } from '../types/ColorName'
 
 export const isColorName = (value: string): value is ColorNameT => {
   // TODO: figure out how to get this dynamically from ColorNameT

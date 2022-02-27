@@ -1,13 +1,4 @@
-export type ColorNameT =
-  | 'primary'
-  | 'background'
-  | 'secondaryBackground'
-  | 'text'
-  | 'border'
-  | 'icon'
-  | 'black'
-  | 'white'
-  | 'grey'
+import { ColorNameT } from './ColorName'
 
 export type ThemeT = {
   colors: {

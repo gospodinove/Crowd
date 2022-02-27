@@ -2,8 +2,8 @@ import React, { memo } from 'react'
 import { ViewStyle } from 'react-native'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
 import { useAppTheme } from '../hooks/useAppTheme'
+import { ColorNameT } from '../types/ColorName'
 import { IconNameT } from '../types/IconName'
-import { ColorNameT } from '../types/Theme'
 import { isColorName } from '../utils/theme'
 
 type PropsT = {

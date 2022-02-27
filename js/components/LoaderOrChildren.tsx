@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react'
 import { ActivityIndicator, View, ViewStyle } from 'react-native'
 import { useAppTheme } from '../hooks/useAppTheme'
-import { ColorNameT } from '../types/Theme'
+import { ColorNameT } from '../types/ColorName'
 import { styles } from './LoaderOrChildren.styles'
 
 type PropsT = {

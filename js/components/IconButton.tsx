@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react'
 import { Pressable } from 'react-native'
+import { ColorNameT } from '../types/ColorName'
 import { IconNameT } from '../types/IconName'
-import { ColorNameT } from '../types/Theme'
 import Icon from './Icon'
 
 type PropsT = {

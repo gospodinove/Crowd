@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { TextProps as RNTextProps } from 'react-native'
-import { ColorNameT } from './Theme'
+import { ColorNameT } from './ColorName'
 
 export type TextPropsT = Omit<RNTextProps, 'style' | 'numberOfLines'> & {
   children: ReactNode

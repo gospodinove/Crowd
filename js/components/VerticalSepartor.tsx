@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react'
 import { View } from 'react-native'
 import { useAppTheme } from '../hooks/useAppTheme'
-import { ColorNameT } from '../types/Theme'
+import { ColorNameT } from '../types/ColorName'
 import { assertNever } from '../utils/assertNever'
 import Text from './Text'
 

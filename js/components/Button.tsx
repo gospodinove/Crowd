@@ -6,8 +6,8 @@ import {
   ViewStyle
 } from 'react-native'
 import { useAppTheme } from '../hooks/useAppTheme'
+import { ColorNameT } from '../types/ColorName'
 import { IconNameT } from '../types/IconName'
-import { ColorNameT } from '../types/Theme'
 import { assertNever } from '../utils/assertNever'
 import { buttonStyles } from './Button.styles'
 import Icon from './Icon'
