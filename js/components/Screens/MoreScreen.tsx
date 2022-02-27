@@ -34,7 +34,7 @@ const MoreScreen = (props: PropsT) => {
         <IconButton
           iconName="sign-out-alt"
           size={32}
-          color={theme.colors.icon}
+          color="icon"
           onPress={() => props.logout()}
         />
       )

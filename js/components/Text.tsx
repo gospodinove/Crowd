@@ -13,7 +13,7 @@ const Text = (props: TextPropsT) => {
       style={useMemo(
         () => [
           {
-            color: props.color ? props.color : theme.colors.text,
+            color: props.color ? theme.colors[props.color] : theme.colors.text,
             fontWeight: props.weight === 'regular' ? '400' : '600',
             fontSize: props.size,
             lineHeight: props.lineHeight
