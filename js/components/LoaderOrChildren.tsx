@@ -1,8 +1,7 @@
 import React, { memo, useMemo } from 'react'
-import { ActivityIndicator, View, ViewStyle } from 'react-native'
+import { ActivityIndicator, StyleSheet, View, ViewStyle } from 'react-native'
 import { useAppTheme } from '../hooks/useAppTheme'
 import { ColorNameT } from '../types/ColorName'
-import { styles } from './LoaderOrChildren.styles'
 
 type PropsT = {
   isLoading: boolean
@@ -17,11 +16,24 @@ const LoaderOrChildren = (props: PropsT) => {
 
   const style = useMemo(
     () =>
-      styles({
-        container: props.containerStyle,
-        loaderContainerBackground: theme.colors.background
+      StyleSheet.create({
+        container: {
+          ...props.containerStyle,
+          flex: 1,
+          justifyContent: 'center'
+        },
+        loaderContainer: {
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: theme.colors.background
+        }
       }),
-    [props.containerStyle]
+    [props.containerStyle, theme]
   )
 
   return (

@@ -1,9 +1,8 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
-import React, { memo, useMemo } from 'react'
-import { Animated, ColorValue, Pressable, View } from 'react-native'
+import React, { memo, useCallback, useMemo } from 'react'
+import { Animated, ColorValue, Pressable, StyleSheet, View } from 'react-native'
 import { useAppTheme } from '../hooks/useAppTheme'
 import ScrollContainer from './ScrollContainer'
-import { tabBarStyles } from './TabBar.styles'
 
 type PropsT = MaterialTopTabBarProps & {
   backgroundColor: ColorValue | undefined
@@ -19,11 +18,18 @@ function TabBar(props: PropsT) {
   )
 
   const style = useMemo(
-    () => tabBarStyles({ textColor: theme.colors.white }),
+    () =>
+      StyleSheet.create({
+        tabBarItem: {
+          paddingHorizontal: 20,
+          justifyContent: 'center'
+        },
+        tabBarItemName: { color: theme.colors.white, fontWeight: '600' }
+      }),
     [theme]
   )
 
-  const renderTabs = useMemo(
+  const renderTabs = useCallback(
     () =>
       props.state.routes.map((route, i) => {
         const opacity = props.position.interpolate({
@@ -61,7 +67,7 @@ function TabBar(props: PropsT) {
       )}
     >
       <ScrollContainer horizontal showsHorizontalScrollIndicator={false}>
-        {renderTabs}
+        {renderTabs()}
       </ScrollContainer>
     </View>
   )
