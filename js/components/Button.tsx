@@ -1,6 +1,7 @@
 import React, { memo, useMemo } from 'react'
 import {
   ActivityIndicator,
+  StyleSheet,
   TouchableOpacity,
   TouchableOpacityProps,
   ViewStyle
@@ -9,7 +10,6 @@ import { useAppTheme } from '../hooks/useAppTheme'
 import { ColorNameT } from '../types/ColorName'
 import { IconNameT } from '../types/IconName'
 import { assertNever } from '../utils/assertNever'
-import { buttonStyles } from './Button.styles'
 import Icon from './Icon'
 import Text from './Text'
 
@@ -160,13 +160,19 @@ const Button = (props: PropsT) => {
 
   const style = useMemo(
     () =>
-      buttonStyles({
+      StyleSheet.create({
+        leftIcon: { marginRight: 5 },
+        text: { textAlign: 'center' },
+        rightIcon: { marginLeft: 5 },
         container: {
           ...props.style,
           backgroundColor,
           paddingVertical: props.type !== 'text' ? 10 : 0,
           paddingHorizontal: props.type !== 'text' ? 10 : 0,
-          borderRadius: props.rounded ? 100 : 10
+          borderRadius: props.rounded ? 100 : 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center'
         }
       }),
     [backgroundColor, props.style, props.type, props.rounded]

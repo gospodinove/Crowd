@@ -1,12 +1,11 @@
 import React, { memo, useCallback, useMemo } from 'react'
-import { Pressable, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import { useAppTheme } from '../../../hooks/useAppTheme'
 import { PlanT } from '../../../types/Plan'
 import { formatDate } from '../../../utils/date'
 import Icon from '../../Icon'
 import Text from '../../Text'
 import VerticalSeparator from '../../VerticalSepartor'
-import { planItemStyles } from './PlanItem.styles'
 
 type PropsT = { data: PlanT; onPress: (planId: string) => void }
 
@@ -15,8 +14,28 @@ const PlanItem = (props: PropsT) => {
 
   const style = useMemo(
     () =>
-      planItemStyles({
-        avatarBackgroundColor: props.data.color
+      StyleSheet.create({
+        container: {
+          flexDirection: 'row',
+          marginHorizontal: 20,
+          paddingVertical: 10,
+          alignItems: 'center'
+        },
+        avatar: {
+          width: 50,
+          height: 50,
+          backgroundColor: props.data.color,
+          borderRadius: 25,
+          justifyContent: 'center',
+          alignItems: 'center'
+        },
+        detailsContainer: {
+          marginHorizontal: 5
+        },
+        detailsRow: {
+          flexDirection: 'row',
+          alignItems: 'center'
+        }
       }),
     [props.data.color, theme]
   )

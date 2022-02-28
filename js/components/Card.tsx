@@ -1,7 +1,6 @@
 import React, { memo, ReactElement, useMemo } from 'react'
-import { View, ViewProps } from 'react-native'
+import { StyleSheet, View, ViewProps } from 'react-native'
 import { useAppTheme } from '../hooks/useAppTheme'
-import { cardStyles } from './Card.styles'
 
 type PropsT = ViewProps & {
   children: ReactElement | ReactElement[] | undefined | null
@@ -12,15 +11,26 @@ const Card = (props: PropsT) => {
 
   const style = useMemo(
     () =>
-      cardStyles({
-        backgroundColor: theme.colors.secondaryBackground,
-        borderColor: theme.colors.border
+      StyleSheet.create({
+        container: {
+          backgroundColor: theme.colors.secondaryBackground,
+          borderColor: theme.colors.border,
+          borderWidth: 1,
+          borderRadius: 10,
+          paddingHorizontal: 20,
+          paddingVertical: 10
+        }
       }),
     [theme]
   )
 
   return (
-    <View style={useMemo(() => [props.style, style.container], [props.style])}>
+    <View
+      style={useMemo(
+        () => [props.style, style.container],
+        [props.style, style.container]
+      )}
+    >
       {props.children}
     </View>
   )
