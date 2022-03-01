@@ -49,7 +49,14 @@ const PlanScreen = (props: PropsT) => {
         ?.state?.index
     ) {
       case 1:
-      // TODO: new event
+        props.navigation.push('modals', {
+          screen: 'createPlanEvent',
+          params: {
+            planId: props.route.params.planId
+          }
+        })
+        break
+
       case 2:
       // TODO: new expense
       case 3:
@@ -60,6 +67,8 @@ const PlanScreen = (props: PropsT) => {
             userIds: props.plan?.userIds ?? []
           }
         })
+        break
+
       default:
         return null
     }

@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { useAppTheme } from '../../../hooks/useAppTheme'
 import { ModalsNavigatorPropsT } from '../../../types/ModalsNavigatorProps'
 import CreatePlanScreen from './CreatePlan/CreatePlanScreen'
+import CreatePlanEventScreen from './CreatePlanEvent/CreatePlanEventScreen'
 import InvitePlanMembersScreen from './InvitePlanMembers/InvitePlanMembersScreen'
 
 const Stack = createStackNavigator<ModalsNavigatorPropsT>()
@@ -32,7 +33,7 @@ export const ModalsNavigator = () => {
         [theme]
       )}
     >
-      {/* Invite members group */}
+      {/* Invite group members */}
       <Stack.Group>
         <Stack.Screen
           name="inviteMembers"
@@ -47,6 +48,15 @@ export const ModalsNavigator = () => {
           name="createPlan"
           component={CreatePlanScreen}
           options={useMemo(() => ({ title: 'Create plan' }), [])}
+        />
+      </Stack.Group>
+
+      {/* Create plan event */}
+      <Stack.Group>
+        <Stack.Screen
+          name="createPlanEvent"
+          component={CreatePlanEventScreen}
+          options={useMemo(() => ({ title: 'New event' }), [])}
         />
       </Stack.Group>
     </Stack.Navigator>
