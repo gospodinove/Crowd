@@ -164,7 +164,7 @@ const CreatePlanScreen = (props: PropsT) => {
       startDate: firestore.Timestamp.fromDate(startDate),
       endDate: firestore.Timestamp.fromDate(endDate),
       userIds: [props.userId],
-      events: []
+      eventIds: []
     })
 
     props.navigation.goBack()

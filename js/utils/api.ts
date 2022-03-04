@@ -86,6 +86,12 @@ export default function api(call: ApiCallT) {
           .collection('notifications')
           .where('userId', '==', call.params.userId)
           .get()
+    case 'fetchEvents':
+      return () =>
+        db
+          .collection('events')
+          .where(firestore.FieldPath.documentId(), 'in', call.params.eventIds)
+          .get()
     default:
       assertNever(call)
   }

@@ -44,4 +44,5 @@ type ApiCallT =
       }
     }
   | { type: 'fetchNotifications'; params: { userId: string } }
+  | { type: 'fetchEvents'; params: { eventIds: string[] } }
 export default ApiCallT

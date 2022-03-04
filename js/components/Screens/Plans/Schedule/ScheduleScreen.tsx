@@ -1,16 +1,18 @@
-import firestore from '@react-native-firebase/firestore'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import {
   SectionList,
   SectionListData,
   SectionListRenderItemInfo,
   StyleSheet
 } from 'react-native'
+import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
+import { plansSlice } from '../../../../reducers/plans'
+import { RootState } from '../../../../redux/store'
 import { EventT } from '../../../../types/Event'
 import { GroupPlanTabBarPropsT } from '../../../../types/GroupPlanTabBarProps'
 import { PlansTabNavigatorPropsT } from '../../../../types/PlansTabNavigatorProps'
@@ -31,22 +33,18 @@ type NavigationPropsT = CompositeScreenProps<
   >
 >
 
-type PropsT = NavigationPropsT
+const connector = connect(
+  (state: RootState, props: NavigationPropsT) => ({
+    events: state.plans.eventsForPlanId[props.route.params?.planId]
+  }),
+  {
+    fetch: plansSlice.actions.fetchEventsForPlanId
+  }
+)
 
-const date = firestore.Timestamp.fromDate(new Date())
+type ReduxPropsT = ConnectedProps<typeof connector>
 
-const data: EventT = {
-  id: 'hahahah',
-  name: 'Beach',
-  description: 'Camping Gradina',
-  start: date,
-  end: date
-}
-
-const mockData: SectionListData<EventT>[] = [
-  { title: 'Today', data: [data, data] },
-  { title: 'Tomorrow', data: [data, data] }
-]
+type PropsT = NavigationPropsT & ReduxPropsT
 
 const ScheduleScreen = (props: PropsT) => {
   const theme = useAppTheme()
@@ -58,6 +56,20 @@ const ScheduleScreen = (props: PropsT) => {
       }),
     [theme]
   )
+
+  useEffect(() => {
+    if (!props.events) {
+      props.fetch({ planId: props.route.params.planId })
+    }
+  }, [])
+
+  const sections: SectionListData<EventT>[] = useMemo(() => {
+    if (!props.events) {
+      return []
+    }
+
+    return [{ title: 'Today', data: props.events }]
+  }, [props.events])
 
   const renderItem = useCallback(
     (info: SectionListRenderItemInfo<EventT>) => (
@@ -81,7 +93,7 @@ const ScheduleScreen = (props: PropsT) => {
       containerStyle={style.container}
     >
       <SectionList<EventT>
-        sections={mockData}
+        sections={sections}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}
       />
@@ -89,4 +101,4 @@ const ScheduleScreen = (props: PropsT) => {
   )
 }
 
-export default memo(ScheduleScreen)
+export default memo(connector(ScheduleScreen))

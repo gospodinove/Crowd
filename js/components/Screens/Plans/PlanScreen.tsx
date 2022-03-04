@@ -134,7 +134,14 @@ const PlanScreen = (props: PropsT) => {
   return (
     <Tab.Navigator tabBar={renderTabBar}>
       <Tab.Screen name="overview" component={DashboardScreen} />
-      <Tab.Screen name="schedule" component={ScheduleScreen} />
+      <Tab.Screen
+        name="schedule"
+        component={ScheduleScreen}
+        initialParams={useMemo(
+          () => ({ planId: props.plan?.id }),
+          [props.plan?.id]
+        )}
+      />
       <Tab.Screen name="payments" component={DashboardScreen} />
       <Tab.Screen
         name="members"
