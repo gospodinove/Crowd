@@ -18,7 +18,7 @@ import TabBar from '../../TabBar'
 import DashboardScreen from '../DashboardScreen'
 import NotificationsScreen from '../Notifications/NotificationsScreen'
 import MembersScreen from './MembersScreen'
-import ScheduleScreen from './ScheduleScreen'
+import ScheduleScreen from './Schedule/ScheduleScreen'
 
 type NavigationPropsT = CompositeScreenProps<
   StackScreenProps<PlansTabNavigatorPropsT, 'plan'>,

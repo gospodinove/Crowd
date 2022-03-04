@@ -3,19 +3,22 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import {
   SectionList,
   SectionListData,
-  SectionListRenderItemInfo
+  SectionListRenderItemInfo,
+  StyleSheet
 } from 'react-native'
-import { useAppTheme } from '../../../hooks/useAppTheme'
-import { EventT } from '../../../types/Event'
-import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
-import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
-import { RootStackPropsT } from '../../../types/RootStackProps'
-import { TabNavigatorPropsT } from '../../../types/TabNavigatorProps'
-import Text from '../../Text'
+import { useAppTheme } from '../../../../hooks/useAppTheme'
+import { EventT } from '../../../../types/Event'
+import { GroupPlanTabBarPropsT } from '../../../../types/GroupPlanTabBarProps'
+import { PlansTabNavigatorPropsT } from '../../../../types/PlansTabNavigatorProps'
+import { RootStackPropsT } from '../../../../types/RootStackProps'
+import { TabNavigatorPropsT } from '../../../../types/TabNavigatorProps'
+import LoaderOrChildren from '../../../LoaderOrChildren'
+import ScheduleItem from './ScheduleItem'
+import ScheduleSectionHeader from './ScheduleSectionHeader'
 
 type NavigationPropsT = CompositeScreenProps<
   MaterialTopTabScreenProps<GroupPlanTabBarPropsT, 'schedule'>,
@@ -48,30 +51,41 @@ const mockData: SectionListData<EventT>[] = [
 const ScheduleScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
+  const style = useMemo(
+    () =>
+      StyleSheet.create({
+        container: { padding: 20, backgroundColor: theme.colors.background }
+      }),
+    [theme]
+  )
+
   const renderItem = useCallback(
     (info: SectionListRenderItemInfo<EventT>) => (
-      <Text weight="regular" lineHeight={20} size={20}>
-        {info.item.name}
-      </Text>
+      <ScheduleItem data={info.item} />
     ),
     []
   )
 
   const renderSectionHeader = useCallback(
     (info: { section: SectionListData<EventT> }) => (
-      <Text weight="semibold" lineHeight={30} size={30}>
-        {info.section.title}
-      </Text>
+      <ScheduleSectionHeader title={info.section.title} />
     ),
     []
   )
 
   return (
-    <SectionList<EventT>
-      sections={mockData}
-      renderItem={renderItem}
-      renderSectionHeader={renderSectionHeader}
-    />
+    <LoaderOrChildren
+      isLoading={false}
+      size="large"
+      color="text"
+      containerStyle={style.container}
+    >
+      <SectionList<EventT>
+        sections={mockData}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+      />
+    </LoaderOrChildren>
   )
 }
 
