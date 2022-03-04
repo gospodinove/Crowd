@@ -163,7 +163,8 @@ const CreatePlanScreen = (props: PropsT) => {
       icon: selectedIcon,
       startDate: firestore.Timestamp.fromDate(startDate),
       endDate: firestore.Timestamp.fromDate(endDate),
-      userIds: [props.userId]
+      userIds: [props.userId],
+      events: []
     })
 
     props.navigation.goBack()
