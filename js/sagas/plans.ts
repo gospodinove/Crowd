@@ -10,6 +10,7 @@ import api from '../utils/api'
 import fetchUsers from '../utils/fetchUsers'
 import {
   createPlanLoader,
+  fetchPlanEventsLoader,
   fetchPlanMembersLoader,
   updatePlanMembersLoader
 } from '../utils/loaders'
@@ -170,10 +171,9 @@ function* onFetchMembersForPlanId(
 function* onFetchEventsForPlanId(
   action: ReturnType<typeof plansSlice.actions.fetchMembersForPlanId>
 ) {
-  // TODO: #58 - loaders
-  // const loader = action.payload.loader ?? fetchPlanMembersLoader
+  const loader = action.payload.loader ?? fetchPlanEventsLoader
 
-  // yield put(loadersSlice.actions.startLoader(loader))
+  yield put(loadersSlice.actions.startLoader(loader))
 
   try {
     const eventIds: string[] | undefined = yield select(
@@ -201,7 +201,7 @@ function* onFetchEventsForPlanId(
   } catch (err) {
     console.log(err)
   } finally {
-    // yield put(loadersSlice.actions.stopLoader(loader))
+    yield put(loadersSlice.actions.stopLoader(loader))
   }
 }
 

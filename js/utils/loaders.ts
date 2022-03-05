@@ -18,3 +18,7 @@ export const inviteMembersSearchLoader = 'inviteMembersSearchLoader'
 export const updatePlanMembersLoader = 'updatePlanMembersLoader'
 export const fetchPlanMembersLoader = 'fetchPlanMembersLoader'
 export const refreshPlanMembersLoader = 'refreshPlanMembersLoader'
+
+// PLAN EVENTS
+export const fetchPlanEventsLoader = 'fetchPlanEventsLoader'
+export const refreshPlanEventsLoader = 'refreshPlanEventsLoader'

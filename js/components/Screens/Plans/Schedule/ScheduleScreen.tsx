@@ -18,6 +18,10 @@ import { GroupPlanTabBarPropsT } from '../../../../types/GroupPlanTabBarProps'
 import { PlansTabNavigatorPropsT } from '../../../../types/PlansTabNavigatorProps'
 import { RootStackPropsT } from '../../../../types/RootStackProps'
 import { TabNavigatorPropsT } from '../../../../types/TabNavigatorProps'
+import {
+  fetchPlanEventsLoader,
+  refreshPlanEventsLoader
+} from '../../../../utils/loaders'
 import LoaderOrChildren from '../../../LoaderOrChildren'
 import ScheduleItem from './ScheduleItem'
 import ScheduleSectionHeader from './ScheduleSectionHeader'
@@ -35,7 +39,9 @@ type NavigationPropsT = CompositeScreenProps<
 
 const connector = connect(
   (state: RootState, props: NavigationPropsT) => ({
-    events: state.plans.eventsForPlanId[props.route.params?.planId]
+    events: state.plans.eventsForPlanId[props.route.params?.planId],
+    isFetching: state.loaders.runningLoaders[fetchPlanEventsLoader] ?? false,
+    isRefreshing: state.loaders.runningLoaders[refreshPlanEventsLoader] ?? false
   }),
   {
     fetch: plansSlice.actions.fetchEventsForPlanId
@@ -52,7 +58,8 @@ const ScheduleScreen = (props: PropsT) => {
   const style = useMemo(
     () =>
       StyleSheet.create({
-        container: { padding: 20, backgroundColor: theme.colors.background }
+        container: { backgroundColor: theme.colors.background },
+        scrollContainer: { padding: 20 }
       }),
     [theme]
   )
@@ -85,17 +92,29 @@ const ScheduleScreen = (props: PropsT) => {
     []
   )
 
+  const onRefresh = useCallback(
+    () =>
+      props.fetch({
+        planId: props.route.params.planId,
+        loader: refreshPlanEventsLoader
+      }),
+    [props.fetch, props.route.params.planId]
+  )
+
   return (
     <LoaderOrChildren
-      isLoading={false}
+      isLoading={props.isFetching}
       size="large"
       color="text"
       containerStyle={style.container}
     >
       <SectionList<EventT>
         sections={sections}
+        contentContainerStyle={style.scrollContainer}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}
+        onRefresh={onRefresh}
+        refreshing={props.isRefreshing}
       />
     </LoaderOrChildren>
   )
