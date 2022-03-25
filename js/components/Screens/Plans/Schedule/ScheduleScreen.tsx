@@ -18,6 +18,7 @@ import { GroupPlanTabBarPropsT } from '../../../../types/GroupPlanTabBarProps'
 import { PlansTabNavigatorPropsT } from '../../../../types/PlansTabNavigatorProps'
 import { RootStackPropsT } from '../../../../types/RootStackProps'
 import { TabNavigatorPropsT } from '../../../../types/TabNavigatorProps'
+import { groupEventsByDate } from '../../../../utils/date'
 import {
   fetchPlanEventsLoader,
   refreshPlanEventsLoader
@@ -75,7 +76,7 @@ const ScheduleScreen = (props: PropsT) => {
       return []
     }
 
-    return [{ title: 'Today', data: props.events }]
+    return groupEventsByDate(props.events)
   }, [props.events])
 
   const renderItem = useCallback(
