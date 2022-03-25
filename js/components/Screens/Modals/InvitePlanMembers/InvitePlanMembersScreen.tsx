@@ -9,7 +9,13 @@ import React, {
   useMemo,
   useState
 } from 'react'
-import { FlatList, ListRenderItemInfo, Pressable, View } from 'react-native'
+import {
+  FlatList,
+  ListRenderItemInfo,
+  Pressable,
+  StyleSheet,
+  View
+} from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
 import usePrevious from '../../../../hooks/usePrevious'
@@ -30,7 +36,6 @@ import ScrollContainer from '../../../ScrollContainer'
 import Text from '../../../Text'
 import TextInput from '../../../TextInput'
 import UserInitials from '../../../UserInitials'
-import { invitePlanMembersScreenStyles } from './InvitePlanMembersScreen.styles'
 
 const connector = connect(
   (state: RootState) => ({
@@ -105,6 +110,24 @@ const InvitePlanMembersScreen = (props: PropsT) => {
     }
   }, [props.searchResults.length])
 
+  const style = useMemo(
+    () =>
+      StyleSheet.create({
+        emptyUserSelectionContainer: {
+          height: 60,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 10
+        },
+        selectedUsersContainer: { height: 40, marginBottom: 10 },
+        selectedUsersCaption: { marginBottom: 5 },
+        selectedUserInitials: {
+          marginRight: 10
+        }
+      }),
+    []
+  )
+
   const onChangeText = useCallback(
     debounce((text: string) => props.search(text), 500),
     [props.search]
@@ -153,21 +176,18 @@ const InvitePlanMembersScreen = (props: PropsT) => {
     []
   )
 
-  const renderSelectedUsers = useMemo(
+  const renderSelectedUsers = useCallback(
     () => (
       <>
         <Text
           weight="regular"
           size={11}
           lineHeight={15}
-          style={invitePlanMembersScreenStyles.selectedUsersCaption}
+          style={style.selectedUsersCaption}
         >
           {selectedUsers.length + ' selected - tap to remove'}
         </Text>
-        <ScrollContainer
-          horizontal
-          style={invitePlanMembersScreenStyles.selectedUsersContainer}
-        >
+        <ScrollContainer horizontal style={style.selectedUsersContainer}>
           {selectedUsers.map(user => (
             <View key={user.email}>
               <Pressable
@@ -179,9 +199,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
                   user={user}
                   textColor="white"
                   backgroundColor="primary"
-                  containerStyle={
-                    invitePlanMembersScreenStyles.selectedUserInitials
-                  }
+                  containerStyle={style.selectedUserInitials}
                 />
               </Pressable>
             </View>
@@ -189,14 +207,7 @@ const InvitePlanMembersScreen = (props: PropsT) => {
         </ScrollContainer>
       </>
     ),
-    [
-      invitePlanMembersScreenStyles.selectedUsersCaption,
-      invitePlanMembersScreenStyles.selectedUsersContainer,
-      selectedUsers,
-      setSelectedUsers,
-      theme.colors,
-      invitePlanMembersScreenStyles.selectedUserInitials
-    ]
+    [style, selectedUsers, setSelectedUsers, theme.colors]
   )
 
   return (
@@ -217,11 +228,9 @@ const InvitePlanMembersScreen = (props: PropsT) => {
         )}
       >
         {selectedUsers.length > 0 ? (
-          renderSelectedUsers
+          renderSelectedUsers()
         ) : (
-          <View
-            style={invitePlanMembersScreenStyles.emptyUserSelectionContainer}
-          >
+          <View style={style.emptyUserSelectionContainer}>
             <Text weight="regular" size={14} lineHeight={20}>
               No selected users
             </Text>

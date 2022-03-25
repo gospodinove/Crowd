@@ -17,7 +17,6 @@ import {
   fetchPlanMembersLoader,
   refreshPlanMembersLoader
 } from '../../../utils/loaders'
-import Button from '../../Button'
 import LoaderOrChildren from '../../LoaderOrChildren'
 import PlanMemberItem from '../../PlanMemberItem'
 import Text from '../../Text'
@@ -83,18 +82,6 @@ const MembersScreen = (props: PropsT) => {
     []
   )
 
-  const onAddButtonPress = useCallback(
-    () =>
-      props.navigation.push('modals', {
-        screen: 'inviteMembers',
-        params: {
-          planId: props.route.params.planId,
-          userIds: props.members?.map(m => m.id) ?? []
-        }
-      }),
-    [props.navigation, props.route.params.planId, props.members]
-  )
-
   return (
     <LoaderOrChildren
       isLoading={props.isLoading}
@@ -110,30 +97,11 @@ const MembersScreen = (props: PropsT) => {
       )}
     >
       <>
-        <View
-          style={useMemo(
-            () => ({
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }),
-            []
-          )}
-        >
-          <Text weight="semibold" lineHeight={20} size={20}>
-            {(props.members?.length ?? 0) +
-              ' member' +
-              ((props.members?.length ?? 0) !== 1 ? 's' : '')}
-          </Text>
-          <Button
-            text="Add"
-            type="primary"
-            size="medium"
-            leftIcon="plus"
-            rounded
-            onPress={onAddButtonPress}
-          />
-        </View>
+        <Text weight="semibold" lineHeight={20} size={20}>
+          {(props.members?.length ?? 0) +
+            ' member' +
+            ((props.members?.length ?? 0) !== 1 ? 's' : '')}
+        </Text>
         <FlatList
           data={data}
           renderItem={renderItem}

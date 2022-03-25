@@ -3,12 +3,14 @@ import { all, call, put, select, takeLatest } from '@redux-saga/core/effects'
 import { loadersSlice } from '../reducers/loaders'
 import { plansSlice } from '../reducers/plans'
 import { RootState } from '../redux/store'
+import { EventDataT, EventT } from '../types/Event'
 import { PlanDataT, PlanT } from '../types/Plan'
 import { UserT } from '../types/User'
 import api from '../utils/api'
 import fetchUsers from '../utils/fetchUsers'
 import {
   createPlanLoader,
+  fetchPlanEventsLoader,
   fetchPlanMembersLoader,
   updatePlanMembersLoader
 } from '../utils/loaders'
@@ -166,6 +168,43 @@ function* onFetchMembersForPlanId(
   }
 }
 
+function* onFetchEventsForPlanId(
+  action: ReturnType<typeof plansSlice.actions.fetchMembersForPlanId>
+) {
+  const loader = action.payload.loader ?? fetchPlanEventsLoader
+
+  yield put(loadersSlice.actions.startLoader(loader))
+
+  try {
+    const eventIds: string[] | undefined = yield select(
+      (state: RootState) => state.plans.data[action.payload.planId]?.eventIds
+    )
+
+    if (!eventIds) {
+      throw new Error('[plansSaga onFetchMembersForPlanId] - no event IDs')
+    }
+
+    const snapshot: FirebaseFirestoreTypes.QuerySnapshot<EventDataT> =
+      yield call(api({ type: 'fetchEvents', params: { eventIds } }))
+
+    const events: EventT[] = snapshot.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id
+    }))
+
+    yield put(
+      plansSlice.actions.setEventsForPlanId({
+        planId: action.payload.planId,
+        events
+      })
+    )
+  } catch (err) {
+    console.log(err)
+  } finally {
+    yield put(loadersSlice.actions.stopLoader(loader))
+  }
+}
+
 export default function* plansSaga() {
   yield all([
     takeLatest(plansSlice.actions.fetch, onFetch),
@@ -177,6 +216,7 @@ export default function* plansSaga() {
     takeLatest(
       plansSlice.actions.fetchMembersForPlanId,
       onFetchMembersForPlanId
-    )
+    ),
+    takeLatest(plansSlice.actions.fetchEventsForPlanId, onFetchEventsForPlanId)
   ])
 }

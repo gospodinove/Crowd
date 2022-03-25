@@ -9,6 +9,7 @@ export type PlanDataT = {
   startDate: FirebaseFirestoreTypes.Timestamp
   endDate: FirebaseFirestoreTypes.Timestamp
   userIds: string[]
+  eventIds: string[]
 }
 
 export type PlanT = PlanDataT & {

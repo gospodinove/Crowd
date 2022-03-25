@@ -5,7 +5,7 @@ import api from './api'
 
 export default function* fetchUsers(userIds: string[]) {
   try {
-    const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<UserDataT[]> =
+    const documentSnapshot: FirebaseFirestoreTypes.QuerySnapshot<UserDataT> =
       yield call(
         api({
           type: 'fetchUsers',

@@ -1,6 +1,6 @@
 export type GroupPlanTabBarPropsT = {
   overview: undefined
-  schedule: undefined
+  schedule: { planId: string }
   payments: undefined
   members: { planId: string }
   cars: undefined
