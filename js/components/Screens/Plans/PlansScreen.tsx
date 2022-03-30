@@ -59,7 +59,7 @@ const PlansScreen = (props: PropsT) => {
     }
 
     props.fetchPlans({ loader: fetchPlansLoader })
-  }, [props.fetchPlans])
+  }, [])
 
   useLayoutEffect(() => {
     props.navigation.setOptions({

@@ -4,11 +4,13 @@ import { UserT } from '../types/User'
 type StateT = {
   currentUser: UserT | undefined
   searchResults: UserT[]
+  users: UserT[]
 }
 
 const initialState: StateT = {
   currentUser: undefined,
-  searchResults: []
+  searchResults: [],
+  users: []
 }
 
 export const usersSlice = createSlice({
