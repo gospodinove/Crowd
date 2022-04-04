@@ -54,6 +54,9 @@ export const usersSlice = createSlice({
     updatePlanMembers: (
       _,
       __: PayloadAction<{ planId: string; newMembers: UserT[] }>
-    ) => {}
+    ) => {},
+    clearPlanMembers: state => {
+      state.planMembers = {}
+    }
   }
 })

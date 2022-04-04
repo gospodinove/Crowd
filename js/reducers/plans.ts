@@ -16,16 +16,6 @@ export const plansSlice = createSlice({
     create: (_, __: PayloadAction<PlanDataT>) => {},
     onCreate: (state, action: PayloadAction<PlanT>) => {
       state[action.payload.id] = action.payload
-    },
-    clear: (
-      state,
-      action: PayloadAction<{ clearRelatedDataOnly: boolean }>
-    ) => {
-      // TODO: 82 - return just initial state
-
-      if (!action.payload.clearRelatedDataOnly) {
-        return initialState
-      }
     }
   }
 })

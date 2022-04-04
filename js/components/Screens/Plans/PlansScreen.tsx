@@ -11,7 +11,9 @@ import React, {
 import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
+import { eventsSlice } from '../../../reducers/events'
 import { plansSlice } from '../../../reducers/plans'
+import { usersSlice } from '../../../reducers/users'
 import { RootState } from '../../../redux/store'
 import { PlanT } from '../../../types/Plan'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
@@ -42,7 +44,8 @@ const connector = connect(
   }),
   {
     fetchPlans: plansSlice.actions.fetch,
-    cleanPlanData: plansSlice.actions.clear
+    clearMembers: usersSlice.actions.clearPlanMembers,
+    clearEvents: eventsSlice.actions.clear
   }
 )
 
@@ -117,7 +120,8 @@ const PlansScreen = (props: PropsT) => {
   )
 
   const onRefresh = useCallback(() => {
-    props.cleanPlanData({ clearRelatedDataOnly: true })
+    props.clearEvents()
+    props.clearMembers()
     props.fetchPlans({ loader: refreshPlanMembersLoader })
   }, [])
 

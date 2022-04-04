@@ -16,6 +16,7 @@ export const eventsSlice = createSlice({
       action: PayloadAction<{ planId: string; events: EventT[] }>
     ) => {
       state[action.payload.planId] = action.payload.events
-    }
+    },
+    clear: () => initialState
   }
 })
