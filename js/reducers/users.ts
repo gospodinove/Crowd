@@ -4,13 +4,13 @@ import { UserT } from '../types/User'
 type StateT = {
   currentUser: UserT | undefined
   searchResults: UserT[]
-  membersByPlanId: Record<string, UserT[] | undefined>
+  planMembers: Record<string, UserT[] | undefined>
 }
 
 const initialState: StateT = {
   currentUser: undefined,
   searchResults: [],
-  membersByPlanId: {}
+  planMembers: {}
 }
 
 export const usersSlice = createSlice({
@@ -41,11 +41,19 @@ export const usersSlice = createSlice({
     setSearchResults: (state, action: PayloadAction<UserT[]>) => {
       state.searchResults = action.payload
     },
-    setMembersForPlanId: (
+    fetchPlanMembers: (
+      _,
+      __: PayloadAction<{ planId: string; loader?: string }>
+    ) => {},
+    setPlanMembers: (
       state,
       action: PayloadAction<{ planId: string; members: UserT[] }>
     ) => {
-      state.membersByPlanId[action.payload.planId] = action.payload.members
-    }
+      state.planMembers[action.payload.planId] = action.payload.members
+    },
+    updatePlanMembers: (
+      _,
+      __: PayloadAction<{ planId: string; newMembers: UserT[] }>
+    ) => {}
   }
 })

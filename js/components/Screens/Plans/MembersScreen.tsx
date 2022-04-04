@@ -6,7 +6,7 @@ import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { FlatList, ListRenderItemInfo, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
-import { plansSlice } from '../../../reducers/plans'
+import { usersSlice } from '../../../reducers/users'
 import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
@@ -34,12 +34,12 @@ type NavigationPropsT = CompositeScreenProps<
 
 const connector = connect(
   (state: RootState, props: NavigationPropsT) => ({
-    members: state.plans.membersForPlanId[props.route.params?.planId],
+    members: state.users.planMembers[props.route.params?.planId],
     isLoading: state.loaders.runningLoaders[fetchPlanMembersLoader],
     isRefreshing:
       state.loaders.runningLoaders[refreshPlanMembersLoader] ?? false
   }),
-  { fetchMembers: plansSlice.actions.fetchMembersForPlanId }
+  { fetchMembers: usersSlice.actions.fetchPlanMembers }
 )
 
 type ReduxPropsT = ConnectedProps<typeof connector>
