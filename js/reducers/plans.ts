@@ -48,10 +48,6 @@ export const plansSlice = createSlice({
       }
       state.membersForPlanId[action.payload.planId] = action.payload.members
     },
-    fetchEventsForPlanId: (
-      _,
-      __: PayloadAction<{ planId: string; loader?: string }>
-    ) => {},
     clear: (
       state,
       action: PayloadAction<{ clearRelatedDataOnly: boolean }>
