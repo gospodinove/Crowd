@@ -1,18 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { EventT } from '../types/Event'
 import { PlanDataT, PlanT } from '../types/Plan'
 import { UserT } from '../types/User'
 
 type StateT = {
   data: Record<string, PlanT | undefined>
   membersForPlanId: Record<string, UserT[] | undefined>
-  eventsForPlanId: Record<string, EventT[] | undefined>
 }
 
 const initialState: StateT = {
   data: {},
-  membersForPlanId: {},
-  eventsForPlanId: {}
+  membersForPlanId: {}
 }
 
 export const plansSlice = createSlice({
@@ -55,22 +52,6 @@ export const plansSlice = createSlice({
       _,
       __: PayloadAction<{ planId: string; loader?: string }>
     ) => {},
-    setEventsForPlanId: (
-      state,
-      action: PayloadAction<{ planId: string; events: EventT[] }>
-    ) => {
-      const plan = state.data[action.payload.planId]
-
-      if (!plan) {
-        return
-      }
-
-      state.data[action.payload.planId] = {
-        ...plan,
-        eventIds: action.payload.events.map(event => event.id)
-      }
-      state.eventsForPlanId[action.payload.planId] = action.payload.events
-    },
     clear: (
       state,
       action: PayloadAction<{ clearRelatedDataOnly: boolean }>
