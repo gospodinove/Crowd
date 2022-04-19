@@ -14,7 +14,7 @@ function* onFetch(action: ReturnType<typeof eventsSlice.actions.fetch>) {
 
   try {
     const eventIds: string[] | undefined = yield select(
-      (state: RootState) => state.plans[action.payload.planId]?.eventIds
+      (state: RootState) => state.plans.data[action.payload.planId]?.eventIds
     )
 
     if (!eventIds) {

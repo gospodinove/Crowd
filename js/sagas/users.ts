@@ -177,7 +177,7 @@ function* onFetchPlanMembers(
 
   try {
     const memberIds: string[] | undefined = yield select(
-      (state: RootState) => state.plans[action.payload.planId]?.userIds
+      (state: RootState) => state.plans.data[action.payload.planId]?.userIds
     )
 
     if (!memberIds) {
@@ -210,7 +210,7 @@ function* onUpdatePlanMembers(
       oldMembers
     }: { plan: PlanT | undefined; oldMembers: UserT[] | undefined } =
       yield select((state: RootState) => ({
-        plan: state.plans[action.payload.planId],
+        plan: state.plans.data[action.payload.planId],
         oldMembers: state.users.planMembers[action.payload.planId]
       }))
 

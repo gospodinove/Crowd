@@ -37,7 +37,7 @@ type NavigationPropsT = CompositeScreenProps<
 
 const connector = connect(
   (state: RootState) => ({
-    plans: state.plans,
+    plans: state.plans.data,
     isLoading: state.loaders.runningLoaders[fetchPlansLoader],
     isRefreshing:
       state.loaders.runningLoaders[refreshPlanMembersLoader] ?? false
