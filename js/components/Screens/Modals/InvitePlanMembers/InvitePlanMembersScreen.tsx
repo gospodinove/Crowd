@@ -20,7 +20,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
 import usePrevious from '../../../../hooks/usePrevious'
 import { planMembersSlice } from '../../../../reducers/planMembers'
-import { usersSlice } from '../../../../reducers/users'
+import { searchSlice } from '../../../../reducers/search'
 import { RootState } from '../../../../redux/store'
 import { ModalsNavigatorPropsT } from '../../../../types/ModalsNavigatorProps'
 import { RootStackPropsT } from '../../../../types/RootStackProps'
@@ -39,13 +39,13 @@ import UserInitials from '../../../UserInitials'
 
 const connector = connect(
   (state: RootState) => ({
-    searchResults: state.users.searchResults,
+    searchResults: state.search.members,
     isSearching: state.loaders.runningLoaders[inviteMembersSearchLoader],
     isLoading: state.loaders.runningLoaders[updatePlanMembersLoader]
   }),
   {
-    search: usersSlice.actions.search,
-    setSearchResults: usersSlice.actions.setSearchResults,
+    search: searchSlice.actions.search,
+    setSearchResults: searchSlice.actions.setMemberResults,
     updatePlanMembers: planMembersSlice.actions.update
   }
 )
@@ -129,7 +129,10 @@ const InvitePlanMembersScreen = (props: PropsT) => {
   )
 
   const onChangeText = useCallback(
-    debounce((text: string) => props.search(text), 500),
+    debounce(
+      (text: string) => props.search({ domain: 'members', query: text }),
+      500
+    ),
     [props.search]
   )
 

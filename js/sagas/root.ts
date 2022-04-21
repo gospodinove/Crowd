@@ -4,16 +4,18 @@ import nativeSaga from './native'
 import notificationsSaga from './notifications'
 import planMembersSaga from './planMembers'
 import plansSaga from './plans'
-import usersSaga from './users'
+import searchSaga from './search'
+import userSaga from './user'
 
 export default function* rootSaga() {
   const sagas = [
     nativeSaga,
-    usersSaga,
+    userSaga,
     plansSaga,
     notificationsSaga,
     eventsSaga,
-    planMembersSaga
+    planMembersSaga,
+    searchSaga
   ]
 
   yield all(

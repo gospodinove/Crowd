@@ -50,7 +50,7 @@ function* onUpdate(action: ReturnType<typeof planMembersSlice.actions.update>) {
     }: { plan: PlanT | undefined; oldMembers: UserT[] | undefined } =
       yield select((state: RootState) => ({
         plan: state.plans.data[action.payload.planId],
-        oldMembers: state.users.planMembers[action.payload.planId]
+        oldMembers: state.planMembers.data[action.payload.planId]
       }))
 
     if (!plan) {

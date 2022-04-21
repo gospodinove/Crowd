@@ -6,17 +6,19 @@ import { nativeSlice } from '../reducers/native'
 import { notificationsSlice } from '../reducers/notifications'
 import { planMembersSlice } from '../reducers/planMembers'
 import { plansSlice } from '../reducers/plans'
-import { usersSlice } from '../reducers/users'
+import { searchSlice } from '../reducers/search'
+import { userSlice } from '../reducers/user'
 import rootSaga from '../sagas/root'
 
 export const slices = {
   native: nativeSlice,
-  users: usersSlice,
+  users: userSlice,
   loaders: loadersSlice,
   plans: plansSlice,
   notifications: notificationsSlice,
   events: eventsSlice,
-  members: planMembersSlice
+  planMembers: planMembersSlice,
+  search: searchSlice
 }
 
 const reducers: { [K in keyof typeof slices]: typeof slices[K]['reducer'] } =
