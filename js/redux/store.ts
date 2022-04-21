@@ -4,6 +4,7 @@ import { eventsSlice } from '../reducers/events'
 import { loadersSlice } from '../reducers/loaders'
 import { nativeSlice } from '../reducers/native'
 import { notificationsSlice } from '../reducers/notifications'
+import { planMembersSlice } from '../reducers/planMembers'
 import { plansSlice } from '../reducers/plans'
 import { usersSlice } from '../reducers/users'
 import rootSaga from '../sagas/root'
@@ -14,7 +15,8 @@ export const slices = {
   loaders: loadersSlice,
   plans: plansSlice,
   notifications: notificationsSlice,
-  events: eventsSlice
+  events: eventsSlice,
+  members: planMembersSlice
 }
 
 const reducers: { [K in keyof typeof slices]: typeof slices[K]['reducer'] } =

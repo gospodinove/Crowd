@@ -4,16 +4,13 @@ import { all, call, put, select, takeLatest } from '@redux-saga/core/effects'
 import { loadersSlice } from '../reducers/loaders'
 import { usersSlice } from '../reducers/users'
 import { RootState } from '../redux/store'
-import { PlanT } from '../types/Plan'
 import { UserDataT, UserT } from '../types/User'
 import api from '../utils/api'
 import fetchUsers from '../utils/fetchUsers'
 import {
-  fetchPlanMembersLoader,
   inviteMembersSearchLoader,
   loginLoader,
-  signUpLoader,
-  updatePlanMembersLoader
+  signUpLoader
 } from '../utils/loaders'
 import { loadUserData, storeUserData } from '../utils/localData'
 
@@ -168,104 +165,6 @@ function* onSearch(action: ReturnType<typeof usersSlice.actions.search>) {
   }
 }
 
-function* onFetchPlanMembers(
-  action: ReturnType<typeof usersSlice.actions.fetchPlanMembers>
-) {
-  const loader = action.payload.loader ?? fetchPlanMembersLoader
-
-  yield put(loadersSlice.actions.startLoader(loader))
-
-  try {
-    const memberIds: string[] | undefined = yield select(
-      (state: RootState) => state.plans.data[action.payload.planId]?.userIds
-    )
-
-    if (!memberIds) {
-      throw new Error('[usersSaga onFetchPlanMembers] - no member IDs')
-    }
-
-    const members: UserT[] = yield call(fetchUsers, memberIds)
-
-    yield put(
-      usersSlice.actions.setPlanMembers({
-        planId: action.payload.planId,
-        members
-      })
-    )
-  } catch (err) {
-    console.log(err)
-  } finally {
-    yield put(loadersSlice.actions.stopLoader(loader))
-  }
-}
-
-function* onUpdatePlanMembers(
-  action: ReturnType<typeof usersSlice.actions.updatePlanMembers>
-) {
-  yield put(loadersSlice.actions.startLoader(updatePlanMembersLoader))
-
-  try {
-    const {
-      plan,
-      oldMembers
-    }: { plan: PlanT | undefined; oldMembers: UserT[] | undefined } =
-      yield select((state: RootState) => ({
-        plan: state.plans.data[action.payload.planId],
-        oldMembers: state.users.planMembers[action.payload.planId]
-      }))
-
-    if (!plan) {
-      throw new Error('[plansSaga onUpdateMembersForPlanId] - no plan')
-    }
-
-    // use Set to remove the duplicated values
-    yield call(
-      api({
-        type: 'setPlanMembers',
-        params: {
-          planId: plan.id,
-          userIds: [
-            ...new Set([
-              ...action.payload.newMembers.map(m => m.id),
-              ...plan.userIds
-            ])
-          ]
-        }
-      })
-    )
-
-    // create the notifications for each new member
-    yield call(
-      api({
-        type: 'createNotificationBatch',
-        params: {
-          userIds: action.payload.newMembers.map(m => m.id),
-          title: `Added to ${plan.name}`,
-          message: 'You have been added to a new plan',
-          isRead: false,
-          image: {
-            type: 'plan',
-            value: 'test'
-          }
-        }
-      })
-    )
-
-    yield put(
-      usersSlice.actions.setPlanMembers({
-        planId: action.payload.planId,
-        members: [
-          ...new Set([...action.payload.newMembers, ...(oldMembers ?? [])])
-        ]
-      })
-    )
-  } catch (err) {
-    console.log(err)
-  } finally {
-    yield put(loadersSlice.actions.stopLoader(updatePlanMembersLoader))
-  }
-}
-
 export default function* usersSaga() {
   yield all([
     takeLatest(usersSlice.actions.signUp, onSignUp),
@@ -273,8 +172,6 @@ export default function* usersSaga() {
     takeLatest(usersSlice.actions.loadUserData, onLoadUserData),
     takeLatest(usersSlice.actions.storeUserLocally, onStoreUserLocally),
     takeLatest(usersSlice.actions.logout, onLogout),
-    takeLatest(usersSlice.actions.search, onSearch),
-    takeLatest(usersSlice.actions.fetchPlanMembers, onFetchPlanMembers),
-    takeLatest(usersSlice.actions.updatePlanMembers, onUpdatePlanMembers)
+    takeLatest(usersSlice.actions.search, onSearch)
   ])
 }

@@ -12,8 +12,8 @@ import { FlatList, ListRenderItemInfo } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
 import { eventsSlice } from '../../../reducers/events'
+import { planMembersSlice } from '../../../reducers/planMembers'
 import { plansSlice } from '../../../reducers/plans'
-import { usersSlice } from '../../../reducers/users'
 import { RootState } from '../../../redux/store'
 import { PlanT } from '../../../types/Plan'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
@@ -44,7 +44,7 @@ const connector = connect(
   }),
   {
     fetchPlans: plansSlice.actions.fetch,
-    clearMembers: usersSlice.actions.clearPlanMembers,
+    clearMembers: planMembersSlice.actions.clear,
     clearEvents: eventsSlice.actions.clear
   }
 )

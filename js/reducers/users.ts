@@ -40,23 +40,6 @@ export const usersSlice = createSlice({
     search: (_, __: PayloadAction<string>) => {},
     setSearchResults: (state, action: PayloadAction<UserT[]>) => {
       state.searchResults = action.payload
-    },
-    fetchPlanMembers: (
-      _,
-      __: PayloadAction<{ planId: string; loader?: string }>
-    ) => {},
-    setPlanMembers: (
-      state,
-      action: PayloadAction<{ planId: string; members: UserT[] }>
-    ) => {
-      state.planMembers[action.payload.planId] = action.payload.members
-    },
-    updatePlanMembers: (
-      _,
-      __: PayloadAction<{ planId: string; newMembers: UserT[] }>
-    ) => {},
-    clearPlanMembers: state => {
-      state.planMembers = {}
     }
   }
 })

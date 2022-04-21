@@ -2,6 +2,7 @@ import { all, call, spawn } from '@redux-saga/core/effects'
 import eventsSaga from './events'
 import nativeSaga from './native'
 import notificationsSaga from './notifications'
+import planMembersSaga from './planMembers'
 import plansSaga from './plans'
 import usersSaga from './users'
 
@@ -11,7 +12,8 @@ export default function* rootSaga() {
     usersSaga,
     plansSaga,
     notificationsSaga,
-    eventsSaga
+    eventsSaga,
+    planMembersSaga
   ]
 
   yield all(

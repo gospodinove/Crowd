@@ -6,7 +6,7 @@ import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { FlatList, ListRenderItemInfo, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../hooks/useAppTheme'
-import { usersSlice } from '../../../reducers/users'
+import { planMembersSlice } from '../../../reducers/planMembers'
 import { RootState } from '../../../redux/store'
 import { GroupPlanTabBarPropsT } from '../../../types/GroupPlanTabBarProps'
 import { PlansTabNavigatorPropsT } from '../../../types/PlansTabNavigatorProps'
@@ -39,7 +39,7 @@ const connector = connect(
     isRefreshing:
       state.loaders.runningLoaders[refreshPlanMembersLoader] ?? false
   }),
-  { fetchMembers: usersSlice.actions.fetchPlanMembers }
+  { fetchMembers: planMembersSlice.actions.fetch }
 )
 
 type ReduxPropsT = ConnectedProps<typeof connector>
