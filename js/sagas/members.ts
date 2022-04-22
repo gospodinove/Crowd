@@ -1,6 +1,6 @@
 import { all, call, put, select, takeLatest } from '@redux-saga/core/effects'
 import { loadersSlice } from '../reducers/loaders'
-import { planMembersSlice } from '../reducers/planMembers'
+import { membersSlice } from '../reducers/members'
 import { PlanT } from '../types/Plan'
 import { RootState } from '../types/RootState'
 import { UserT } from '../types/User'
@@ -11,7 +11,7 @@ import {
   updatePlanMembersLoader
 } from '../utils/loaders'
 
-function* onFetch(action: ReturnType<typeof planMembersSlice.actions.fetch>) {
+function* onFetch(action: ReturnType<typeof membersSlice.actions.fetch>) {
   const loader = action.payload.loader ?? fetchPlanMembersLoader
 
   yield put(loadersSlice.actions.startLoader(loader))
@@ -28,7 +28,7 @@ function* onFetch(action: ReturnType<typeof planMembersSlice.actions.fetch>) {
     const members: UserT[] = yield call(fetchUsers, memberIds)
 
     yield put(
-      planMembersSlice.actions.set({
+      membersSlice.actions.set({
         planId: action.payload.planId,
         members
       })
@@ -40,7 +40,7 @@ function* onFetch(action: ReturnType<typeof planMembersSlice.actions.fetch>) {
   }
 }
 
-function* onUpdate(action: ReturnType<typeof planMembersSlice.actions.update>) {
+function* onUpdate(action: ReturnType<typeof membersSlice.actions.update>) {
   yield put(loadersSlice.actions.startLoader(updatePlanMembersLoader))
 
   try {
@@ -91,7 +91,7 @@ function* onUpdate(action: ReturnType<typeof planMembersSlice.actions.update>) {
     )
 
     yield put(
-      planMembersSlice.actions.set({
+      membersSlice.actions.set({
         planId: action.payload.planId,
         members: [
           ...new Set([...action.payload.newMembers, ...(oldMembers ?? [])])
@@ -105,9 +105,9 @@ function* onUpdate(action: ReturnType<typeof planMembersSlice.actions.update>) {
   }
 }
 
-export default function* planMembersSaga() {
+export default function* membersSaga() {
   yield all([
-    takeLatest(planMembersSlice.actions.fetch, onFetch),
-    takeLatest(planMembersSlice.actions.update, onUpdate)
+    takeLatest(membersSlice.actions.fetch, onFetch),
+    takeLatest(membersSlice.actions.update, onUpdate)
   ])
 }

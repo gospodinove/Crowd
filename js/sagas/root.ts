@@ -1,8 +1,8 @@
 import { all, call, spawn } from '@redux-saga/core/effects'
 import eventsSaga from './events'
+import membersSaga from './members'
 import nativeSaga from './native'
 import notificationsSaga from './notifications'
-import planMembersSaga from './planMembers'
 import plansSaga from './plans'
 import searchSaga from './search'
 import userSaga from './user'
@@ -14,7 +14,7 @@ export default function* rootSaga() {
     plansSaga,
     notificationsSaga,
     eventsSaga,
-    planMembersSaga,
+    membersSaga,
     searchSaga
   ]
 

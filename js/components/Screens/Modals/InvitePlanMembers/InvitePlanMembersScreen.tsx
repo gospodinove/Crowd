@@ -19,7 +19,7 @@ import {
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
 import usePrevious from '../../../../hooks/usePrevious'
-import { planMembersSlice } from '../../../../reducers/planMembers'
+import { membersSlice } from '../../../../reducers/members'
 import { searchSlice } from '../../../../reducers/search'
 import { RootState } from '../../../../redux/store'
 import { ModalsNavigatorPropsT } from '../../../../types/ModalsNavigatorProps'
@@ -46,7 +46,7 @@ const connector = connect(
   {
     search: searchSlice.actions.search,
     setSearchResults: searchSlice.actions.setMemberResults,
-    updatePlanMembers: planMembersSlice.actions.update
+    updatePlanMembers: membersSlice.actions.update
   }
 )
 

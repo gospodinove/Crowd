@@ -21,7 +21,7 @@ const RootStack = createStackNavigator<RootStackPropsT>()
 
 const connector = connect(
   (state: RootState) => ({
-    isUserDataLoaded: state.users.current !== undefined
+    isUserDataLoaded: state.user.current !== undefined
   }),
   {
     loadUserData: userSlice.actions.loadData

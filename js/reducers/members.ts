@@ -9,8 +9,8 @@ const initialState: StateT = {
   data: {}
 }
 
-export const planMembersSlice = createSlice({
-  name: 'planMembers',
+export const membersSlice = createSlice({
+  name: 'members',
   initialState,
   reducers: {
     fetch: (_, __: PayloadAction<{ planId: string; loader?: string }>) => {},

@@ -12,7 +12,7 @@ function* onFetch(action: ReturnType<typeof plansSlice.actions.fetch>) {
 
   try {
     const userId: string | undefined = yield select(
-      (state: RootState) => state.users.current?.id
+      (state: RootState) => state.user.current?.id
     )
 
     if (!userId) {

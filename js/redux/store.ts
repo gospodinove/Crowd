@@ -2,9 +2,9 @@ import createSagaMiddleware from '@redux-saga/core'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { eventsSlice } from '../reducers/events'
 import { loadersSlice } from '../reducers/loaders'
+import { membersSlice } from '../reducers/members'
 import { nativeSlice } from '../reducers/native'
 import { notificationsSlice } from '../reducers/notifications'
-import { planMembersSlice } from '../reducers/planMembers'
 import { plansSlice } from '../reducers/plans'
 import { searchSlice } from '../reducers/search'
 import { userSlice } from '../reducers/user'
@@ -12,12 +12,12 @@ import rootSaga from '../sagas/root'
 
 export const slices = {
   native: nativeSlice,
-  users: userSlice,
+  user: userSlice,
   loaders: loadersSlice,
   plans: plansSlice,
   notifications: notificationsSlice,
   events: eventsSlice,
-  planMembers: planMembersSlice,
+  planMembers: membersSlice,
   search: searchSlice
 }
 

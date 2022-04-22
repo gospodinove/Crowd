@@ -111,7 +111,7 @@ function* onLoadUserData(
 function* onStoreUserLocally() {
   try {
     const userData: UserT | undefined = yield select(
-      (state: RootState) => state.users.current
+      (state: RootState) => state.user.current
     )
 
     if (!userData) {
