@@ -8,7 +8,7 @@ import {
 } from '@react-navigation/stack'
 import React, { memo, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { usersSlice } from '../reducers/users'
+import { userSlice } from '../reducers/user'
 import { RootState } from '../redux/store'
 import { RootStackPropsT } from '../types/RootStackProps'
 import AuthenticationScreen from './Screens/Authentication/AuthenticationScreen'
@@ -21,10 +21,10 @@ const RootStack = createStackNavigator<RootStackPropsT>()
 
 const connector = connect(
   (state: RootState) => ({
-    isUserDataLoaded: state.users.currentUser !== undefined
+    isUserDataLoaded: state.user.current !== undefined
   }),
   {
-    loadUserData: usersSlice.actions.loadUserData
+    loadUserData: userSlice.actions.loadData
   }
 )
 

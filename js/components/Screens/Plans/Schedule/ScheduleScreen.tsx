@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../../../hooks/useAppTheme'
-import { plansSlice } from '../../../../reducers/plans'
+import { eventsSlice } from '../../../../reducers/events'
 import { RootState } from '../../../../redux/store'
 import { EventT } from '../../../../types/Event'
 import { GroupPlanTabBarPropsT } from '../../../../types/GroupPlanTabBarProps'
@@ -40,12 +40,12 @@ type NavigationPropsT = CompositeScreenProps<
 
 const connector = connect(
   (state: RootState, props: NavigationPropsT) => ({
-    events: state.plans.eventsForPlanId[props.route.params?.planId],
+    events: state.events[props.route.params?.planId],
     isFetching: state.loaders.runningLoaders[fetchPlanEventsLoader] ?? false,
     isRefreshing: state.loaders.runningLoaders[refreshPlanEventsLoader] ?? false
   }),
   {
-    fetch: plansSlice.actions.fetchEventsForPlanId
+    fetch: eventsSlice.actions.fetch
   }
 )
 

@@ -5,7 +5,7 @@ import React, { memo, useLayoutEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { useAppTheme } from '../../hooks/useAppTheme'
-import { usersSlice } from '../../reducers/users'
+import { userSlice } from '../../reducers/user'
 import { MoreTabNavigatorPropsT } from '../../types/MoreTabNavigatorProps'
 import { RootStackPropsT } from '../../types/RootStackProps'
 import { TabNavigatorPropsT } from '../../types/TabNavigatorProps'
@@ -19,7 +19,7 @@ type NavigationPropsT = CompositeScreenProps<
   >
 >
 
-const connector = connect(null, { logout: usersSlice.actions.logout })
+const connector = connect(null, { logout: userSlice.actions.logout })
 
 type ReduxPropsT = ConnectedProps<typeof connector>
 
