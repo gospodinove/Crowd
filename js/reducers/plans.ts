@@ -13,6 +13,9 @@ export const plansSlice = createSlice({
     onFetch: (state, action: PayloadAction<Record<string, PlanT>>) => {
       state.data = action.payload
     },
+    setPlan: (state, action: PayloadAction<PlanT>) => {
+      state.data = { ...state.data, [action.payload.id]: action.payload }
+    },
     create: (_, __: PayloadAction<PlanDataT>) => {},
     onCreate: (state, action: PayloadAction<PlanT>) => {
       state.data[action.payload.id] = action.payload
