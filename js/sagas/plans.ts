@@ -36,10 +36,9 @@ function* planWatcher(channel: EventChannel<any>) {
   }
 }
 
-function* onFetch(action: ReturnType<typeof plansSlice.actions.fetch>) {
-  yield put(loadersSlice.actions.startLoader(action.payload.loader))
-
+function* onSync() {
   try {
+    // TODO: 87 - update the user's planIds
     const planIds: string[] | undefined = yield select(
       (state: RootState) => state.user.current?.planIds
     )
@@ -55,8 +54,6 @@ function* onFetch(action: ReturnType<typeof plansSlice.actions.fetch>) {
     yield all(planChannels.map(channel => call(planWatcher, channel)))
   } catch (err) {
     console.log(err)
-  } finally {
-    yield put(loadersSlice.actions.stopLoader(action.payload.loader))
   }
 }
 
@@ -82,7 +79,7 @@ function* onCreate(action: ReturnType<typeof plansSlice.actions.create>) {
 
 export default function* plansSaga() {
   yield all([
-    takeLatest(plansSlice.actions.fetch, onFetch),
+    takeLatest(plansSlice.actions.sync, onSync),
     takeLatest(plansSlice.actions.create, onCreate)
   ])
 }

@@ -29,7 +29,7 @@ type NavigationPropsT = CompositeScreenProps<
 >
 
 const connector = connect((state: RootState, props: NavigationPropsT) => ({
-  plan: state.plans.data[props.route.params.planId]
+  plan: state.plans.data?.[props.route.params.planId]
 }))
 
 type ReduxPropsT = ConnectedProps<typeof connector>

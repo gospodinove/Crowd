@@ -43,7 +43,7 @@ const connector = connect(
       state.loaders.runningLoaders[refreshPlanMembersLoader] ?? false
   }),
   {
-    fetchPlans: plansSlice.actions.fetch,
+    syncPlans: plansSlice.actions.sync,
     clearMembers: membersSlice.actions.clear,
     clearEvents: eventsSlice.actions.clear
   }
@@ -57,11 +57,11 @@ const PlansScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
   useEffect(() => {
-    if (props.plans.length) {
+    if (props.plans === undefined) {
       return
     }
 
-    props.fetchPlans({ loader: fetchPlansLoader })
+    props.syncPlans()
   }, [])
 
   useLayoutEffect(() => {
@@ -88,7 +88,7 @@ const PlansScreen = (props: PropsT) => {
 
     return Object.keys(props.plans)
       .reduce<PlanT[]>((result, planId) => {
-        const plan = props.plans[planId]
+        const plan = props.plans?.[planId]
 
         if (!plan) {
           return result
@@ -101,7 +101,7 @@ const PlansScreen = (props: PropsT) => {
 
   const onPlanItemPress = useCallback(
     (planId: string) => {
-      const plan = props.plans[planId]
+      const plan = props.plans?.[planId]
 
       if (!plan) {
         return
@@ -122,12 +122,12 @@ const PlansScreen = (props: PropsT) => {
   const onRefresh = useCallback(() => {
     props.clearEvents()
     props.clearMembers()
-    props.fetchPlans({ loader: refreshPlanMembersLoader })
+    props.syncPlans()
   }, [])
 
   return (
     <LoaderOrChildren
-      isLoading={props.isLoading}
+      isLoading={data === undefined}
       size="large"
       color="text"
       containerStyle={useMemo(
