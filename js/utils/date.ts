@@ -20,7 +20,11 @@ export const groupEventsByDate = (
 ): { title: string; data: EventT[] }[] => {
   const groups: { [key: string]: EventT[] } = {}
 
-  events.forEach(event => {
+  const sortedEvents = [...events].sort(
+    (a, b) => a.start.seconds - b.start.seconds
+  )
+
+  sortedEvents.forEach(event => {
     const formattedDate = formatDate(event.start.toDate())
 
     if (!groups[formattedDate]) {
@@ -32,6 +36,6 @@ export const groupEventsByDate = (
 
   return Object.keys(groups).map(group => ({
     title: group,
-    data: groups[group].sort((a, b) => a.start.seconds - b.start.seconds)
+    data: groups[group]
   }))
 }
