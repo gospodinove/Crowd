@@ -29,7 +29,7 @@ type NavigationPropsT = CompositeScreenProps<
 >
 
 const connector = connect((state: RootState, props: NavigationPropsT) => ({
-  plan: state.plans.data[props.route.params.planId]
+  plan: state.plans.data?.[props.route.params.planId]
 }))
 
 type ReduxPropsT = ConnectedProps<typeof connector>
@@ -132,7 +132,10 @@ const PlanScreen = (props: PropsT) => {
   )
 
   return (
-    <Tab.Navigator tabBar={renderTabBar}>
+    <Tab.Navigator
+      tabBar={renderTabBar}
+      screenOptions={useMemo(() => ({ lazy: true }), [])}
+    >
       <Tab.Screen name="overview" component={DashboardScreen} />
       <Tab.Screen
         name="schedule"

@@ -71,7 +71,8 @@ function* onSignUp(action: ReturnType<typeof userSlice.actions.signUp>) {
       email: action.payload.email,
       firstName: action.payload.firstName,
       lastName: action.payload.lastName,
-      id: newUser.user.uid
+      id: newUser.user.uid,
+      planIds: []
     }
 
     yield call(storeUserData, user)
