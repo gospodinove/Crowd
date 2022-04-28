@@ -132,7 +132,10 @@ const PlanScreen = (props: PropsT) => {
   )
 
   return (
-    <Tab.Navigator tabBar={renderTabBar}>
+    <Tab.Navigator
+      tabBar={renderTabBar}
+      screenOptions={useMemo(() => ({ lazy: true }), [])}
+    >
       <Tab.Screen name="overview" component={DashboardScreen} />
       <Tab.Screen
         name="schedule"
