@@ -57,11 +57,9 @@ const PlansScreen = (props: PropsT) => {
   const theme = useAppTheme()
 
   useEffect(() => {
-    if (props.plans === undefined) {
-      return
+    if (!props.plans) {
+      props.syncPlans()
     }
-
-    props.syncPlans()
   }, [])
 
   useLayoutEffect(() => {
@@ -127,7 +125,7 @@ const PlansScreen = (props: PropsT) => {
 
   return (
     <LoaderOrChildren
-      isLoading={data === undefined}
+      isLoading={props.plans === undefined}
       size="large"
       color="text"
       containerStyle={useMemo(

@@ -17,7 +17,7 @@ export const slices = {
   plans: plansSlice,
   notifications: notificationsSlice,
   events: eventsSlice,
-  planMembers: membersSlice,
+  members: membersSlice,
   search: searchSlice
 }
 

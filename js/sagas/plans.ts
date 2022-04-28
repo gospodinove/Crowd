@@ -38,13 +38,13 @@ function* planWatcher(channel: EventChannel<any>) {
 
 function* onSync() {
   try {
-    // TODO: 87 - update the user's planIds
+    // TODO: #87 - update the user's planIds
     const planIds: string[] | undefined = yield select(
       (state: RootState) => state.user.current?.planIds
     )
 
     if (!planIds) {
-      throw new Error('[plansSaga onFetch] - No plan IDs')
+      throw new Error('[plansSaga onSync] - No plan IDs')
     }
 
     const planChannels = planIds.map(id =>

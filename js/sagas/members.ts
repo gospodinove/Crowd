@@ -22,7 +22,7 @@ function* onFetch(action: ReturnType<typeof membersSlice.actions.fetch>) {
     )
 
     if (!memberIds) {
-      throw new Error('[usersSaga onFetchPlanMembers] - no member IDs')
+      throw new Error('[membersSaga onFetch] - no member IDs')
     }
 
     const members: UserT[] = yield call(fetchUsers, memberIds)
@@ -50,11 +50,11 @@ function* onUpdate(action: ReturnType<typeof membersSlice.actions.update>) {
     }: { plan: PlanT | undefined; oldMembers: UserT[] | undefined } =
       yield select((state: RootState) => ({
         plan: state.plans.data?.[action.payload.planId],
-        oldMembers: state.planMembers.data[action.payload.planId]
+        oldMembers: state.members.data[action.payload.planId]
       }))
 
     if (!plan) {
-      throw new Error('[plansSaga onUpdateMembersForPlanId] - no plan')
+      throw new Error('[membersSaga onUpdate] - no plan')
     }
 
     // use Set to remove the duplicated values

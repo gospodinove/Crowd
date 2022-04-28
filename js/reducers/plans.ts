@@ -3,7 +3,7 @@ import { PlanDataT, PlanT } from '../types/Plan'
 
 type StateT = { data: Record<string, PlanT | undefined> | undefined }
 
-const initialState: StateT = { data: {} }
+const initialState: StateT = { data: undefined }
 
 export const plansSlice = createSlice({
   name: 'plans',
@@ -11,7 +11,11 @@ export const plansSlice = createSlice({
   reducers: {
     sync: () => {},
     setPlan: (state, action: PayloadAction<PlanT>) => {
-      state.data = { ...state.data, [action.payload.id]: action.payload }
+      if (state.data === undefined) {
+        state.data = {}
+      }
+
+      state.data[action.payload.id] = action.payload
     },
     create: (_, __: PayloadAction<PlanDataT>) => {},
     onCreate: (state, action: PayloadAction<PlanT>) => {
